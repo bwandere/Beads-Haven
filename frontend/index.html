@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amazing Outfits — Premium Sneakers &amp; Jerseys in Kenya</title>
-  <meta name="description" content="Shop premium sneakers and football jerseys. Step into your style with Amazing Outfits.">
+  <title>Amazing Outfits — Beads &amp; Art | Handmade in Kenya</title>
+  <meta name="description" content="Discover authentic Kenyan handmade beaded jewellery, bags, fashion accessories, and African wall art handcrafted in Nairobi, Kenya.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages.css">
-
 </head>
 <body>
   <!-- Header -->
@@ -23,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link active">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -57,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link active">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -98,14 +107,14 @@
 
     <!-- Main Content Sections -->
     <div class="container home-sections">
-      <!-- Featured Sneakers -->
+      <!-- 1. Featured Pieces -->
       <section>
         <div class="section-heading-wrap">
           <div>
             <p class="eyebrow">Hand-picked</p>
-            <h2 class="section-title">Featured sneakers</h2>
+            <h2 class="section-title">Featured pieces</h2>
           </div>
-          <a href="/shop.html?type=sneaker" class="section-view-all">
+          <a href="/shop.html" class="section-view-all">
             View all
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
@@ -115,14 +124,14 @@
         <div id="featured-grid" class="product-grid"></div>
       </section>
 
-      <!-- New Arrivals -->
+      <!-- 2. New Arrivals -->
       <section>
         <div class="section-heading-wrap">
           <div>
-            <p class="eyebrow">Just dropped</p>
+            <p class="eyebrow">Fresh off the loom</p>
             <h2 class="section-title">New arrivals</h2>
           </div>
-          <a href="/shop.html?type=sneaker" class="section-view-all">
+          <a href="/shop.html" class="section-view-all">
             View all
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
@@ -132,57 +141,67 @@
         <div id="new-arrivals-grid" class="product-grid"></div>
       </section>
 
-      <!-- Shop by Category -->
+      <!-- 3. Shop by Collection (6 Cards) -->
       <section>
         <div class="section-heading-wrap">
           <div>
-            <p class="eyebrow">Shop by</p>
-            <h2 class="section-title">Category</h2>
+            <p class="eyebrow">Handcrafted categories</p>
+            <h2 class="section-title">Shop by Collection</h2>
           </div>
         </div>
-        <div class="product-grid">
-          <a href="/shop.html?category=Running" class="category-card">
-            <img src="/assets/images/sneaker-1.jpg" alt="Running" class="category-card-img" loading="lazy">
+        <div class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+          <a href="/shop.html?type=bracelets" class="category-card">
+            <img src="/assets/images/bracelet1.png" alt="Bracelets" class="category-card-img" loading="lazy">
             <div class="category-card-overlay"></div>
-            <span class="category-card-title">Running</span>
+            <span class="category-card-title">Bracelets</span>
           </a>
-          <a href="/shop.html?category=Lifestyle" class="category-card">
-            <img src="/assets/images/sneaker-4.jpg" alt="Lifestyle" class="category-card-img" loading="lazy">
+          <a href="/shop.html?type=necklaces" class="category-card">
+            <img src="/assets/images/placeholders/necklaces.svg" alt="Necklaces" class="category-card-img" loading="lazy">
             <div class="category-card-overlay"></div>
-            <span class="category-card-title">Lifestyle</span>
+            <span class="category-card-title">Necklaces</span>
           </a>
-          <a href="/shop.html?category=Basketball" class="category-card">
-            <img src="/assets/images/sneaker-3.jpg" alt="Basketball" class="category-card-img" loading="lazy">
+          <a href="/shop.html?type=rings" class="category-card">
+            <img src="/assets/images/ring1.png" alt="Rings" class="category-card-img" loading="lazy">
             <div class="category-card-overlay"></div>
-            <span class="category-card-title">Basketball</span>
+            <span class="category-card-title">Rings</span>
           </a>
-          <a href="/shop.html?type=jersey" class="category-card">
-            <img src="/assets/images/jersey-1.jpg" alt="Jerseys" class="category-card-img" loading="lazy">
+          <a href="/shop.html?type=bags" class="category-card">
+            <img src="/assets/images/bag1.png" alt="Bags" class="category-card-img" loading="lazy">
             <div class="category-card-overlay"></div>
-            <span class="category-card-title">Jerseys</span>
+            <span class="category-card-title">Bags</span>
+          </a>
+          <a href="/shop.html?type=fashion-accessories" class="category-card">
+            <img src="/assets/images/placeholders/fashion-accessories.svg" alt="Fashion Accessories" class="category-card-img" loading="lazy">
+            <div class="category-card-overlay"></div>
+            <span class="category-card-title">Fashion Accessories</span>
+          </a>
+          <a href="/shop.html?type=art-decor" class="category-card">
+            <img src="/assets/images/placeholders/art-decor.svg" alt="Art &amp; Home Decor" class="category-card-img" loading="lazy">
+            <div class="category-card-overlay"></div>
+            <span class="category-card-title">Art &amp; Home Decor</span>
           </a>
         </div>
       </section>
 
-      <!-- Limited Offer Promo Banner -->
+      <!-- 4. Promo Banner (Made to Order / Custom Beadwork) -->
       <section class="promo-banner">
         <div class="promo-content">
-          <p class="promo-eyebrow">Limited offer</p>
-          <h2 class="promo-title">Up to 20% off<br>retro drops</h2>
-          <p class="promo-desc">Free delivery within Nairobi on orders above KSh 10,000. Pay easily with M-Pesa.</p>
-          <a href="/shop.html?type=sneaker" class="btn btn-accent btn-lg" style="margin-top: 2rem;">Shop the sale</a>
+          <p class="promo-eyebrow">Bespoke &amp; Custom Orders</p>
+          <h2 class="promo-title">Made to order —<br>custom beadwork</h2>
+          <p class="promo-desc">Have a unique design, wedding theme, or custom colourway in mind? Our Nairobi artisans craft custom pieces for any occasion. Free delivery within Nairobi on orders above KSh 10,000. Pay easily with M-Pesa or on delivery.</p>
+          <a href="/contact.html" class="btn btn-accent btn-lg" style="margin-top: 2rem;">Request custom order</a>
         </div>
-        <img src="/assets/images/sneaker-4.jpg" alt="Retro Wave sneaker" class="promo-img" loading="lazy">
+        <img src="/assets/images/bag3.png" alt="Custom beaded artwork handbag" class="promo-img" loading="lazy">
       </section>
 
-      <!-- Popular Sneakers -->
+      <!-- 5. Popular Pieces -->
       <section>
         <div class="section-heading-wrap">
           <div>
             <p class="eyebrow">Fan favourites</p>
-            <h2 class="section-title">Popular sneakers</h2>
+            <h2 class="section-title">Popular pieces</h2>
           </div>
-          <a href="/shop.html?type=sneaker" class="section-view-all">
+          <a href="/shop.html" class="section-view-all">
             View all
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
@@ -192,21 +211,38 @@
         <div id="popular-grid" class="product-grid"></div>
       </section>
 
-      <!-- Football Jerseys -->
+      <!-- 6. Showcase Row 1: Fashion Accessories -->
       <section>
         <div class="section-heading-wrap">
           <div>
-            <p class="eyebrow">Matchday ready</p>
-            <h2 class="section-title">Jerseys</h2>
+            <p class="eyebrow">Heritage flair</p>
+            <h2 class="section-title">Fashion Accessories</h2>
           </div>
-          <a href="/shop.html?type=jersey" class="section-view-all">
+          <a href="/shop.html?type=fashion-accessories" class="section-view-all">
             View all
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </a>
         </div>
-        <div id="jerseys-grid" class="product-grid"></div>
+        <div id="accessories-grid" class="product-grid"></div>
+      </section>
+
+      <!-- 7. Showcase Row 2: Art & Home Decor -->
+      <section>
+        <div class="section-heading-wrap">
+          <div>
+            <p class="eyebrow">Cultural expressions</p>
+            <h2 class="section-title">Art &amp; Home Decor</h2>
+          </div>
+          <a href="/shop.html?type=art-decor" class="section-view-all">
+            View all
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+        <div id="art-decor-grid" class="product-grid"></div>
       </section>
     </div>
   </main>
@@ -219,23 +255,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -252,7 +293,7 @@
         const all = await fetchProducts();
 
         // Featured: tags include 'featured'
-        const featured = all.filter(p => p.type === 'sneaker' && p.tags && p.tags.includes('featured')).slice(0, 4);
+        const featured = all.filter(p => p.tags && p.tags.includes('featured')).slice(0, 4);
         const featuredGrid = document.getElementById('featured-grid');
         if (featuredGrid) {
           featuredGrid.innerHTML = '';
@@ -260,7 +301,7 @@
         }
 
         // New arrivals: tags include 'new'
-        const newArrivals = all.filter(p => p.type === 'sneaker' && p.tags && p.tags.includes('new')).slice(0, 4);
+        const newArrivals = all.filter(p => p.tags && p.tags.includes('new')).slice(0, 4);
         const newGrid = document.getElementById('new-arrivals-grid');
         if (newGrid) {
           newGrid.innerHTML = '';
@@ -268,19 +309,27 @@
         }
 
         // Popular: tags include 'popular'
-        const popular = all.filter(p => p.type === 'sneaker' && p.tags && p.tags.includes('popular')).slice(0, 4);
+        const popular = all.filter(p => p.tags && p.tags.includes('popular')).slice(0, 4);
         const popularGrid = document.getElementById('popular-grid');
         if (popularGrid) {
           popularGrid.innerHTML = '';
           popular.forEach(p => popularGrid.appendChild(renderProductCard(p)));
         }
 
-        // Jerseys
-        const jerseys = all.filter(p => p.type === 'jersey').slice(0, 4);
-        const jerseysGrid = document.getElementById('jerseys-grid');
-        if (jerseysGrid) {
-          jerseysGrid.innerHTML = '';
-          jerseys.forEach(p => jerseysGrid.appendChild(renderProductCard(p)));
+        // Fashion Accessories showcase
+        const accessories = all.filter(p => p.type === 'fashion-accessories').slice(0, 4);
+        const accessoriesGrid = document.getElementById('accessories-grid');
+        if (accessoriesGrid) {
+          accessoriesGrid.innerHTML = '';
+          accessories.forEach(p => accessoriesGrid.appendChild(renderProductCard(p)));
+        }
+
+        // Art & Home Decor showcase
+        const artDecor = all.filter(p => p.type === 'art-decor').slice(0, 4);
+        const artGrid = document.getElementById('art-decor-grid');
+        if (artGrid) {
+          artGrid.innerHTML = '';
+          artDecor.forEach(p => artGrid.appendChild(renderProductCard(p)));
         }
       } catch (err) {
         console.error('Failed to load homepage products:', err);

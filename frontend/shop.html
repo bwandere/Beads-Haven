@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sneakers &amp; Jerseys — Amazing Outfits</title>
-  <meta name="description" content="Browse running, lifestyle, basketball and training sneakers with prices in KSh.">
+  <title>Beadwork &amp; Art Collections — Amazing Outfits</title>
+  <meta name="description" content="Shop handcrafted beaded jewellery, bags, fashion accessories, and home decor made in Nairobi, Kenya.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
@@ -22,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link" id="nav-sneakers">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link" id="nav-jerseys">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger active">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -56,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion is-open">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="true">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -65,9 +75,9 @@
 
   <main class="container">
     <div class="shop-header">
-      <p id="shop-eyebrow" class="shop-header-eyebrow">The collection</p>
-      <h1 id="shop-title" class="shop-header-title">Sneakers</h1>
-      <p id="shop-desc" class="shop-header-desc">Running, lifestyle, basketball and training — find your next pair.</p>
+      <p id="shop-eyebrow" class="shop-header-eyebrow">Handcrafted in Kenya</p>
+      <h1 id="shop-title" class="shop-header-title">Beadwork &amp; Art Collection</h1>
+      <p id="shop-desc" class="shop-header-desc">Explore authentic beaded jewellery, handcrafted bags, accessories, and home decor.</p>
 
       <div class="shop-controls">
         <!-- Search bar -->
@@ -76,7 +86,7 @@
             <path d="m21 21-4.34-4.34"/>
             <circle cx="11" cy="11" r="8"/>
           </svg>
-          <input type="text" id="search-input" class="form-input" placeholder="Search products…">
+          <input type="text" id="search-input" class="form-input" placeholder="Search beadwork, bags, accessories…">
         </div>
 
         <!-- Filter bar -->
@@ -86,9 +96,9 @@
           <div class="filter-actions">
             <div class="price-slider-wrap">
               <div class="price-slider-header">
-                <span>Max price: <strong id="price-readout">KSh 12,000</strong></span>
+                <span>Max price: <strong id="price-readout">KSh 15,000</strong></span>
               </div>
-              <input type="range" id="price-slider" class="price-slider-input" min="1000" max="12000" step="500" value="12000">
+              <input type="range" id="price-slider" class="price-slider-input" min="100" max="20000" step="100" value="20000">
             </div>
 
             <select id="sort-select" class="sort-select" aria-label="Sort products">
@@ -107,7 +117,8 @@
     <!-- Product Grid -->
     <div id="shop-grid" class="product-grid" style="padding-bottom: 5rem;"></div>
     <div id="empty-state" style="display: none; padding: 5rem 0; text-align: center; color: var(--muted-foreground);">
-      No products match your filters.
+      <p style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">No products match your filters.</p>
+      <p style="font-size: 0.9375rem;">Try adjusting your search terms, price slider, or selecting another category.</p>
     </div>
   </main>
 
@@ -119,23 +130,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -143,6 +159,7 @@
   <script type="module">
     import { initHeader, renderProductCard, formatCurrency } from '/js/ui.js';
     import { fetchProducts } from '/js/api.js';
+    import { getCollection, COLLECTIONS } from '/js/collections.js';
 
     initHeader();
 
@@ -150,33 +167,37 @@
     const typeParam = urlParams.get('type') || '';
     const initialCategory = urlParams.get('category') || 'All';
 
-    // Page title and header text customization
+    // Page title and header text customization from collections.js
     const shopEyebrow = document.getElementById('shop-eyebrow');
     const shopTitle = document.getElementById('shop-title');
     const shopDesc = document.getElementById('shop-desc');
+    const metaDesc = document.querySelector('meta[name="description"]');
 
-    if (typeParam === 'jersey') {
-      document.title = 'Football Jerseys — Amazing Outfits';
-      shopEyebrow.textContent = 'Matchday';
-      shopTitle.textContent = 'Jerseys';
-      shopDesc.textContent = 'Club and national-team kits for the stands and the pitch.';
-      document.getElementById('nav-jerseys')?.classList.add('active');
-    } else if (typeParam === 'sneaker') {
-      document.title = 'Sneakers — Amazing Outfits';
-      shopEyebrow.textContent = 'The collection';
-      shopTitle.textContent = 'Sneakers';
-      shopDesc.textContent = 'Running, lifestyle, basketball and training — find your next pair.';
-      document.getElementById('nav-sneakers')?.classList.add('active');
+    const activeCollection = getCollection(typeParam);
+
+    if (activeCollection) {
+      document.title = `${activeCollection.title} — Amazing Outfits`;
+      shopEyebrow.textContent = activeCollection.eyebrow;
+      shopTitle.textContent = activeCollection.title;
+      shopDesc.textContent = activeCollection.description;
+      if (metaDesc) metaDesc.content = activeCollection.description;
+    } else if (initialCategory && initialCategory !== 'All') {
+      document.title = `${initialCategory} — Amazing Outfits`;
+      shopEyebrow.textContent = 'Handcrafted Beadwork';
+      shopTitle.textContent = initialCategory;
+      shopDesc.textContent = `Explore handcrafted ${initialCategory.toLowerCase()} made with authentic glass seed beads in Nairobi.`;
+      if (metaDesc) metaDesc.content = `Shop authentic handmade ${initialCategory} from Amazing Outfits Kenya.`;
     } else {
-      document.title = 'All Products — Amazing Outfits';
-      shopEyebrow.textContent = 'The collection';
-      shopTitle.textContent = 'All Products';
-      shopDesc.textContent = 'Premium sneakers and sportswear built for your everyday style.';
+      document.title = 'All Beads & Art — Amazing Outfits';
+      shopEyebrow.textContent = 'Handmade in Kenya';
+      shopTitle.textContent = 'Beadwork & Art Collection';
+      shopDesc.textContent = 'Explore authentic beaded jewellery, handcrafted bags, accessories, and home decor.';
+      if (metaDesc) metaDesc.content = 'Shop handcrafted beaded jewellery, bags, fashion accessories, and home decor made in Nairobi, Kenya.';
     }
 
     let allProducts = [];
     let activeCategory = initialCategory;
-    let maxPrice = 12000;
+    let maxPrice = 20000;
     let searchQuery = '';
     let currentSort = 'featured';
 
@@ -190,24 +211,40 @@
     const emptyState = document.getElementById('empty-state');
 
     async function initShop() {
-      allProducts = await fetchProducts({ type: typeParam });
+      // If a specific collection is requested, pass type to fetchProducts
+      const queryFilter = typeParam ? { type: typeParam } : {};
+      allProducts = await fetchProducts(queryFilter);
 
       // Determine price cap
       const prices = allProducts.map(p => p.price);
-      const highestPrice = prices.length ? Math.max(...prices) : 12000;
-      const priceCap = Math.ceil(highestPrice / 500) * 500;
+      const highestPrice = prices.length ? Math.max(...prices) : 10000;
+      const priceCap = Math.max(Math.ceil(highestPrice / 500) * 500, 1000);
 
+      priceSlider.min = "100";
       priceSlider.max = priceCap;
       priceSlider.value = priceCap;
       maxPrice = priceCap;
       priceReadout.textContent = formatCurrency(maxPrice);
 
-      // Render category pills
-      const uniqueCats = ['All', ...new Set(allProducts.map(p => p.category))];
+      // Build subcategory pills based on active collection or available products
+      let availableSubcats = [];
+      if (activeCollection) {
+        availableSubcats = ['All', ...activeCollection.subcategories];
+        if (activeCollection.menuExtra) {
+          activeCollection.menuExtra.forEach(ext => {
+            if (!availableSubcats.includes(ext.name)) {
+              availableSubcats.push(ext.name);
+            }
+          });
+        }
+      } else {
+        availableSubcats = ['All', ...new Set(allProducts.map(p => p.category))];
+      }
+
       categoryPillsContainer.innerHTML = '';
-      uniqueCats.forEach(cat => {
+      availableSubcats.forEach(cat => {
         const btn = document.createElement('button');
-        btn.className = `category-pill ${cat === activeCategory ? 'active' : ''}`;
+        btn.className = `category-pill ${cat.toLowerCase() === activeCategory.toLowerCase() ? 'active' : ''}`;
         btn.textContent = cat;
         btn.addEventListener('click', () => {
           activeCategory = cat;
@@ -244,7 +281,8 @@
         const matchesPrice = p.price <= maxPrice;
         const matchesSearch = !searchQuery ||
           p.name.toLowerCase().includes(searchQuery) ||
-          p.description.toLowerCase().includes(searchQuery);
+          p.description.toLowerCase().includes(searchQuery) ||
+          p.category.toLowerCase().includes(searchQuery);
         return matchesCat && matchesPrice && matchesSearch;
       });
 
@@ -254,11 +292,11 @@
       } else if (currentSort === 'price-desc') {
         filtered.sort((a, b) => b.price - a.price);
       } else if (currentSort === 'rating') {
-        filtered.sort((a, b) => b.rating - a.rating);
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
       }
 
       // Update count
-      productsCount.textContent = `${filtered.length} products`;
+      productsCount.textContent = `${filtered.length} piece${filtered.length === 1 ? '' : 's'}`;
 
       // Render grid
       shopGrid.innerHTML = '';

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Amazing Outfits</title>
+  <title>About Us — Amazing Outfits | Beads &amp; Art</title>
+  <meta name="description" content="Learn about Amazing Outfits, our dedication to authentic African beadwork, and our talented artisans based in Nairobi, Kenya.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
@@ -21,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link active">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -55,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link active">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -64,28 +75,31 @@
 
   <main class="container" style="padding-top: 3.5rem; padding-bottom: 5rem;">
     <div style="max-width: 48rem;">
-      <p class="eyebrow">Our story</p>
-      <h1 class="section-title" style="font-size: 3.75rem; margin-bottom: 1.5rem;">Built on style</h1>
+      <p class="eyebrow">Our Story</p>
+      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 1.5rem;">Handmade with pride in Kenya</h1>
       <p style="font-size: 1.25rem; line-height: 1.7; color: var(--foreground); margin-bottom: 1.25rem;">
-        Amazing Outfits started with one belief: everyone deserves to walk with confidence.
+        Amazing Outfits is a celebration of Kenyan beadwork and African artistic heritage, translated into contemporary jewellery, wearable accessories, and home decor.
+      </p>
+      <p style="font-size: 1.125rem; line-height: 1.7; color: var(--muted-foreground); margin-bottom: 1rem;">
+        Every piece in our collection is carefully strung and woven by skilled artisans in Nairobi. From intricate Maasai cuff patterns and cowrie shell chokers to statement beaded bags and wall portraits, our creations carry stories of cultural pride, patience, and meticulous craft.
       </p>
       <p style="font-size: 1.125rem; line-height: 1.7; color: var(--muted-foreground);">
-        What began as a small sneaker hustle in Nairobi has grown into a go-to destination for premium kicks and football jerseys. We hand-pick every pair, check every stitch, and deliver to your door.
+        Whether you are choosing a gift, styling an outfit for a celebration, or commissioning bespoke beadwork for your home or wedding, we bring authentic craftsmanship right to your doorstep anywhere in Kenya.
       </p>
     </div>
 
     <div style="display: grid; gap: 1.5rem; margin-top: 4rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
       <div class="checkout-card">
-        <h2 style="font-size: 1.75rem;">Authentic quality</h2>
-        <p style="color: var(--muted-foreground); margin-top: 0.5rem;">Every product is inspected before it reaches you.</p>
+        <h2 style="font-size: 1.75rem;">100% Handcrafted</h2>
+        <p style="color: var(--muted-foreground); margin-top: 0.5rem; line-height: 1.6;">Every glass seed bead and cowrie shell is individually strung by hand with durable thread and tested finishes.</p>
       </div>
       <div class="checkout-card">
-        <h2 style="font-size: 1.75rem;">Fast delivery</h2>
-        <p style="color: var(--muted-foreground); margin-top: 0.5rem;">Same-day in Nairobi, 2–3 days countrywide.</p>
+        <h2 style="font-size: 1.75rem;">Local Artisans</h2>
+        <p style="color: var(--muted-foreground); margin-top: 0.5rem; line-height: 1.6;">We work directly with bead artisans in Nairobi, fostering creative livelihoods and keeping traditional craft thriving.</p>
       </div>
       <div class="checkout-card">
-        <h2 style="font-size: 1.75rem;">Community first</h2>
-        <p style="color: var(--muted-foreground); margin-top: 0.5rem;">We support local football and street culture.</p>
+        <h2 style="font-size: 1.75rem;">Custom Commissions</h2>
+        <p style="color: var(--muted-foreground); margin-top: 0.5rem; line-height: 1.6;">From bespoke bridal sets and family waist beads to corporate gifts, we bring your custom concepts to life.</p>
       </div>
     </div>
   </main>
@@ -98,23 +112,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>

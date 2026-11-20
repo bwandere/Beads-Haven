@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart — Amazing Outfits</title>
+  <meta name="description" content="View your cart and proceed to secure checkout for your handmade beadwork and art orders.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
@@ -21,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -55,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -67,8 +78,9 @@
 
     <!-- Empty State -->
     <div id="cart-empty" class="cart-empty-box" style="display: none;">
-      <p>Your cart is empty.</p>
-      <a href="/shop.html?type=sneaker" class="btn btn-accent btn-lg">Shop sneakers</a>
+      <p style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">Your cart is empty.</p>
+      <p style="color: var(--muted-foreground); margin-bottom: 1.5rem;">Discover our authentic handcrafted beads, bags, and African wall decor.</p>
+      <a href="/shop.html" class="btn btn-accent btn-lg">Explore collections</a>
     </div>
 
     <!-- Populated State -->
@@ -96,7 +108,7 @@
           </div>
         </div>
 
-        <a href="/checkout.html" class="btn btn-accent btn-xl" style="width: 100%; margin-top: 0.5rem;">Checkout</a>
+        <a href="/checkout.html" class="btn btn-accent btn-xl" style="width: 100%; margin-top: 0.5rem;">Proceed to checkout</a>
       </aside>
     </div>
   </main>
@@ -109,23 +121,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -162,13 +179,14 @@
         const card = document.createElement('div');
         card.className = 'cart-item-card';
 
-        const imgUrl = (item.product.images && item.product.images[0]) || '/assets/images/sneaker-1.jpg';
+        const imgUrl = (item.product.images && item.product.images[0]) || '/assets/images/placeholders/default.svg';
+        const optionLabel = item.size ? `Option: ${item.size}` : 'Standard';
 
         card.innerHTML = `
           <img src="${imgUrl}" alt="${item.product.name}" class="cart-item-img">
           <div style="min-width: 0;">
             <p class="cart-item-title">${item.product.name}</p>
-            <p class="cart-item-meta">Size ${item.size} · ${formatCurrency(item.product.price)}</p>
+            <p class="cart-item-meta">${optionLabel} · ${formatCurrency(item.product.price)}</p>
             <div class="cart-item-controls">
               <div class="qty-selector">
                 <button class="qty-btn btn-minus" aria-label="Decrease quantity">-</button>
@@ -177,24 +195,16 @@
               </div>
               <button class="cart-remove-btn" aria-label="Remove item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 6h18"/>
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                  <line x1="10" y1="11" x2="10" y2="17"/>
-                  <line x1="14" y1="11" x2="14" y2="17"/>
+                  <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>
                 </svg>
               </button>
             </div>
           </div>
-          <p class="cart-item-total">${formatCurrency(item.product.price * item.qty)}</p>
         `;
 
-        // Controls
         card.querySelector('.btn-minus').addEventListener('click', () => {
-          if (item.qty > 1) {
-            updateQuantity(item.product.id, item.size, item.qty - 1);
-            renderCart();
-          }
+          updateQuantity(item.product.id, item.size, item.qty - 1);
+          renderCart();
         });
 
         card.querySelector('.btn-plus').addEventListener('click', () => {
@@ -210,14 +220,19 @@
         itemsList.appendChild(card);
       });
 
-      // Render Order Summary
+      // Update Order Summary
       summaryItems.innerHTML = '';
       cart.forEach(item => {
         const row = document.createElement('div');
-        row.className = 'order-summary-item';
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.fontSize = '0.875rem';
+        row.style.color = 'var(--muted-foreground)';
         row.innerHTML = `
-          <span>${item.qty} × ${item.product.name} (${item.size})</span>
-          <span style="flex-shrink: 0;">${formatCurrency(item.qty * item.product.price)}</span>
+          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 14rem;">
+            ${item.product.name} (${item.size}) × ${item.qty}
+          </span>
+          <span>${formatCurrency(item.product.price * item.qty)}</span>
         `;
         summaryItems.appendChild(row);
       });

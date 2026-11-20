@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — Amazing Outfits</title>
+  <meta name="description" content="Complete your purchase with M-Pesa or Cash on Delivery. Handcrafted beadwork delivered across Kenya.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
@@ -21,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -55,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -74,7 +85,7 @@
           <div class="checkout-grid-2">
             <div class="form-group">
               <label for="name" class="form-label">Full name</label>
-              <input type="text" id="name" name="name" class="form-input" placeholder="Jane Wanjiku" required>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Amani Mwangi" required>
             </div>
             <div class="form-group">
               <label for="phone" class="form-label">Phone</label>
@@ -86,7 +97,7 @@
             </div>
             <div class="form-group">
               <label for="location" class="form-label">Delivery location</label>
-              <input type="text" id="location" name="location" class="form-input" placeholder="Westlands, Nairobi" required>
+              <input type="text" id="location" name="location" class="form-input" placeholder="Kilimani, Nairobi" required>
             </div>
           </div>
         </section>
@@ -100,25 +111,25 @@
               <p class="payment-card-desc">Get an STK push on your phone</p>
             </div>
             <div id="pay-cod" class="payment-card">
-              <p class="payment-card-title">Pay on delivery</p>
-              <p class="payment-card-desc">Nairobi only</p>
+              <p class="payment-card-title">Pay on Delivery</p>
+              <p class="payment-card-desc">Cash or M-Pesa upon receiving</p>
             </div>
           </div>
 
-          <div id="mpesa-field-wrap" class="form-group" style="margin-top: 0.5rem;">
-            <label for="mpesa-phone" class="form-label">M-Pesa number</label>
-            <input type="tel" id="mpesa-phone" name="mpesa_phone" class="form-input" placeholder="07XX XXX XXX">
+          <div id="mpesa-field-wrap" class="form-group" style="margin-top: 1.25rem;">
+            <label for="mpesa-phone" class="form-label">M-Pesa Phone Number</label>
+            <input type="tel" id="mpesa-phone" class="form-input" placeholder="07XX XXX XXX" required>
           </div>
         </section>
 
-        <div>
-          <button type="submit" class="btn btn-accent btn-xl" style="width: 100%; max-width: 16rem;">Place order</button>
-        </div>
+        <button type="submit" id="btn-submit-order" class="btn btn-accent btn-xl" style="width: 100%;">
+          Place Order
+        </button>
       </form>
 
       <!-- Order Summary Aside -->
       <aside class="order-summary-box">
-        <h2 class="order-summary-title">Order summary</h2>
+        <h2 class="order-summary-title">Your order</h2>
         <div id="checkout-summary-items" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
 
         <div class="order-summary-divider">
@@ -127,8 +138,8 @@
             <span id="chk-subtotal">KSh 0</span>
           </div>
           <div class="order-summary-row">
-            <span>Delivery</span>
-            <span id="chk-delivery">KSh 0</span>
+            <span>Delivery fee</span>
+            <span id="chk-delivery">KSh 300</span>
           </div>
           <div class="order-summary-row order-summary-total">
             <span>Total</span>
@@ -139,16 +150,16 @@
     </div>
   </main>
 
-  <!-- Confirmation Modal -->
+  <!-- Success Modal -->
   <div id="success-modal" class="modal-backdrop" style="display: none;">
-    <div class="modal-content" style="text-align: center;">
-      <div style="width: 4rem; height: 4rem; border-radius: var(--radius-full); background-color: rgba(246, 140, 17, 0.15); color: var(--accent); display: grid; place-items: center; margin: 0 auto 1.5rem auto;">
+    <div class="modal-card">
+      <div class="modal-badge-icon">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 6 9 17l-5-5"/>
         </svg>
       </div>
       <h2 class="section-title" style="font-size: 2.25rem;">Order Placed!</h2>
-      <p style="margin-top: 0.75rem; color: var(--muted-foreground);" id="modal-order-desc">Thank you for your order. We are preparing your kicks for delivery.</p>
+      <p style="margin-top: 0.75rem; color: var(--muted-foreground);" id="modal-order-desc">Thank you for your order. We are preparing your handmade beadwork for delivery.</p>
       <p style="margin-top: 0.5rem; font-weight: 700; font-size: 1.125rem;" id="modal-order-id"></p>
       <a href="/" class="btn btn-accent btn-lg" style="margin-top: 2rem;">Continue Shopping</a>
     </div>
@@ -162,23 +173,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -243,34 +259,38 @@
         return;
       }
 
-      const payload = {
-        customer_name: form.name.value,
-        customer_phone: form.phone.value,
-        customer_email: form.email.value,
-        delivery_location: form.location.value,
+      const orderPayload = {
+        customer_name: document.getElementById('name').value.trim(),
+        customer_phone: document.getElementById('phone').value.trim(),
+        customer_email: document.getElementById('email').value.trim(),
+        delivery_location: document.getElementById('location').value.trim(),
         payment_method: selectedPayment,
-        mpesa_phone: selectedPayment === 'mpesa' ? mpesaInput.value : '',
+        mpesa_phone: selectedPayment === 'mpesa' ? mpesaInput.value.trim() : '',
         subtotal: getCartSubtotal(),
         delivery_fee: getDeliveryFee(),
         total_amount: getCartTotal(),
-        items: cart.map(item => ({
-          product_id: item.product.id,
-          size: item.size,
-          quantity: item.qty,
-          price: item.product.price
+        items: cart.map(i => ({
+          product_id: i.product.id,
+          size: i.size,
+          quantity: i.qty,
+          price: i.product.price
         }))
       };
 
+      const btn = document.getElementById('btn-submit-order');
+      btn.disabled = true;
+      btn.textContent = 'Processing…';
+
       try {
-        const orderRes = await createOrder(payload);
-        showToast('Order placed successfully!');
+        const res = await createOrder(orderPayload);
         clearCart();
 
-        // Show confirmation modal
-        document.getElementById('modal-order-id').textContent = `Order Reference: ${orderRes.orderId || 'ORD-2026'}`;
+        document.getElementById('modal-order-id').textContent = `Order Reference: ${res.id}`;
         document.getElementById('success-modal').style.display = 'flex';
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Error creating order', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
       }
     });
   </script>

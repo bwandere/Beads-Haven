@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Amazing Outfits</title>
+  <title>Contact &amp; Custom Orders — Amazing Outfits</title>
+  <meta name="description" content="Reach out to Amazing Outfits for inquiries, custom beadwork commissions, wholesale orders, and delivery assistance across Kenya.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/base.css">
@@ -21,8 +22,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link active">Contact</a>
       </nav>
@@ -55,8 +61,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link active">Contact</a>
     </nav>
@@ -64,15 +75,15 @@
 
   <main class="container" style="padding-top: 3.5rem; padding-bottom: 5rem;">
     <div>
-      <p class="eyebrow">Say hello</p>
-      <h1 class="section-title" style="font-size: 3.75rem; margin-bottom: 2rem;">Contact us</h1>
+      <p class="eyebrow">Get in touch</p>
+      <h1 class="section-title" style="font-size: 3.5rem; margin-bottom: 2rem;">Contact &amp; Custom Orders</h1>
     </div>
 
     <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
       <!-- Contact Info Cards -->
       <div style="display: grid; gap: 1.25rem; grid-template-columns: repeat(2, 1fr);">
         <div class="checkout-card">
-          <p class="eyebrow" style="color: var(--muted-foreground);">Phone</p>
+          <p class="eyebrow" style="color: var(--muted-foreground);">Phone &amp; M-Pesa</p>
           <p style="font-weight: 700; font-size: 1.125rem;">+254 700 000 000</p>
         </div>
         <div class="checkout-card">
@@ -84,26 +95,41 @@
           <p style="font-weight: 700; font-size: 1.05rem; word-break: break-all;">hello@amazingoutfits.co.ke</p>
         </div>
         <div class="checkout-card">
-          <p class="eyebrow" style="color: var(--muted-foreground);">Location</p>
-          <p style="font-weight: 700; font-size: 1.125rem;">Moi Avenue, Nairobi CBD</p>
+          <p class="eyebrow" style="color: var(--muted-foreground);">Artisan Studio</p>
+          <p style="font-weight: 700; font-size: 1.125rem;">Nairobi CBD, Kenya</p>
+        </div>
+        <div class="checkout-card" style="grid-column: 1 / -1;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Custom Beadwork Requests</h3>
+          <p style="color: var(--muted-foreground); font-size: 0.9375rem; line-height: 1.6;">
+            We craft personalized waist beads, initial rings, custom bridal neckpieces, beaded bags in your chosen colors, and custom wall portrait tapestries. Send us your requirements below.
+          </p>
         </div>
       </div>
 
       <!-- Contact Message Form -->
       <div class="checkout-card">
-        <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Send a message</h2>
+        <h2 style="font-size: 1.85rem; margin-bottom: 0.5rem;">Send a message</h2>
         <form id="contact-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
           <div class="form-group">
             <label for="contact-name" class="form-label">Your name</label>
-            <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+            <input type="text" id="contact-name" class="form-input" placeholder="e.g. Amani Mwangi" required>
           </div>
           <div class="form-group">
-            <label for="contact-info" class="form-label">Email or phone</label>
-            <input type="text" id="contact-info" class="form-input" placeholder="Email or phone" required>
+            <label for="contact-info" class="form-label">Email or phone number</label>
+            <input type="text" id="contact-info" class="form-input" placeholder="e.g. 0712 345 678 or you@email.com" required>
           </div>
           <div class="form-group">
-            <label for="contact-msg" class="form-label">How can we help?</label>
-            <textarea id="contact-msg" class="form-textarea" placeholder="How can we help?" required></textarea>
+            <label for="contact-type" class="form-label">Inquiry type</label>
+            <select id="contact-type" class="form-select">
+              <option value="custom-order">Custom Beadwork Order</option>
+              <option value="delivery">Delivery &amp; Tracking</option>
+              <option value="wholesale">Wholesale / Bulk Order</option>
+              <option value="general">General Question</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contact-msg" class="form-label">Message / Custom specs (colors, sizes, design)</label>
+            <textarea id="contact-msg" class="form-textarea" placeholder="Tell us about the piece you would like handcrafted..." rows="4" required></textarea>
           </div>
           <button type="submit" class="btn btn-accent btn-xl" style="align-self: flex-start;">Send message</button>
         </form>
@@ -119,23 +145,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -147,7 +178,7 @@
     const form = document.getElementById('contact-form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      showToast('Thank you! Message sent successfully.');
+      showToast('Thank you! Your message has been received. We will be in touch shortly.');
       form.reset();
     });
   </script>

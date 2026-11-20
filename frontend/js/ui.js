@@ -3,6 +3,7 @@
  */
 
 import { getCartCount, addToCart, getWishlist, toggleWishlist } from './cart.js';
+import { COLLECTIONS, BRAND, isSingleOptionProduct } from './collections.js';
 
 export function formatCurrency(amount) {
   if (amount == null) return 'KSh 0';
@@ -41,6 +42,65 @@ export function showToast(message, type = 'default') {
 }
 
 /**
+ * Render desktop dropdown & mobile accordion from collections.js
+ */
+function renderNavCollections() {
+  const dropdown = document.querySelector('.shop-dropdown-menu');
+  if (dropdown && !dropdown.dataset.rendered) {
+    dropdown.dataset.rendered = 'true';
+    let gridHtml = '<div class="shop-dropdown-grid">';
+    COLLECTIONS.forEach(col => {
+      gridHtml += `
+        <div class="dropdown-col">
+          <a href="/shop.html?type=${col.slug}" class="dropdown-col-title">${col.name}</a>
+          ${col.subcategories.map(sub => `
+            <a href="/shop.html?type=${col.slug}&category=${encodeURIComponent(sub)}" class="dropdown-sub-link">${sub}</a>
+          `).join('')}
+          ${col.menuExtra ? col.menuExtra.map(extra => `
+            <a href="${extra.url}" class="dropdown-sub-link">${extra.name}</a>
+          `).join('') : ''}
+        </div>
+      `;
+    });
+    gridHtml += '</div>';
+    gridHtml += `
+      <div class="dropdown-footer">
+        <span style="font-size: 0.8125rem; color: var(--muted-foreground);">Handcrafted with glass seed beads in Nairobi, Kenya</span>
+        <a href="/shop.html" class="dropdown-footer-link">
+          Browse all beadwork &amp; art
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    `;
+    dropdown.innerHTML = gridHtml;
+  }
+
+  const mobilePanel = document.querySelector('.mobile-accordion-panel');
+  if (mobilePanel && !mobilePanel.dataset.rendered) {
+    mobilePanel.dataset.rendered = 'true';
+    let panelHtml = `
+      <div style="padding-bottom: 0.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(250, 245, 236, 0.1);">
+        <a href="/shop.html" class="mobile-col-title" style="color: var(--primary-foreground); font-size: 1.125rem;">Shop All Collections →</a>
+      </div>
+    `;
+    COLLECTIONS.forEach(col => {
+      panelHtml += `
+        <div class="mobile-col-group">
+          <a href="/shop.html?type=${col.slug}" class="mobile-col-title">${col.name}</a>
+          ${col.subcategories.map(sub => `
+            <a href="/shop.html?type=${col.slug}&category=${encodeURIComponent(sub)}" class="mobile-sub-link">${sub}</a>
+          `).join('')}
+          ${col.menuExtra ? col.menuExtra.map(extra => `
+            <a href="${extra.url}" class="mobile-sub-link">${extra.name}</a>
+          `).join('') : ''}
+        </div>
+      `;
+    });
+    mobilePanel.innerHTML = panelHtml;
+  }
+}
+
+/**
  * Common Header Setup
  */
 export function initHeader() {
@@ -59,24 +119,41 @@ export function initHeader() {
   updateBadge();
   window.addEventListener('cart-updated', updateBadge);
 
+  // Render navigation dropdown & accordion
+  renderNavCollections();
+
   // Active navigation link highlighting
   const currentPath = window.location.pathname;
-  const navLinks = document.querySelectorAll('.nav-link, .nav-mobile-link');
-  navLinks.forEach(link => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentType = urlParams.get('type') || '';
+  const currentCat = urlParams.get('category') || '';
+
+  // Top-level nav links
+  document.querySelectorAll('.nav-link, .nav-mobile-link').forEach(link => {
     const href = link.getAttribute('href');
     if (!href) return;
     if (
-      href === currentPath ||
-      (currentPath.endsWith('/') && href === '/') ||
-      (currentPath.includes('index.html') && href === '/') ||
-      (currentPath.includes('shop.html') && (href.includes('shop') || href.includes('sneakers') || href.includes('jerseys')))
+      (href === '/' && (currentPath === '/' || currentPath === '/index.html')) ||
+      (href === '/about.html' && currentPath.includes('about')) ||
+      (href === '/contact.html' && currentPath.includes('contact')) ||
+      (href.includes('shop.html') && currentPath.includes('shop'))
     ) {
-      // active
-      if (link.getAttribute('href') === currentPath || (currentPath === '/' && href === '/')) {
-        link.classList.add('active');
-      }
+      link.classList.add('active');
     }
   });
+
+  // Highlight specific collection or subcategory in dropdown
+  if (currentType || currentCat) {
+    document.querySelectorAll('.dropdown-sub-link, .dropdown-col-title, .mobile-sub-link, .mobile-col-title').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      if (currentCat && href.includes(`category=${encodeURIComponent(currentCat)}`)) {
+        link.classList.add('active');
+      } else if (!currentCat && currentType && href.endsWith(`type=${currentType}`)) {
+        link.classList.add('active');
+      }
+    });
+  }
 
   // Mobile menu toggle
   const menuBtn = document.querySelector('.mobile-menu-toggle');
@@ -88,6 +165,16 @@ export function initHeader() {
       menuBtn.innerHTML = isOpen
         ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`
         : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>`;
+    });
+  }
+
+  // Mobile accordion toggle
+  const accordionTrigger = document.querySelector('.mobile-accordion-trigger');
+  const accordion = document.querySelector('.mobile-accordion');
+  if (accordionTrigger && accordion) {
+    accordionTrigger.addEventListener('click', () => {
+      const isOpen = accordion.classList.toggle('is-open');
+      accordionTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   }
 
@@ -135,15 +222,25 @@ export function renderProductCard(product) {
     ? `<span class="product-card-old-price">${formatCurrency(product.oldPrice)}</span>`
     : '';
 
-  const defaultSize = product.sizes && product.sizes.length
-    ? product.sizes[Math.floor(product.sizes.length / 2)]
-    : '42';
+  const defaultSize = (product.sizes && product.sizes.length)
+    ? product.sizes[0]
+    : 'One size';
 
-  const sizesSummary = product.sizes && product.sizes.length
-    ? `Sizes: ${product.sizes.join(' · ')}`
+  const singleOpt = isSingleOptionProduct(product.type, product.category);
+  const sizesSummary = (!singleOpt && product.sizes && product.sizes.length > 1)
+    ? `Options: ${product.sizes.join(' · ')}`
     : '';
 
-  const mainImage = (product.images && product.images[0]) || '/assets/images/sneaker-1.jpg';
+  const mainImage = (product.images && product.images[0]) || '/assets/images/placeholders/default.svg';
+
+  const ratingHtml = (product.reviews && product.reviews > 0 && product.rating)
+    ? `<span class="product-card-rating">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+         </svg>
+         ${Number(product.rating).toFixed(1)}
+       </span>`
+    : '';
 
   card.innerHTML = `
     <button class="product-card-wishlist ${isWished ? 'active' : ''}" aria-label="Add to wishlist" data-wishlist-id="${product.id}">
@@ -158,15 +255,10 @@ export function renderProductCard(product) {
     <div class="product-card-body">
       <div class="product-card-meta">
         <span class="product-card-category">${product.category}</span>
-        <span class="product-card-rating">
-          <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
-          </svg>
-          ${product.rating}
-        </span>
+        ${ratingHtml}
       </div>
       <a href="/product.html?id=${product.id}" class="product-card-title">${product.name}</a>
-      <p class="product-card-sizes">${sizesSummary}</p>
+      ${sizesSummary ? `<p class="product-card-sizes">${sizesSummary}</p>` : ''}
       <div class="product-card-footer">
         <div>
           <div class="product-card-price">${formatCurrency(product.price)}</div>

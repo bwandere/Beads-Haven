@@ -102,11 +102,26 @@ func main() {
 		case "/", "/index.html":
 			http.ServeFile(w, r, filepath.Join(frontendDir, "index.html"))
 			return
-		case "/sneakers":
-			http.Redirect(w, r, "/shop.html?type=sneaker", http.StatusFound)
+		case "/bracelets":
+			http.Redirect(w, r, "/shop.html?type=bracelets", http.StatusFound)
 			return
-		case "/jerseys":
-			http.Redirect(w, r, "/shop.html?type=jersey", http.StatusFound)
+		case "/necklaces":
+			http.Redirect(w, r, "/shop.html?type=necklaces", http.StatusFound)
+			return
+		case "/rings":
+			http.Redirect(w, r, "/shop.html?type=rings", http.StatusFound)
+			return
+		case "/bags":
+			http.Redirect(w, r, "/shop.html?type=bags", http.StatusFound)
+			return
+		case "/fashion-accessories":
+			http.Redirect(w, r, "/shop.html?type=fashion-accessories", http.StatusFound)
+			return
+		case "/art-decor":
+			http.Redirect(w, r, "/shop.html?type=art-decor", http.StatusFound)
+			return
+		case "/sneakers", "/jerseys":
+			http.Redirect(w, r, "/shop.html", http.StatusMovedPermanently)
 			return
 		case "/shop":
 			http.ServeFile(w, r, filepath.Join(frontendDir, "shop.html"))

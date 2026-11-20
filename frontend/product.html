@@ -21,8 +21,13 @@
 
       <nav class="nav-desktop">
         <a href="/" class="nav-link">Home</a>
-        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <div class="nav-item-dropdown">
+          <a href="/shop.html" class="nav-link nav-shop-trigger">
+            Shop
+            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="shop-dropdown-menu"></div>
+        </div>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
@@ -55,8 +60,13 @@
     <!-- Mobile Drawer Menu -->
     <nav class="nav-mobile">
       <a href="/" class="nav-mobile-link">Home</a>
-      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
-      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-trigger" type="button" aria-expanded="false">
+          <span>Shop Collections</span>
+          <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel"></div>
+      </div>
       <a href="/about.html" class="nav-mobile-link">About</a>
       <a href="/contact.html" class="nav-mobile-link">Contact</a>
     </nav>
@@ -76,12 +86,12 @@
       <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         <div>
           <p id="p-category" class="eyebrow" style="color: var(--primary);">Category</p>
-          <h1 id="p-name" style="font-size: 3.25rem; line-height: 1.1; margin-top: 0.5rem;">Product Name</h1>
-          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.75rem;">
+          <h1 id="p-name" style="font-size: 3rem; line-height: 1.15; margin-top: 0.5rem;">Product Name</h1>
+          <div id="rating-wrap" style="display: none; align-items: center; gap: 0.5rem; color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.75rem;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)" stroke="var(--accent)" stroke-width="2">
               <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
             </svg>
-            <span id="p-rating">4.8</span> · <span id="p-reviews">124 reviews</span>
+            <span id="p-rating"></span> · <span id="p-reviews"></span>
           </div>
         </div>
 
@@ -90,12 +100,13 @@
           <span id="p-old-price" style="font-size: 1.125rem; color: var(--muted-foreground); text-decoration: line-through; display: none;"></span>
         </div>
 
-        <p id="p-desc" style="color: var(--muted-foreground); line-height: 1.6; max-width: 32rem;"></p>
+        <p id="p-desc" style="color: var(--foreground); opacity: 0.9; line-height: 1.7; max-width: 32rem;"></p>
 
-        <!-- Sizes -->
-        <div>
-          <p style="font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Size</p>
+        <!-- Size / Option Picker -->
+        <div id="option-container">
+          <p id="option-label" style="font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Size / Option</p>
           <div id="size-selector" class="size-selector-grid"></div>
+          <p id="single-option-label" style="display: none; font-size: 0.9375rem; color: var(--muted-foreground);"></p>
         </div>
 
         <!-- Quantity -->
@@ -123,7 +134,7 @@
             <circle cx="17" cy="18" r="2"/>
             <circle cx="7" cy="18" r="2"/>
           </svg>
-          Same-day delivery in Nairobi · Countrywide in 2–3 days
+          Handcrafted in Nairobi · Delivered across Kenya · Pay with M-Pesa
         </div>
       </div>
     </div>
@@ -132,8 +143,8 @@
     <section style="margin-top: 6rem; padding-bottom: 5rem;">
       <div class="section-heading-wrap">
         <div>
-          <p class="eyebrow">You may also like</p>
-          <h2 class="section-title">Related products</h2>
+          <p class="eyebrow">Complement your style</p>
+          <h2 class="section-title">Related pieces</h2>
         </div>
       </div>
       <div id="related-grid" class="product-grid"></div>
@@ -148,23 +159,28 @@
           <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
           <span class="footer-brand-title">Amazing Outfits</span>
         </div>
-        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+        <p class="footer-desc">Handmade beaded jewellery, bags and art, delivered across Kenya.</p>
       </div>
       <div>
-        <p class="footer-heading">Shop</p>
-        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
-        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <p class="footer-heading">Shop Collections</p>
+        <a href="/shop.html?type=bracelets" class="footer-link">Bracelets</a>
+        <a href="/shop.html?type=necklaces" class="footer-link">Necklaces</a>
+        <a href="/shop.html?type=rings" class="footer-link">Rings</a>
+        <a href="/shop.html?type=bags" class="footer-link">Bags</a>
+        <a href="/shop.html?type=fashion-accessories" class="footer-link">Fashion Accessories</a>
+        <a href="/shop.html?type=art-decor" class="footer-link">Art &amp; Home Decor</a>
+      </div>
+      <div>
+        <p class="footer-heading">Customer Care</p>
+        <a href="/contact.html" class="footer-link">Custom Orders</a>
+        <a href="/about.html" class="footer-link">Our Story</a>
+        <a href="/contact.html" class="footer-link">Contact &amp; Delivery</a>
         <a href="/cart.html" class="footer-link">Cart</a>
-      </div>
-      <div>
-        <p class="footer-heading">Company</p>
-        <a href="/about.html" class="footer-link">About</a>
-        <a href="/contact.html" class="footer-link">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
+        © 2026 Amazing Outfits · Beads &amp; Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -173,23 +189,34 @@
     import { initHeader, renderProductCard, formatCurrency, showToast } from '/js/ui.js';
     import { fetchProductById, fetchProducts } from '/js/api.js';
     import { addToCart } from '/js/cart.js';
+    import { getCollection, isSingleOptionProduct } from '/js/collections.js';
 
     initHeader();
 
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id') || 'volt-runner';
+    const productId = urlParams.get('id');
 
     let currentProduct = null;
     let selectedSize = '';
     let selectedQty = 1;
 
     async function loadProduct() {
-      currentProduct = await fetchProductById(productId);
+      // If no id param is provided, fetch list and show the first product
+      if (!productId) {
+        const prods = await fetchProducts();
+        if (prods && prods.length) {
+          currentProduct = prods[0];
+        }
+      } else {
+        currentProduct = await fetchProductById(productId);
+      }
+
       if (!currentProduct) {
         document.getElementById('product-content').innerHTML = `
           <div style="grid-column: 1 / -1; padding: 5rem 0; text-align: center;">
-            <h1 class="section-title">Product Not Found</h1>
-            <a href="/shop.html" class="btn btn-accent btn-lg" style="margin-top: 1.5rem;">Return to Shop</a>
+            <h1 class="section-title">Piece Not Found</h1>
+            <p style="margin-top: 1rem; color: var(--muted-foreground);">We couldn't find the piece you're looking for.</p>
+            <a href="/shop.html" class="btn btn-accent btn-lg" style="margin-top: 1.5rem;">Explore our collection</a>
           </div>
         `;
         return;
@@ -200,10 +227,18 @@
       // Fill info
       document.getElementById('p-category').textContent = currentProduct.category;
       document.getElementById('p-name').textContent = currentProduct.name;
-      document.getElementById('p-rating').textContent = currentProduct.rating;
-      document.getElementById('p-reviews').textContent = `${currentProduct.reviews} reviews`;
       document.getElementById('p-price').textContent = formatCurrency(currentProduct.price);
       document.getElementById('p-desc').textContent = currentProduct.description;
+
+      // Rating: show only if reviews > 0 and rating > 0
+      const ratingWrap = document.getElementById('rating-wrap');
+      if (currentProduct.reviews && currentProduct.reviews > 0 && currentProduct.rating) {
+        document.getElementById('p-rating').textContent = Number(currentProduct.rating).toFixed(1);
+        document.getElementById('p-reviews').textContent = `${currentProduct.reviews} review${currentProduct.reviews === 1 ? '' : 's'}`;
+        ratingWrap.style.display = 'flex';
+      } else {
+        ratingWrap.style.display = 'none';
+      }
 
       if (currentProduct.oldPrice) {
         const oldP = document.getElementById('p-old-price');
@@ -212,9 +247,9 @@
       }
 
       // Images Gallery
-      const images = currentProduct.images && currentProduct.images.length
+      const images = (currentProduct.images && currentProduct.images.length)
         ? currentProduct.images
-        : ['/assets/images/sneaker-1.jpg'];
+        : ['/assets/images/placeholders/default.svg'];
 
       const mainImg = document.getElementById('main-image');
       mainImg.src = images[0];
@@ -222,35 +257,56 @@
 
       const thumbsContainer = document.getElementById('gallery-thumbs');
       thumbsContainer.innerHTML = '';
-      images.forEach((imgUrl, idx) => {
-        const thumbBtn = document.createElement('button');
-        thumbBtn.className = `gallery-thumb-btn ${idx === 0 ? 'active' : ''}`;
-        thumbBtn.innerHTML = `<img src="${imgUrl}" alt="" class="gallery-thumb-img" loading="lazy">`;
-        thumbBtn.addEventListener('click', () => {
-          mainImg.src = imgUrl;
-          document.querySelectorAll('.gallery-thumb-btn').forEach(b => b.classList.remove('active'));
-          thumbBtn.classList.add('active');
+      if (images.length > 1) {
+        images.forEach((imgUrl, idx) => {
+          const thumbBtn = document.createElement('button');
+          thumbBtn.className = `gallery-thumb-btn ${idx === 0 ? 'active' : ''}`;
+          thumbBtn.innerHTML = `<img src="${imgUrl}" alt="${currentProduct.name} view ${idx + 1}" class="gallery-thumb-img" loading="lazy">`;
+          thumbBtn.addEventListener('click', () => {
+            mainImg.src = imgUrl;
+            document.querySelectorAll('.gallery-thumb-btn').forEach(b => b.classList.remove('active'));
+            thumbBtn.classList.add('active');
+          });
+          thumbsContainer.appendChild(thumbBtn);
         });
-        thumbsContainer.appendChild(thumbBtn);
-      });
+      }
 
-      // Sizes selector
-      const sizes = currentProduct.sizes || ['38', '39', '40', '41', '42', '43', '44', '45'];
+      // Sizes / Option Selector
+      const col = getCollection(currentProduct.type);
+      const isSingle = isSingleOptionProduct(currentProduct.type, currentProduct.category) ||
+        (currentProduct.sizes && currentProduct.sizes.length === 1 && currentProduct.sizes[0] === 'One size');
+
+      const sizes = (currentProduct.sizes && currentProduct.sizes.length)
+        ? currentProduct.sizes
+        : ['One size'];
       selectedSize = sizes[0];
 
+      const optionLabel = document.getElementById('option-label');
       const sizeSelector = document.getElementById('size-selector');
-      sizeSelector.innerHTML = '';
-      sizes.forEach((s, idx) => {
-        const sBtn = document.createElement('button');
-        sBtn.className = `size-btn ${idx === 0 ? 'active' : ''}`;
-        sBtn.textContent = s;
-        sBtn.addEventListener('click', () => {
-          selectedSize = s;
-          document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-          sBtn.classList.add('active');
+      const singleOptionLabel = document.getElementById('single-option-label');
+
+      optionLabel.textContent = col?.sizeLabel ? `${col.sizeLabel}` : 'Size / Option';
+
+      if (isSingle || sizes.length <= 1) {
+        sizeSelector.style.display = 'none';
+        singleOptionLabel.style.display = 'block';
+        singleOptionLabel.innerHTML = `Standard: <strong>${sizes[0]}</strong>`;
+      } else {
+        sizeSelector.style.display = 'grid';
+        singleOptionLabel.style.display = 'none';
+        sizeSelector.innerHTML = '';
+        sizes.forEach((s, idx) => {
+          const sBtn = document.createElement('button');
+          sBtn.className = `size-btn ${idx === 0 ? 'active' : ''}`;
+          sBtn.textContent = s;
+          sBtn.addEventListener('click', () => {
+            selectedSize = s;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            sBtn.classList.add('active');
+          });
+          sizeSelector.appendChild(sBtn);
         });
-        sizeSelector.appendChild(sBtn);
-      });
+      }
 
       // Stepper
       const qtyVal = document.getElementById('qty-value');
@@ -268,7 +324,7 @@
       // Add to cart & Buy now
       document.getElementById('btn-add-cart').addEventListener('click', () => {
         addToCart(currentProduct, selectedSize, selectedQty);
-        showToast(`Added to cart`);
+        showToast(`${currentProduct.name} (${selectedSize}) added to cart`);
       });
 
       document.getElementById('btn-buy-now').addEventListener('click', () => {
