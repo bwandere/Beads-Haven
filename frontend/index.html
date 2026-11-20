@@ -10,15 +10,7 @@
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages.css">
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "/vendor/three/build/three.module.js",
-        "three/addons/": "/vendor/three/examples/jsm/",
-        "three/examples/jsm/": "/vendor/three/examples/jsm/"
-      }
-    }
-  </script>
+
 </head>
 <body>
   <!-- Header -->
@@ -73,26 +65,33 @@
   </header>
 
   <main>
-    <!-- 3D Hero Section -->
+    <!-- 2D Hero Section -->
     <section class="hero-section">
-      <span aria-hidden="true" class="hero-watermark">AMAZING</span>
+      <span aria-hidden="true" class="hero-watermark">BEADWORK</span>
       <div class="container hero-grid">
         <div class="hero-content">
-          <p class="badge-season">New season · 2026</p>
-          <h1 class="hero-h1">Step into<br>your <span class="text-accent">style</span></h1>
-          <p class="hero-subtext">Premium sneakers and sportswear built for your everyday style.</p>
+          <p class="badge-season">Handmade in Kenya</p>
+          <h1 class="hero-h1">Wear the art.<br>Carry the <span class="text-accent">story.</span></h1>
+          <p class="hero-subtext">Authentic African beadwork, bespoke jewellery, and handcrafted decor made with pride in Nairobi.</p>
           <div class="hero-ctas">
-            <a href="/shop.html?type=sneaker" class="btn btn-accent btn-xl">Shop sneakers</a>
-            <a href="/shop.html?type=jersey" class="btn btn-hero-outline btn-xl">Explore jerseys</a>
+            <a href="/shop.html?type=bracelets" class="btn btn-accent btn-xl">Shop bracelets</a>
+            <a href="/shop.html?type=art-decor" class="btn btn-hero-outline btn-xl">Explore art &amp; decor</a>
           </div>
         </div>
 
-        <div id="hero-stage" class="hero-stage">
-          <div id="hero-loader" class="hero-loader">
-            <div class="hero-spinner"></div>
+        <div class="hero-collage" aria-label="Featured handmade beadwork collection">
+          <div class="collage-card card-bags">
+            <img src="/assets/images/bag1.png" alt="Handmade beaded handbag" width="480" height="480" fetchpriority="high">
+            <span class="collage-tag">Beaded Bags</span>
           </div>
-          <canvas id="hero-canvas" class="hero-canvas"></canvas>
-          <img src="/assets/images/hero-fallback.webp" alt="Amazing Outfits Sneaker" class="hero-fallback-img" width="800" height="600" fetchpriority="high">
+          <div class="collage-card card-bracelet">
+            <img src="/assets/images/bracelet1.png" alt="Traditional Kenyan beaded cuff bracelet" width="400" height="400">
+            <span class="collage-tag">Beaded Bracelets</span>
+          </div>
+          <div class="collage-card card-rings">
+            <img src="/assets/images/ring1.png" alt="Stacked beaded rings" width="400" height="400">
+            <span class="collage-tag">Beaded Rings</span>
+          </div>
         </div>
       </div>
     </section>
@@ -236,7 +235,7 @@
     </div>
     <div class="footer-bottom">
       <div class="container">
-        © 2026 Amazing Outfits · 3D shoe model “Materials Variants Shoe” by Shopify, CC BY 4.0
+        © 2026 Amazing Outfits · Beads & Art · Handcrafted in Nairobi, Kenya
       </div>
     </div>
   </footer>
@@ -287,24 +286,6 @@
         console.error('Failed to load homepage products:', err);
       }
     }
-
-    // Decoupled dynamic load of the 3D hero
-    import('/js/hero3d.js')
-      .then(module => {
-        if (typeof module.initHero3D === 'function') {
-          module.initHero3D();
-        }
-      })
-      .catch(err => {
-        console.warn('Hero 3D module failed to load, falling back to static image', err);
-        const stage = document.getElementById('hero-stage');
-        if (stage) stage.classList.add('is-fallback');
-        const loader = document.getElementById('hero-loader');
-        if (loader) {
-          loader.classList.add('hidden');
-          loader.style.display = 'none';
-        }
-      });
   </script>
 </body>
 </html>

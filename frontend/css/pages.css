@@ -20,7 +20,7 @@
   font-family: var(--font-display);
   font-size: 22vw;
   line-height: 0.85;
-  -webkit-text-stroke: 2px rgba(246, 241, 231, 0.2);
+  -webkit-text-stroke: 2px rgba(250, 245, 236, 0.15);
   color: transparent;
   opacity: 0.12;
   z-index: 1;
@@ -90,78 +90,125 @@
   gap: 0.75rem;
 }
 
-/* Hero 3D Stage */
-.hero-stage {
+/* ==========================================================================
+   2D Hero Collage
+   ========================================================================== */
+.hero-collage {
   position: relative;
   order: 1;
-  height: 46vh;
-  min-height: 320px;
   width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .hero-stage {
-    order: 2;
-    height: 72vh;
-  }
-}
-
-.hero-canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-  outline: none;
-  cursor: grab;
-}
-
-.hero-canvas:active {
-  cursor: grabbing;
-}
-
-.hero-fallback-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: none;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
-}
-
-.hero-stage.is-fallback .hero-fallback-img {
-  display: block;
-}
-
-.hero-stage.is-fallback .hero-canvas {
-  display: none;
-}
-
-.hero-loader {
-  position: absolute;
-  inset: 0;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 5;
 }
 
-.hero-loader.hidden {
-  opacity: 0;
-  visibility: hidden;
+@media (min-width: 640px) {
+  .hero-collage {
+    height: 440px;
+  }
 }
 
-.hero-spinner {
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 3px solid rgba(246, 140, 17, 0.2);
-  border-top-color: var(--accent);
+@media (min-width: 1024px) {
+  .hero-collage {
+    order: 2;
+    height: 520px;
+  }
+}
+
+.collage-card {
+  position: absolute;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.45);
+  border: 2px solid rgba(250, 245, 236, 0.15);
+  background-color: var(--card);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.collage-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collage-tag {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  background: rgba(20, 16, 14, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #faf5ec;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.625rem;
   border-radius: var(--radius-full);
-  animation: spin 0.8s linear infinite;
+  border: 1px solid rgba(250, 245, 236, 0.2);
+  pointer-events: none;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* Card Positions & Floats */
+.card-bags {
+  width: 58%;
+  max-width: 310px;
+  aspect-ratio: 1;
+  left: 4%;
+  top: 14%;
+  z-index: 2;
+  animation: heroFloatBags 6s ease-in-out infinite;
+}
+
+.card-bracelet {
+  width: 48%;
+  max-width: 250px;
+  aspect-ratio: 1;
+  right: 6%;
+  top: 6%;
+  z-index: 3;
+  animation: heroFloatBracelet 7s ease-in-out infinite 0.5s;
+}
+
+.card-rings {
+  width: 45%;
+  max-width: 230px;
+  aspect-ratio: 1;
+  right: 14%;
+  bottom: 8%;
+  z-index: 4;
+  animation: heroFloatRings 6.5s ease-in-out infinite 1s;
+}
+
+.collage-card:hover {
+  z-index: 10;
+  transform: scale(1.04) translateY(-4px) !important;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+  border-color: var(--accent);
+}
+
+@keyframes heroFloatBags {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+@keyframes heroFloatBracelet {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(10px) rotate(2.5deg); }
+}
+
+@keyframes heroFloatRings {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-7px) rotate(-1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-bags,
+  .card-bracelet,
+  .card-rings {
+    animation: none !important;
+  }
 }
 
 /* Home Section Layout */
