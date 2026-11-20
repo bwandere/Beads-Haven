@@ -149,16 +149,7 @@ func main() {
 			return
 		}
 
-		// Also check root /assets if requested
-		if strings.HasPrefix(path, "/assets/") {
-			rootAssetPath := filepath.Join(".", path)
-			if _, err := os.Stat(rootAssetPath); err == nil {
-				http.ServeFile(w, r, rootAssetPath)
-				return
-			}
-		}
-
-		// Otherwise serve static files from /frontend
+		// Serve static files from /frontend
 		targetPath := filepath.Join(frontendDir, path)
 		if fi, err := os.Stat(targetPath); err == nil && !fi.IsDir() {
 			fs.ServeHTTP(w, r)

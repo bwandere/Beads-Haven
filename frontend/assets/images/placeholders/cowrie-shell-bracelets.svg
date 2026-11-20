@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <radialGradient id="cardGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#faf5ec"/>
+      <stop offset="100%" stop-color="#f0e8db"/>
+    </radialGradient>
+    <pattern id="beadBorder" width="32" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="6" r="3" fill="#b3261e"/>
+      <circle cx="12" cy="6" r="3" fill="#d9a02b"/>
+      <circle cx="20" cy="6" r="3" fill="#1f6b4f"/>
+      <circle cx="28" cy="6" r="3" fill="#14100e"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#cardGlow)"/>
+  <rect x="24" y="24" width="752" height="752" rx="20" fill="none" stroke="#e6dcce" stroke-width="2"/>
+  
+  <rect x="36" y="36" width="728" height="12" fill="url(#beadBorder)"/>
+  <rect x="36" y="752" width="728" height="12" fill="url(#beadBorder)"/>
+
+  
+        <g transform="translate(400, 340)">
+          <circle cx="0" cy="0" r="160" fill="none" stroke="#d9a02b" stroke-width="3" stroke-dasharray="6,6" opacity="0.6"/>
+          <g transform="translate(0, -90) scale(1.3)">
+            <ellipse cx="0" cy="0" rx="22" ry="38" fill="#ffffff" stroke="#14100e" stroke-width="2.5"/>
+            <path d="M 0 -26 Q -6 0 0 26 Q 6 0 0 -26" fill="#14100e"/>
+            <path d="M -12 -12 L -3 -10 M -12 0 L -4 0 M -12 12 L -3 10 M 12 -12 L 3 -10 M 12 0 L 4 0 M 12 12 L 3 10" stroke="#b3261e" stroke-width="2"/>
+          </g>
+          <g transform="translate(80, 50) rotate(120) scale(1.3)">
+            <ellipse cx="0" cy="0" rx="22" ry="38" fill="#ffffff" stroke="#14100e" stroke-width="2.5"/>
+            <path d="M 0 -26 Q -6 0 0 26 Q 6 0 0 -26" fill="#14100e"/>
+          </g>
+          <g transform="translate(-80, 50) rotate(-120) scale(1.3)">
+            <ellipse cx="0" cy="0" rx="22" ry="38" fill="#ffffff" stroke="#14100e" stroke-width="2.5"/>
+            <path d="M 0 -26 Q -6 0 0 26 Q 6 0 0 -26" fill="#14100e"/>
+          </g>
+          <circle cx="0" cy="0" r="18" fill="#d9a02b"/>
+          <circle cx="0" cy="0" r="12" fill="#b3261e"/>
+          <circle cx="0" cy="0" r="6" fill="#1f6b4f"/>
+        </g>
+        
+
+  <g transform="translate(400, 545)">
+    <rect x="-85" y="-15" width="170" height="30" rx="15" fill="#f0e8db" stroke="#e6dcce" stroke-width="1.5"/>
+    <text x="0" y="5" text-anchor="middle" font-family="'DM Sans', system-ui, sans-serif" font-weight="700" font-size="12" letter-spacing="2" fill="#1f6b4f">
+      HANDMADE IN KENYA
+    </text>
+  </g>
+
+  <text x="400" y="620" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="-0.5" fill="#1a1412">
+    Cowrie Shell Bracelets
+  </text>
+  
+  <text x="400" y="660" text-anchor="middle" font-family="'DM Sans', system-ui, sans-serif" font-weight="500" font-size="16" letter-spacing="0.5" fill="#655b54">
+    Natural Cowries &amp; Glass Seed Beads
+  </text>
+</svg>
