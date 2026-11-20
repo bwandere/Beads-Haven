@@ -167,7 +167,7 @@ func uploadToCloudinary(file multipart.File, filename, cloudName, apiKey, apiSec
 	}
 
 	if cloudRes.Error != nil {
-		return "", fmt.Errorf(cloudRes.Error.Message)
+		return "", fmt.Errorf("%s", cloudRes.Error.Message)
 	}
 
 	if cloudRes.SecureURL == "" {
