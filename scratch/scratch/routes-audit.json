@@ -1,0 +1,250 @@
+{
+  "/": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/",
+    "status": 200,
+    "title": "Amazing Outfits — Premium Sneakers & Jerseys in Kenya",
+    "data": {
+      "h1": "STEP INTO\nYOUR STYLE",
+      "headings": [
+        "STEP INTO\nYOUR STYLE",
+        "FEATURED SNEAKERS",
+        "NEW ARRIVALS",
+        "CATEGORY",
+        "UP TO 20% OFF\nRETRO DROPS",
+        "POPULAR SNEAKERS",
+        "JERSEYS"
+      ],
+      "buttons": [
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART"
+      ],
+      "inputs": [],
+      "textSnippet": "AMAZING\n\nNEW SEASON · 2026\n\nSTEP INTO\nYOUR STYLE\n\nPremium sneakers and sportswear built for your everyday style.\n\nSHOP SNEAKERS\nEXPLORE JERSEYS\n\nHAND-PICKED\n\nFEATURED SNEAKERS\nVIEW ALL\nSALE\nRUNNING\n4.8\nVOLT RUNNER\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 8,500\n\nKSh 9,800\n\nADD TO CART\nLIFESTYLE\n4.7\nCOURT CLASSIC LOW\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 7,200\n\nADD TO CART\nBASKETBALL\n4.6\nNIGHT HIGH\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 9,900\n\nADD TO CART\nLIFESTY"
+    }
+  },
+  "/sneakers": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/sneakers",
+    "status": 200,
+    "title": "Sneakers — Amazing Outfits",
+    "data": {
+      "h1": "SNEAKERS",
+      "headings": [
+        "SNEAKERS"
+      ],
+      "buttons": [
+        "ALL",
+        "RUNNING",
+        "LIFESTYLE",
+        "BASKETBALL",
+        "TRAINING",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART"
+      ],
+      "inputs": [
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Search products…"
+        },
+        {
+          "name": "",
+          "type": "select-one"
+        }
+      ],
+      "textSnippet": "THE COLLECTION\n\nSNEAKERS\n\nRunning, lifestyle, basketball and training — find your next pair.\n\nALL\nRUNNING\nLIFESTYLE\nBASKETBALL\nTRAINING\n\nMAX PRICE: KSH 11,500\n\nFeatured\nPrice: Low to high\nPrice: High to low\nTop rated\n\n8 products\n\nSALE\nRUNNING\n4.8\nVOLT RUNNER\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 8,500\n\nKSh 9,800\n\nADD TO CART\nLIFESTYLE\n4.7\nCOURT CLASSIC LOW\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 7,200\n\nADD TO CART\nBASKETBALL\n4.6\nNIGHT HIGH\n\nSizes: 38 · 39 · 40 · 41 · 42 ·"
+    }
+  },
+  "/jerseys": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/jerseys",
+    "status": 200,
+    "title": "Football Jerseys — Amazing Outfits",
+    "data": {
+      "h1": "JERSEYS",
+      "headings": [
+        "JERSEYS"
+      ],
+      "buttons": [
+        "ALL",
+        "NATIONAL TEAMS",
+        "CLUBS",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART"
+      ],
+      "inputs": [
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Search products…"
+        },
+        {
+          "name": "",
+          "type": "select-one"
+        }
+      ],
+      "textSnippet": "MATCHDAY\n\nJERSEYS\n\nClub and national-team kits for the stands and the pitch.\n\nALL\nNATIONAL TEAMS\nCLUBS\n\nMAX PRICE: KSH 3,500\n\nFeatured\nPrice: Low to high\nPrice: High to low\nTop rated\n\n4 products\n\nNATIONAL TEAMS\n4.8\nHARAMBEE STARS HOME 26\n\nSizes: S · M · L · XL · XXL\n\nKSh 3,500\n\nADD TO CART\nCLUBS\n4.6\nROYAL BLUES HOME\n\nSizes: S · M · L · XL · XXL\n\nKSh 3,200\n\nADD TO CART\nCLUBS\n4.5\nRED STRIPES CLASSIC\n\nSizes: S · M · L · XL · XXL\n\nKSh 3,000\n\nADD TO CART\nNATIONAL TEAMS\n4.4\nLIONS AWAY KIT\n\nSizes: S · "
+    }
+  },
+  "/product/volt-runner": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/product/volt-runner",
+    "status": 200,
+    "title": "Volt Runner — Amazing Outfits",
+    "data": {
+      "h1": "VOLT RUNNER",
+      "headings": [
+        "VOLT RUNNER",
+        "RELATED PRODUCTS"
+      ],
+      "buttons": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "ADD TO CART",
+        "BUY NOW",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART",
+        "ADD TO CART"
+      ],
+      "inputs": [],
+      "textSnippet": "RUNNING\n\nVOLT RUNNER\n4.8 · 124 reviews\n\nKSh 8,500KSh 9,800\n\nEngineered mesh upper, gradient foam midsole and a responsive ride for long city miles.\n\nSIZE\n\n38\n39\n40\n41\n42\n43\n44\n45\n\nQUANTITY\n\n1\nADD TO CART\nBUY NOW\n\nSame-day delivery in Nairobi · Countrywide in 2–3 days\n\nYOU MAY ALSO LIKE\n\nRELATED PRODUCTS\nLIFESTYLE\n4.7\nCOURT CLASSIC LOW\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 7,200\n\nADD TO CART\nBASKETBALL\n4.6\nNIGHT HIGH\n\nSizes: 38 · 39 · 40 · 41 · 42 · 43 · 44 · 45\n\nKSh 9,900\n\nADD TO CA"
+    }
+  },
+  "/cart": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/cart",
+    "status": 200,
+    "title": "Your Cart — Amazing Outfits",
+    "data": {
+      "h1": "YOUR CART",
+      "headings": [
+        "YOUR CART"
+      ],
+      "buttons": [],
+      "inputs": [],
+      "textSnippet": "YOUR CART\n\nYour cart is empty.\n\nSHOP SNEAKERS"
+    }
+  },
+  "/checkout": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/checkout",
+    "status": 200,
+    "title": "Checkout — Amazing Outfits",
+    "data": {
+      "h1": "CHECKOUT",
+      "headings": [
+        "CHECKOUT",
+        "CUSTOMER DETAILS",
+        "PAYMENT",
+        "ORDER SUMMARY"
+      ],
+      "buttons": [
+        "M-Pesa\n\nGet an STK push on your phone",
+        "Pay on delivery\n\nNairobi only",
+        "PLACE ORDER"
+      ],
+      "inputs": [
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Jane Wanjiku"
+        },
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "07XX XXX XXX"
+        },
+        {
+          "name": "",
+          "type": "email",
+          "placeholder": "you@example.com"
+        },
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Westlands, Nairobi"
+        },
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "07XX XXX XXX"
+        }
+      ],
+      "textSnippet": "CHECKOUT\nCUSTOMER DETAILS\nFull name\nPhone\nEmail\nDelivery location\nPAYMENT\n\nM-Pesa\n\nGet an STK push on your phone\n\nPay on delivery\n\nNairobi only\n\nM-Pesa number\nPLACE ORDER\nORDER SUMMARY\nSubtotal\nKSh 0\nDelivery\nKSh 0\nTotal\nKSh 0"
+    }
+  },
+  "/about": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/about",
+    "status": 200,
+    "title": "About — Amazing Outfits",
+    "data": {
+      "h1": "BUILT ON STYLE",
+      "headings": [
+        "BUILT ON STYLE",
+        "AUTHENTIC QUALITY",
+        "FAST DELIVERY",
+        "COMMUNITY FIRST"
+      ],
+      "buttons": [],
+      "inputs": [],
+      "textSnippet": "OUR STORY\n\nBUILT ON STYLE\n\nAmazing Outfits started with one belief: everyone deserves to walk with confidence.\n\nWhat began as a small sneaker hustle in Nairobi has grown into a go-to destination for premium kicks and football jerseys. We hand-pick every pair, check every stitch, and deliver to your door.\n\nAUTHENTIC QUALITY\n\nEvery product is inspected before it reaches you.\n\nFAST DELIVERY\n\nSame-day in Nairobi, 2–3 days countrywide.\n\nCOMMUNITY FIRST\n\nWe support local football and street culture."
+    }
+  },
+  "/contact": {
+    "currentUrl": "https://pixel-perfect-capture-7092.lovable.app/contact",
+    "status": 200,
+    "title": "Contact — Amazing Outfits",
+    "data": {
+      "h1": "CONTACT US",
+      "headings": [
+        "CONTACT US",
+        "SEND A MESSAGE"
+      ],
+      "buttons": [
+        "SEND MESSAGE"
+      ],
+      "inputs": [
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Your name"
+        },
+        {
+          "name": "",
+          "type": "text",
+          "placeholder": "Email or phone"
+        },
+        {
+          "name": "",
+          "type": "textarea",
+          "placeholder": "How can we help?"
+        }
+      ],
+      "textSnippet": "SAY HELLO\n\nCONTACT US\n\nPHONE\n\n+254 700 000 000\n\nWHATSAPP\n\n+254 700 000 000\n\nEMAIL\n\nhello@amazingoutfits.co.ke\n\nLOCATION\n\nMoi Avenue, Nairobi CBD\n\nSEND A MESSAGE\nSEND MESSAGE"
+    }
+  }
+}

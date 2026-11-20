@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Amazing Outfits</title>
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="brand-link" aria-label="Amazing Outfits">
+        <img src="/assets/images/logo.png" alt="Amazing Outfits" class="brand-logo">
+        <span class="brand-name">Amazing<span class="text-accent"> Outfits</span></span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/shop.html?type=sneaker" class="nav-link">Sneakers</a>
+        <a href="/shop.html?type=jersey" class="nav-link">Jerseys</a>
+        <a href="/about.html" class="nav-link">About</a>
+        <a href="/contact.html" class="nav-link active">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="header-btn header-search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21 21-4.34-4.34"/>
+            <circle cx="11" cy="11" r="8"/>
+          </svg>
+        </button>
+
+        <a href="/cart.html" class="header-btn" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+            <path d="M3.103 6.034h17.794"/>
+            <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
+          </svg>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <button class="mobile-menu-toggle" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <nav class="nav-mobile">
+      <a href="/" class="nav-mobile-link">Home</a>
+      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
+      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <a href="/about.html" class="nav-mobile-link">About</a>
+      <a href="/contact.html" class="nav-mobile-link active">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container" style="padding-top: 3.5rem; padding-bottom: 5rem;">
+    <div>
+      <p class="eyebrow">Say hello</p>
+      <h1 class="section-title" style="font-size: 3.75rem; margin-bottom: 2rem;">Contact us</h1>
+    </div>
+
+    <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+      <!-- Contact Info Cards -->
+      <div style="display: grid; gap: 1.25rem; grid-template-columns: repeat(2, 1fr);">
+        <div class="checkout-card">
+          <p class="eyebrow" style="color: var(--muted-foreground);">Phone</p>
+          <p style="font-weight: 700; font-size: 1.125rem;">+254 700 000 000</p>
+        </div>
+        <div class="checkout-card">
+          <p class="eyebrow" style="color: var(--muted-foreground);">WhatsApp</p>
+          <p style="font-weight: 700; font-size: 1.125rem;">+254 700 000 000</p>
+        </div>
+        <div class="checkout-card">
+          <p class="eyebrow" style="color: var(--muted-foreground);">Email</p>
+          <p style="font-weight: 700; font-size: 1.05rem; word-break: break-all;">hello@amazingoutfits.co.ke</p>
+        </div>
+        <div class="checkout-card">
+          <p class="eyebrow" style="color: var(--muted-foreground);">Location</p>
+          <p style="font-weight: 700; font-size: 1.125rem;">Moi Avenue, Nairobi CBD</p>
+        </div>
+      </div>
+
+      <!-- Contact Message Form -->
+      <div class="checkout-card">
+        <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Send a message</h2>
+        <form id="contact-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div class="form-group">
+            <label for="contact-name" class="form-label">Your name</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-info" class="form-label">Email or phone</label>
+            <input type="text" id="contact-info" class="form-input" placeholder="Email or phone" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-msg" class="form-label">How can we help?</label>
+            <textarea id="contact-msg" class="form-textarea" placeholder="How can we help?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-accent btn-xl" style="align-self: flex-start;">Send message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
+          <span class="footer-brand-title">Amazing Outfits</span>
+        </div>
+        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Shop</p>
+        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
+        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <a href="/cart.html" class="footer-link">Cart</a>
+      </div>
+      <div>
+        <p class="footer-heading">Company</p>
+        <a href="/about.html" class="footer-link">About</a>
+        <a href="/contact.html" class="footer-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        © 2026 Amazing Outfits · 3D shoe model “Materials Variants Shoe” by Shopify, CC BY 4.0
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initHeader, showToast } from '/js/ui.js';
+    initHeader();
+
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      showToast('Thank you! Message sent successfully.');
+      form.reset();
+    });
+  </script>
+</body>
+</html>

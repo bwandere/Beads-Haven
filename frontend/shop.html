@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sneakers &amp; Jerseys — Amazing Outfits</title>
+  <meta name="description" content="Browse running, lifestyle, basketball and training sneakers with prices in KSh.">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="brand-link" aria-label="Amazing Outfits">
+        <img src="/assets/images/logo.png" alt="Amazing Outfits" class="brand-logo">
+        <span class="brand-name">Amazing<span class="text-accent"> Outfits</span></span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/shop.html?type=sneaker" class="nav-link" id="nav-sneakers">Sneakers</a>
+        <a href="/shop.html?type=jersey" class="nav-link" id="nav-jerseys">Jerseys</a>
+        <a href="/about.html" class="nav-link">About</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="header-btn header-search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21 21-4.34-4.34"/>
+            <circle cx="11" cy="11" r="8"/>
+          </svg>
+        </button>
+
+        <a href="/cart.html" class="header-btn" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+            <path d="M3.103 6.034h17.794"/>
+            <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
+          </svg>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <button class="mobile-menu-toggle" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <nav class="nav-mobile">
+      <a href="/" class="nav-mobile-link">Home</a>
+      <a href="/shop.html?type=sneaker" class="nav-mobile-link">Sneakers</a>
+      <a href="/shop.html?type=jersey" class="nav-mobile-link">Jerseys</a>
+      <a href="/about.html" class="nav-mobile-link">About</a>
+      <a href="/contact.html" class="nav-mobile-link">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="shop-header">
+      <p id="shop-eyebrow" class="shop-header-eyebrow">The collection</p>
+      <h1 id="shop-title" class="shop-header-title">Sneakers</h1>
+      <p id="shop-desc" class="shop-header-desc">Running, lifestyle, basketball and training — find your next pair.</p>
+
+      <div class="shop-controls">
+        <!-- Search bar -->
+        <div class="search-input-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21 21-4.34-4.34"/>
+            <circle cx="11" cy="11" r="8"/>
+          </svg>
+          <input type="text" id="search-input" class="form-input" placeholder="Search products…">
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div id="category-pills" class="category-pills"></div>
+
+          <div class="filter-actions">
+            <div class="price-slider-wrap">
+              <div class="price-slider-header">
+                <span>Max price: <strong id="price-readout">KSh 12,000</strong></span>
+              </div>
+              <input type="range" id="price-slider" class="price-slider-input" min="1000" max="12000" step="500" value="12000">
+            </div>
+
+            <select id="sort-select" class="sort-select" aria-label="Sort products">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to high</option>
+              <option value="price-desc">Price: High to low</option>
+              <option value="rating">Top rated</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="products-count" class="products-count">0 products</p>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="shop-grid" class="product-grid" style="padding-bottom: 5rem;"></div>
+    <div id="empty-state" style="display: none; padding: 5rem 0; text-align: center; color: var(--muted-foreground);">
+      No products match your filters.
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="/assets/images/logo.png" alt="Amazing Outfits" class="footer-brand-logo" loading="lazy">
+          <span class="footer-brand-title">Amazing Outfits</span>
+        </div>
+        <p class="footer-desc">Premium sneakers and football jerseys, delivered across Kenya.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Shop</p>
+        <a href="/shop.html?type=sneaker" class="footer-link">Sneakers</a>
+        <a href="/shop.html?type=jersey" class="footer-link">Jerseys</a>
+        <a href="/cart.html" class="footer-link">Cart</a>
+      </div>
+      <div>
+        <p class="footer-heading">Company</p>
+        <a href="/about.html" class="footer-link">About</a>
+        <a href="/contact.html" class="footer-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        © 2026 Amazing Outfits · 3D shoe model “Materials Variants Shoe” by Shopify, CC BY 4.0
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initHeader, renderProductCard, formatCurrency } from '/js/ui.js';
+    import { fetchProducts } from '/js/api.js';
+
+    initHeader();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const typeParam = urlParams.get('type') || '';
+    const initialCategory = urlParams.get('category') || 'All';
+
+    // Page title and header text customization
+    const shopEyebrow = document.getElementById('shop-eyebrow');
+    const shopTitle = document.getElementById('shop-title');
+    const shopDesc = document.getElementById('shop-desc');
+
+    if (typeParam === 'jersey') {
+      document.title = 'Football Jerseys — Amazing Outfits';
+      shopEyebrow.textContent = 'Matchday';
+      shopTitle.textContent = 'Jerseys';
+      shopDesc.textContent = 'Club and national-team kits for the stands and the pitch.';
+      document.getElementById('nav-jerseys')?.classList.add('active');
+    } else if (typeParam === 'sneaker') {
+      document.title = 'Sneakers — Amazing Outfits';
+      shopEyebrow.textContent = 'The collection';
+      shopTitle.textContent = 'Sneakers';
+      shopDesc.textContent = 'Running, lifestyle, basketball and training — find your next pair.';
+      document.getElementById('nav-sneakers')?.classList.add('active');
+    } else {
+      document.title = 'All Products — Amazing Outfits';
+      shopEyebrow.textContent = 'The collection';
+      shopTitle.textContent = 'All Products';
+      shopDesc.textContent = 'Premium sneakers and sportswear built for your everyday style.';
+    }
+
+    let allProducts = [];
+    let activeCategory = initialCategory;
+    let maxPrice = 12000;
+    let searchQuery = '';
+    let currentSort = 'featured';
+
+    const searchInput = document.getElementById('search-input');
+    const categoryPillsContainer = document.getElementById('category-pills');
+    const priceSlider = document.getElementById('price-slider');
+    const priceReadout = document.getElementById('price-readout');
+    const sortSelect = document.getElementById('sort-select');
+    const productsCount = document.getElementById('products-count');
+    const shopGrid = document.getElementById('shop-grid');
+    const emptyState = document.getElementById('empty-state');
+
+    async function initShop() {
+      allProducts = await fetchProducts({ type: typeParam });
+
+      // Determine price cap
+      const prices = allProducts.map(p => p.price);
+      const highestPrice = prices.length ? Math.max(...prices) : 12000;
+      const priceCap = Math.ceil(highestPrice / 500) * 500;
+
+      priceSlider.max = priceCap;
+      priceSlider.value = priceCap;
+      maxPrice = priceCap;
+      priceReadout.textContent = formatCurrency(maxPrice);
+
+      // Render category pills
+      const uniqueCats = ['All', ...new Set(allProducts.map(p => p.category))];
+      categoryPillsContainer.innerHTML = '';
+      uniqueCats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `category-pill ${cat === activeCategory ? 'active' : ''}`;
+        btn.textContent = cat;
+        btn.addEventListener('click', () => {
+          activeCategory = cat;
+          document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderFilteredList();
+        });
+        categoryPillsContainer.appendChild(btn);
+      });
+
+      // Events
+      searchInput.addEventListener('input', e => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        renderFilteredList();
+      });
+
+      priceSlider.addEventListener('input', e => {
+        maxPrice = parseFloat(e.target.value);
+        priceReadout.textContent = formatCurrency(maxPrice);
+        renderFilteredList();
+      });
+
+      sortSelect.addEventListener('change', e => {
+        currentSort = e.target.value;
+        renderFilteredList();
+      });
+
+      renderFilteredList();
+    }
+
+    function renderFilteredList() {
+      let filtered = allProducts.filter(p => {
+        const matchesCat = activeCategory === 'All' || p.category.toLowerCase() === activeCategory.toLowerCase();
+        const matchesPrice = p.price <= maxPrice;
+        const matchesSearch = !searchQuery ||
+          p.name.toLowerCase().includes(searchQuery) ||
+          p.description.toLowerCase().includes(searchQuery);
+        return matchesCat && matchesPrice && matchesSearch;
+      });
+
+      // Sort
+      if (currentSort === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (currentSort === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (currentSort === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      // Update count
+      productsCount.textContent = `${filtered.length} products`;
+
+      // Render grid
+      shopGrid.innerHTML = '';
+      if (filtered.length === 0) {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        filtered.forEach(p => {
+          shopGrid.appendChild(renderProductCard(p));
+        });
+      }
+    }
+
+    initShop();
+  </script>
+</body>
+</html>

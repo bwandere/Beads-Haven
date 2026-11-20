@@ -1,0 +1,220 @@
+[
+  {
+    "id": "volt-runner",
+    "name": "Volt Runner",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Running",
+    "price": 8500,
+    "oldPrice": 9800,
+    "images": [
+      "/assets/images/sneaker-1.jpg",
+      "/assets/images/sneaker-4.jpg",
+      "/assets/images/sneaker-3.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.8,
+    "reviews": 124,
+    "description": "Engineered mesh upper, gradient foam midsole and a responsive ride for long city miles.",
+    "tags": ["featured", "popular"]
+  },
+  {
+    "id": "court-classic-low",
+    "name": "Court Classic Low",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Lifestyle",
+    "price": 7200,
+    "images": [
+      "/assets/images/sneaker-2.jpg",
+      "/assets/images/sneaker-1.jpg",
+      "/assets/images/sneaker-4.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.7,
+    "reviews": 210,
+    "description": "Clean tumbled leather, perforated toe box and a timeless low-cut silhouette.",
+    "tags": ["featured", "popular"]
+  },
+  {
+    "id": "night-high",
+    "name": "Night High",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Basketball",
+    "price": 9900,
+    "images": [
+      "/assets/images/sneaker-3.jpg",
+      "/assets/images/sneaker-2.jpg",
+      "/assets/images/sneaker-1.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.6,
+    "reviews": 88,
+    "description": "All-black high-top with padded collar support and a blaze-orange traction outsole.",
+    "tags": ["new", "featured"]
+  },
+  {
+    "id": "retro-wave",
+    "name": "Retro Wave",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Lifestyle",
+    "price": 8900,
+    "images": [
+      "/assets/images/sneaker-4.jpg",
+      "/assets/images/sneaker-1.jpg",
+      "/assets/images/sneaker-2.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.9,
+    "reviews": 156,
+    "description": "Chunky sculpted sole meets suede overlays in royal blue and burnt orange.",
+    "tags": ["new", "popular", "featured"]
+  },
+  {
+    "id": "volt-runner-pro",
+    "name": "Volt Runner Pro",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Running",
+    "price": 11500,
+    "images": [
+      "/assets/images/sneaker-1.jpg",
+      "/assets/images/sneaker-3.jpg",
+      "/assets/images/sneaker-4.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.7,
+    "reviews": 64,
+    "description": "Our fastest runner with a carbon-infused plate and extra-bouncy foam.",
+    "tags": ["new"]
+  },
+  {
+    "id": "street-court",
+    "name": "Street Court",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Basketball",
+    "price": 6800,
+    "oldPrice": 7900,
+    "images": [
+      "/assets/images/sneaker-2.jpg",
+      "/assets/images/sneaker-3.jpg",
+      "/assets/images/sneaker-1.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.4,
+    "reviews": 97,
+    "description": "Everyday hoops style with durable rubber cupsole for the street.",
+    "tags": ["popular"]
+  },
+  {
+    "id": "dune-trainer",
+    "name": "Dune Trainer",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Training",
+    "price": 7600,
+    "images": [
+      "/assets/images/sneaker-4.jpg",
+      "/assets/images/sneaker-2.jpg",
+      "/assets/images/sneaker-3.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.5,
+    "reviews": 41,
+    "description": "Stable platform and grippy outsole for gym days and weekend walks.",
+    "tags": ["new"]
+  },
+  {
+    "id": "blackout-mid",
+    "name": "Blackout Mid",
+    "brand": "Amazing",
+    "type": "sneaker",
+    "category": "Training",
+    "price": 8200,
+    "images": [
+      "/assets/images/sneaker-3.jpg",
+      "/assets/images/sneaker-4.jpg",
+      "/assets/images/sneaker-2.jpg"
+    ],
+    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+    "rating": 4.3,
+    "reviews": 52,
+    "description": "Mid-top stealth trainer with lockdown lacing and cushioned heel.",
+    "tags": ["popular"]
+  },
+  {
+    "id": "harambee-home",
+    "name": "Harambee Stars Home 26",
+    "brand": "Amazing",
+    "type": "jersey",
+    "category": "National Teams",
+    "price": 3500,
+    "images": [
+      "/assets/images/jersey-3.jpg",
+      "/assets/images/jersey-1.jpg",
+      "/assets/images/jersey-2.jpg"
+    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "rating": 4.8,
+    "reviews": 73,
+    "description": "National-team inspired home kit with breathable knit and gold trims.",
+    "tags": ["featured", "new"]
+  },
+  {
+    "id": "royal-blues-home",
+    "name": "Royal Blues Home",
+    "brand": "Amazing",
+    "type": "jersey",
+    "category": "Clubs",
+    "price": 3200,
+    "images": [
+      "/assets/images/jersey-1.jpg",
+      "/assets/images/jersey-2.jpg",
+      "/assets/images/jersey-3.jpg"
+    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "rating": 4.6,
+    "reviews": 58,
+    "description": "Club home kit in royal blue with contrast orange collar and cuffs.",
+    "tags": ["featured", "popular"]
+  },
+  {
+    "id": "red-stripes-classic",
+    "name": "Red Stripes Classic",
+    "brand": "Amazing",
+    "type": "jersey",
+    "category": "Clubs",
+    "price": 3000,
+    "images": [
+      "/assets/images/jersey-2.jpg",
+      "/assets/images/jersey-1.jpg",
+      "/assets/images/jersey-3.jpg"
+    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "rating": 4.5,
+    "reviews": 44,
+    "description": "Iconic red-and-white vertical stripes with a classic crew neck.",
+    "tags": ["popular"]
+  },
+  {
+    "id": "lions-away",
+    "name": "Lions Away Kit",
+    "brand": "Amazing",
+    "type": "jersey",
+    "category": "National Teams",
+    "price": 3400,
+    "images": [
+      "/assets/images/jersey-1.jpg",
+      "/assets/images/jersey-3.jpg",
+      "/assets/images/jersey-2.jpg"
+    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "rating": 4.4,
+    "reviews": 29,
+    "description": "Lightweight away jersey with moisture-wicking fabric for match day.",
+    "tags": ["new"]
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "background": {
+    "oklch": "oklch(97.5% .006 85)",
+    "hex": "#f9f6f2"
+  },
+  "foreground": {
+    "oklch": "oklch(20% .03 255)",
+    "hex": "#0c1723"
+  },
+  "card": {
+    "oklch": "oklch(100% 0 0)",
+    "hex": "#ffffff"
+  },
+  "cardForeground": {
+    "oklch": "oklch(20% .03 255)",
+    "hex": "#0c1723"
+  },
+  "primary": {
+    "oklch": "oklch(55% .21 258)",
+    "hex": "#0069e8"
+  },
+  "primaryForeground": {
+    "oklch": "oklch(98% .01 85)",
+    "hex": "#fbf8f1"
+  },
+  "primaryGlow": {
+    "oklch": "oklch(68% .18 250)",
+    "hex": "#239cff"
+  },
+  "secondary": {
+    "oklch": "oklch(93% .012 85)",
+    "hex": "#ebe7df"
+  },
+  "secondaryForeground": {
+    "oklch": "oklch(20% .03 255)",
+    "hex": "#0c1723"
+  },
+  "muted": {
+    "oklch": "oklch(94% .008 85)",
+    "hex": "#edebe5"
+  },
+  "mutedForeground": {
+    "oklch": "oklch(50% .025 255)",
+    "hex": "#5a6472"
+  },
+  "accent": {
+    "oklch": "oklch(74% .17 60)",
+    "hex": "#f68c11"
+  },
+  "accentForeground": {
+    "oklch": "oklch(20% .03 255)",
+    "hex": "#0c1723"
+  },
+  "ink": {
+    "oklch": "oklch(17% .035 258)",
+    "hex": "#060f1e"
+  },
+  "inkForeground": {
+    "oklch": "oklch(96% .015 85)",
+    "hex": "#f6f1e7"
+  },
+  "inkMuted": {
+    "oklch": "oklch(70% .03 255)",
+    "hex": "#92a0b1"
+  },
+  "surface": {
+    "oklch": "oklch(92% .01 250)",
+    "hex": "#e0e5eb"
+  },
+  "destructive": {
+    "oklch": "oklch(58% .22 27)",
+    "hex": "#df2225"
+  },
+  "border": {
+    "oklch": "oklch(88% .012 85)",
+    "hex": "#dbd7cf"
+  },
+  "input": {
+    "oklch": "oklch(88% .012 85)",
+    "hex": "#dbd7cf"
+  },
+  "ring": {
+    "oklch": "oklch(55% .21 258)",
+    "hex": "#0069e8"
+  },
+  "heroMeshOrange": {
+    "oklch": "#f39a2b",
+    "hex": "#f39a2b"
+  },
+  "heroMeshBlue": {
+    "oklch": "#4c8dff",
+    "hex": "#4c8dff"
+  }
+}
