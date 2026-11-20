@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <radialGradient id="goldBead" cx="35%" cy="35%" r="65%">
+    <stop offset="0%" stop-color="#fff4b8"/>
+    <stop offset="45%" stop-color="#d9a02b"/>
+    <stop offset="100%" stop-color="#80570b"/>
+  </radialGradient>
+  <radialGradient id="redBead" cx="35%" cy="35%" r="65%">
+    <stop offset="0%" stop-color="#ff8e87"/>
+    <stop offset="45%" stop-color="#b3261e"/>
+    <stop offset="100%" stop-color="#5f100c"/>
+  </radialGradient>
+  <radialGradient id="greenBead" cx="35%" cy="35%" r="65%">
+    <stop offset="0%" stop-color="#6ad4aa"/>
+    <stop offset="45%" stop-color="#1f6b4f"/>
+    <stop offset="100%" stop-color="#0e3728"/>
+  </radialGradient>
+  <radialGradient id="blackBead" cx="35%" cy="35%" r="65%">
+    <stop offset="0%" stop-color="#5d524b"/>
+    <stop offset="45%" stop-color="#231c19"/>
+    <stop offset="100%" stop-color="#0c0908"/>
+  </radialGradient>
+  <radialGradient id="creamBead" cx="35%" cy="35%" r="65%">
+    <stop offset="0%" stop-color="#ffffff"/>
+    <stop offset="45%" stop-color="#faf5ec"/>
+    <stop offset="100%" stop-color="#cfc3af"/>
+  </radialGradient>
+  <filter id="beadShadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.35"/>
+  </filter>
+</defs>
+<circle cx="256" cy="210" r="18.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="251.0" cy="205.0" r="4.5" fill="#ffffff" opacity="0.7"/>
+<circle cx="296.0" cy="210.0" r="10.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="293.0" cy="207.0" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="284.3" cy="238.3" r="10.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="281.3" cy="235.3" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="256.0" cy="250.0" r="10.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="253.0" cy="247.0" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="227.7" cy="238.3" r="10.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="224.7" cy="235.3" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="216.0" cy="210.0" r="10.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="213.0" cy="207.0" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="227.7" cy="181.7" r="10.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="224.7" cy="178.7" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="256.0" cy="170.0" r="10.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="253.0" cy="167.0" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="284.3" cy="181.7" r="10.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="281.3" cy="178.7" r="3.0" fill="#ffffff" opacity="0.65"/>
+<circle cx="326.6" cy="224.0" r="9.0" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="324.1" cy="221.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="315.9" cy="250.0" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="313.4" cy="247.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="296.0" cy="269.9" r="9.0" fill="url(#blackBead)" filter="url(#beadShadow)"/>
+<circle cx="293.5" cy="267.4" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="270.0" cy="280.6" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="267.5" cy="278.1" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="242.0" cy="280.6" r="9.0" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="239.5" cy="278.1" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="216.0" cy="269.9" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="213.5" cy="267.4" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="196.1" cy="250.0" r="9.0" fill="url(#blackBead)" filter="url(#beadShadow)"/>
+<circle cx="193.6" cy="247.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="185.4" cy="224.0" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="182.9" cy="221.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="185.4" cy="196.0" r="9.0" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="182.9" cy="193.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="196.1" cy="170.0" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="193.6" cy="167.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="216.0" cy="150.1" r="9.0" fill="url(#blackBead)" filter="url(#beadShadow)"/>
+<circle cx="213.5" cy="147.6" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="242.0" cy="139.4" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="239.5" cy="136.9" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="270.0" cy="139.4" r="9.0" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="267.5" cy="136.9" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="296.0" cy="150.1" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="293.5" cy="147.6" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="315.9" cy="170.0" r="9.0" fill="url(#blackBead)" filter="url(#beadShadow)"/>
+<circle cx="313.4" cy="167.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="326.6" cy="196.0" r="9.0" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="324.1" cy="193.5" r="2.5" fill="#ffffff" opacity="0.6"/>
+<circle cx="358.0" cy="210.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="355.8" cy="207.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="354.5" cy="236.4" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="352.3" cy="234.2" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="344.3" cy="261.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="342.1" cy="258.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="328.1" cy="282.1" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="325.9" cy="279.9" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="307.0" cy="298.3" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="304.8" cy="296.1" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="282.4" cy="308.5" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="280.2" cy="306.3" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="256.0" cy="312.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="253.8" cy="309.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="229.6" cy="308.5" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="227.4" cy="306.3" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="205.0" cy="298.3" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="202.8" cy="296.1" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="183.9" cy="282.1" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="181.7" cy="279.9" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="167.7" cy="261.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="165.5" cy="258.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="157.5" cy="236.4" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="155.3" cy="234.2" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="154.0" cy="210.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="151.8" cy="207.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="157.5" cy="183.6" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="155.3" cy="181.4" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="167.7" cy="159.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="165.5" cy="156.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="183.9" cy="137.9" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="181.7" cy="135.7" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="205.0" cy="121.7" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="202.8" cy="119.5" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="229.6" cy="111.5" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="227.4" cy="109.3" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="256.0" cy="108.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="253.8" cy="105.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="282.4" cy="111.5" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="280.2" cy="109.3" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="307.0" cy="121.7" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="304.8" cy="119.5" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="328.1" cy="137.9" r="8.5" fill="url(#creamBead)" filter="url(#beadShadow)"/>
+<circle cx="325.9" cy="135.7" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="344.3" cy="159.0" r="8.5" fill="url(#redBead)" filter="url(#beadShadow)"/>
+<circle cx="342.1" cy="156.8" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="354.5" cy="183.6" r="8.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="352.3" cy="181.4" r="2.2" fill="#ffffff" opacity="0.55"/>
+<circle cx="396.0" cy="210.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="394.0" cy="208.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="380.9" cy="210.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="380.9" cy="210.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="355.0" cy="309.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="353.0" cy="307.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="355.9" cy="309.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="332.8" cy="309.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="256.0" cy="350.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="254.0" cy="348.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="272.3" cy="350.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="239.7" cy="350.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="157.0" cy="309.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="155.0" cy="307.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="179.2" cy="309.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="156.1" cy="309.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="116.0" cy="210.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="114.0" cy="208.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="131.1" cy="210.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="131.1" cy="210.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="157.0" cy="111.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="155.0" cy="109.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="156.1" cy="111.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="179.2" cy="111.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="256.0" cy="70.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="254.0" cy="68.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="239.7" cy="70.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="272.3" cy="70.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="355.0" cy="111.0" r="7.5" fill="url(#greenBead)" filter="url(#beadShadow)"/>
+<circle cx="353.0" cy="109.0" r="2.0" fill="#ffffff" opacity="0.6"/>
+<circle cx="332.8" cy="111.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+<circle cx="355.9" cy="111.0" r="6.5" fill="url(#goldBead)" filter="url(#beadShadow)"/>
+
+        <text x="256" y="405" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="1.2" fill="#1a1412">
+          Amazing <tspan fill="#b3261e">Outfits</tspan>
+        </text>
+        <g transform="translate(256, 440)">
+          <line x1="-120" y1="-5" x2="-65" y2="-5" stroke="#1f6b4f" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="-50" cy="-5" r="3.5" fill="url(#redBead)"/>
+          <circle cx="-40" cy="-5" r="3.5" fill="url(#goldBead)"/>
+          <text x="0" y="0" text-anchor="middle" font-family="'DM Sans', system-ui, sans-serif" font-weight="700" font-size="15" letter-spacing="6" fill="#1f6b4f">
+            BEADS &amp; ART
+          </text>
+          <circle cx="40" cy="-5" r="3.5" fill="url(#goldBead)"/>
+          <circle cx="50" cy="-5" r="3.5" fill="url(#greenBead)"/>
+          <line x1="65" y1="-5" x2="120" y2="-5" stroke="#1f6b4f" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        </g>
+        
+</svg>

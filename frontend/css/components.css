@@ -70,11 +70,11 @@
 .btn-primary {
   background-color: var(--primary);
   color: var(--primary-foreground);
-  box-shadow: 0 4px 12px rgba(0, 105, 232, 0.3);
+  box-shadow: 0 4px 12px rgba(179, 38, 30, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: #0056bd;
+  background-color: #961e17;
 }
 
 .btn-outline {
@@ -176,7 +176,7 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius-md);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .brand-name {
@@ -785,7 +785,7 @@
 .form-select:focus,
 .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(0, 105, 232, 0.2);
+  box-shadow: 0 0 0 2px rgba(179, 38, 30, 0.2);
   outline: none;
 }
 
@@ -814,7 +814,7 @@
 
 .payment-card.active {
   border-color: var(--primary);
-  background-color: rgba(0, 105, 232, 0.05);
+  background-color: rgba(179, 38, 30, 0.05);
 }
 
 .payment-card-title {
@@ -877,9 +877,22 @@
    FOOTER
    ========================================================================== */
 .site-footer {
+  position: relative;
   background-color: var(--ink);
   color: var(--ink-foreground);
   margin-top: 6rem;
+}
+
+.site-footer::before,
+.beaded-divider {
+  content: "";
+  display: block;
+  height: 8px;
+  width: 100%;
+  background-image: var(--bead-pattern);
+  background-repeat: repeat-x;
+  background-size: 24px 8px;
+  opacity: 0.9;
 }
 
 .footer-grid {
@@ -904,7 +917,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: var(--radius-md);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .footer-brand-title {
