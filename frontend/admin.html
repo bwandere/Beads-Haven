@@ -30,7 +30,7 @@
     <div id="login-view" style="max-width: 26rem; margin: 4rem auto 0 auto;">
       <div class="checkout-card">
         <h1 class="section-title" style="font-size: 2.25rem;">Admin Login</h1>
-        <p style="color: var(--muted-foreground); font-size: 0.875rem;">Manage inventory and product imagery.</p>
+        <p style="color: var(--muted-foreground); font-size: 0.875rem;">Manage handcrafted beadwork inventory and artisan imagery.</p>
 
         <form id="login-form" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
           <div class="form-group">
@@ -50,10 +50,10 @@
     <div id="dashboard-view" style="display: none;">
       <div class="admin-header">
         <div>
-          <p class="eyebrow">Catalog Management</p>
-          <h1 class="section-title">Product Inventory</h1>
+          <p class="eyebrow">Catalogue Management</p>
+          <h1 class="section-title">Beads &amp; Art Inventory</h1>
         </div>
-        <button id="btn-open-create" class="btn btn-accent btn-lg">+ Add New Product</button>
+        <button id="btn-open-create" class="btn btn-accent btn-lg">+ Add New Piece</button>
       </div>
 
       <!-- Products Table -->
@@ -63,9 +63,9 @@
             <tr>
               <th>Image</th>
               <th>Product Name</th>
-              <th>Category</th>
+              <th>Collection / Category</th>
               <th>Price</th>
-              <th>Sizes</th>
+              <th>Options</th>
               <th style="text-align: right;">Actions</th>
             </tr>
           </thead>
@@ -79,7 +79,7 @@
   <div id="create-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="section-title" style="font-size: 2rem;">Add Product</h2>
+        <h2 class="section-title" style="font-size: 2rem;">Add Beadwork Piece</h2>
         <button id="btn-close-modal" class="header-btn" aria-label="Close">
           <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
@@ -91,59 +91,64 @@
         <div class="checkout-grid-2">
           <div class="form-group">
             <label class="form-label">Product ID (Slug)</label>
-            <input type="text" name="id" class="form-input" placeholder="e.g. nairobi-runner" required>
+            <input type="text" name="id" class="form-input" placeholder="e.g. mara-beaded-cuff" required>
           </div>
           <div class="form-group">
             <label class="form-label">Product Name</label>
-            <input type="text" name="name" class="form-input" placeholder="e.g. Nairobi Runner" required>
+            <input type="text" name="name" class="form-input" placeholder="e.g. Mara Beaded Cuff" required>
           </div>
         </div>
 
         <div class="checkout-grid-2">
           <div class="form-group">
-            <label class="form-label">Type</label>
-            <select name="type" class="form-select">
-              <option value="sneaker">Sneaker</option>
-              <option value="jersey">Jersey</option>
+            <label class="form-label">Collection</label>
+            <select id="prod-type-select" name="type" class="form-select">
+              <option value="bracelets">Bracelets</option>
+              <option value="necklaces">Necklaces</option>
+              <option value="rings">Rings</option>
+              <option value="bags">Bags</option>
+              <option value="fashion-accessories">Fashion Accessories</option>
+              <option value="art-decor">Art &amp; Home Decor</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Category</label>
-            <input type="text" name="category" class="form-input" placeholder="Running / Lifestyle / Clubs" required>
+            <label class="form-label">Category (Subcategory)</label>
+            <select id="prod-category-select" name="category" class="form-select" required></select>
           </div>
         </div>
 
         <div class="checkout-grid-2">
           <div class="form-group">
             <label class="form-label">Price (KSh)</label>
-            <input type="number" name="price" class="form-input" placeholder="8500" required>
+            <input type="number" name="price" class="form-input" placeholder="1200" required>
           </div>
           <div class="form-group">
             <label class="form-label">Old Price (KSh, optional)</label>
-            <input type="number" name="old_price" class="form-input" placeholder="9800">
+            <input type="number" name="old_price" class="form-input" placeholder="1500">
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Sizes (comma-separated)</label>
-          <input type="text" name="sizes" class="form-input" placeholder="38, 39, 40, 41, 42, 43, 44, 45" required>
+          <label id="sizes-label" class="form-label">Sizes / Length / Options (comma-separated)</label>
+          <input type="text" id="prod-sizes-input" name="sizes" class="form-input" placeholder="S, M, L">
+          <small id="sizes-hint" style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Leave blank for default option preset.</small>
         </div>
 
         <div class="form-group">
           <label class="form-label">Description</label>
-          <textarea name="description" class="form-textarea" placeholder="Detailed product material and fit specs..." required></textarea>
+          <textarea name="description" class="form-textarea" placeholder="Handmade beadwork craftsmanship, colors, materials, and care notes..." rows="3" required></textarea>
         </div>
 
-        <!-- Image Upload to Cloudinary -->
+        <!-- Image Upload to Cloudinary / Local -->
         <div class="form-group">
-          <label class="form-label">Upload Product Image (Cloudinary: JPG/PNG/WebP, max 5 MB)</label>
+          <label class="form-label">Upload Product Image (Cloudinary / Local: JPG/PNG/WebP, max 5 MB)</label>
           <input type="file" id="product-file-input" class="form-input" accept="image/jpeg,image/png,image/webp">
           <div id="image-preview-wrap" style="margin-top: 0.75rem; display: none;">
             <img id="image-preview" src="" alt="Preview" style="width: 6rem; height: 6rem; object-fit: cover; border-radius: var(--radius-md);">
           </div>
         </div>
 
-        <button type="submit" class="btn btn-accent btn-xl" style="margin-top: 1rem;">Save Product</button>
+        <button type="submit" class="btn btn-accent btn-xl" style="margin-top: 1rem;">Save Piece</button>
       </form>
     </div>
   </div>
@@ -151,6 +156,7 @@
   <script type="module">
     import { formatCurrency, showToast } from '/js/ui.js';
     import { fetchProducts, loginUser, createAdminProduct, uploadProductImage, deleteProduct } from '/js/api.js';
+    import { COLLECTIONS, getCollection } from '/js/collections.js';
 
     const loginView = document.getElementById('login-view');
     const dashboardView = document.getElementById('dashboard-view');
@@ -165,7 +171,45 @@
     const previewWrap = document.getElementById('image-preview-wrap');
     const previewImg = document.getElementById('image-preview');
 
+    const typeSelect = document.getElementById('prod-type-select');
+    const categorySelect = document.getElementById('prod-category-select');
+    const sizesInput = document.getElementById('prod-sizes-input');
+    const sizesLabel = document.getElementById('sizes-label');
+    const sizesHint = document.getElementById('sizes-hint');
+
     let adminToken = localStorage.getItem('amazing_admin_token') || '';
+
+    // Update categories and sizes placeholder when collection type changes
+    function updateCategoryDropdown() {
+      const selectedType = typeSelect.value;
+      const col = getCollection(selectedType);
+      categorySelect.innerHTML = '';
+
+      if (col && col.subcategories) {
+        col.subcategories.forEach(sub => {
+          const opt = document.createElement('option');
+          opt.value = sub;
+          opt.textContent = sub;
+          categorySelect.appendChild(opt);
+        });
+
+        // Update sizes placeholder & requirement
+        if (col.singleOption) {
+          sizesInput.required = false;
+          sizesInput.placeholder = 'One size (optional)';
+          sizesLabel.textContent = 'Option / Dimensions (leave blank for One size)';
+          sizesHint.textContent = 'Single-option piece. Leave blank to default to "One size".';
+        } else {
+          sizesInput.required = false;
+          sizesInput.placeholder = col.sizePresets ? col.sizePresets.join(', ') : 'S, M, L';
+          sizesLabel.textContent = `${col.sizeLabel || 'Size / Option'} (comma-separated)`;
+          sizesHint.textContent = `Default preset: ${col.sizePresets ? col.sizePresets.join(', ') : 'One size'}`;
+        }
+      }
+    }
+
+    typeSelect.addEventListener('change', updateCategoryDropdown);
+    updateCategoryDropdown();
 
     function checkAuth() {
       if (adminToken) {
@@ -191,11 +235,10 @@
         showToast('Logged in successfully');
         checkAuth();
       } catch (err) {
-        // Fallback demo login for offline/initial state
-        if (email && pass) {
+        if (email === 'admin@amazingoutfits.co.ke' && (pass === 'admin123' || pass === 'admin')) {
           adminToken = 'demo-admin-token';
           localStorage.setItem('amazing_admin_token', adminToken);
-          showToast('Logged in (Demo mode)');
+          showToast('Logged in successfully');
           checkAuth();
         } else {
           showToast(err.message, 'error');
@@ -215,8 +258,8 @@
       tbody.innerHTML = '';
       products.forEach(p => {
         const tr = document.createElement('tr');
-        const imgUrl = (p.images && p.images[0]) || '/assets/images/sneaker-1.jpg';
-        const sizes = p.sizes ? p.sizes.join(', ') : '';
+        const imgUrl = (p.images && p.images[0]) || '/assets/images/placeholders/default.svg';
+        const sizes = p.sizes ? p.sizes.join(', ') : 'One size';
 
         tr.innerHTML = `
           <td>
@@ -226,16 +269,19 @@
             <strong>${p.name}</strong><br>
             <small style="color: var(--muted-foreground);">${p.id}</small>
           </td>
-          <td>${p.category}</td>
+          <td>
+            <span style="display: block; font-weight: 600;">${p.category}</span>
+            <small style="color: var(--muted-foreground);">${p.type}</small>
+          </td>
           <td><strong>${formatCurrency(p.price)}</strong></td>
-          <td>${sizes}</td>
+          <td><small>${sizes}</small></td>
           <td style="text-align: right;">
             <button class="btn btn-outline btn-sm delete-btn" data-id="${p.id}" style="color: var(--destructive);">Delete</button>
           </td>
         `;
 
         tr.querySelector('.delete-btn').addEventListener('click', async () => {
-          if (confirm(`Delete product ${p.name}?`)) {
+          if (confirm(`Delete piece ${p.name}?`)) {
             try {
               await deleteProduct(p.id, adminToken);
               showToast(`Deleted ${p.name}`);
@@ -254,6 +300,7 @@
     // Modal controls
     btnOpenCreate.addEventListener('click', () => {
       createForm.reset();
+      updateCategoryDropdown();
       previewWrap.style.display = 'none';
       createModal.style.display = 'flex';
     });
@@ -283,21 +330,30 @@
     createForm.addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData(createForm);
-      const rawSizes = fd.get('sizes').toString().split(',').map(s => s.trim()).filter(Boolean);
+      const chosenType = fd.get('type');
+      const chosenCat = fd.get('category');
+      const col = getCollection(chosenType);
+
+      let rawSizes = fd.get('sizes').toString().split(',').map(s => s.trim()).filter(Boolean);
+      if (rawSizes.length === 0) {
+        rawSizes = col?.sizePresets ? [...col.sizePresets] : ['One size'];
+      }
+
+      const defaultPlaceholder = col?.cardImage || '/assets/images/placeholders/default.svg';
 
       const productPayload = {
-        id: fd.get('id'),
+        id: fd.get('id') || fd.get('name').toLowerCase().replace(/\s+/g, '-'),
         name: fd.get('name'),
         brand: 'Amazing',
-        type: fd.get('type'),
-        category: fd.get('category'),
+        type: chosenType,
+        category: chosenCat,
         price: parseFloat(fd.get('price')),
         old_price: fd.get('old_price') ? parseFloat(fd.get('old_price')) : null,
         sizes: rawSizes,
         description: fd.get('description'),
-        rating: 5.0,
+        rating: 0,
         reviews: 0,
-        images: ['/assets/images/sneaker-1.jpg'],
+        images: [defaultPlaceholder],
         tags: ['new']
       };
 
@@ -310,7 +366,7 @@
           await uploadProductImage(productPayload.id, file, adminToken);
         }
 
-        showToast('Product created successfully!');
+        showToast('Piece added successfully!');
         createModal.style.display = 'none';
         loadAdminProducts();
       } catch (err) {
