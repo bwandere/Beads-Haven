@@ -8,7 +8,7 @@ type Product struct {
 	ID          string    `json:"id"`
 	Name        string    `json:"name"`
 	Brand       string    `json:"brand"`
-	Type        string    `json:"type"` // sneaker, jersey
+	Type        string    `json:"type"` // bracelets, necklaces, rings, bags, fashion-accessories, art-decor
 	Category    string    `json:"category"`
 	Price       float64   `json:"price"`
 	OldPrice    *float64  `json:"oldPrice,omitempty"`

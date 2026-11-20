@@ -1,220 +1,532 @@
 [
   {
-    "id": "volt-runner",
-    "name": "Volt Runner",
+    "id": "maasai-heritage-cuff",
+    "name": "Maasai Heritage Beaded Cuff",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Running",
-    "price": 8500,
-    "oldPrice": 9800,
+    "type": "bracelets",
+    "category": "Beaded Bracelets",
+    "price": 1200,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-1.jpg",
-      "/assets/images/sneaker-4.jpg",
-      "/assets/images/sneaker-3.jpg"
+      "/assets/images/bracelet1.webp",
+      "/assets/images/bracelet1-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.8,
-    "reviews": 124,
-    "description": "Engineered mesh upper, gradient foam midsole and a responsive ride for long city miles.",
-    "tags": ["featured", "popular"]
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Authentic black cuff woven with premium glass seed beads in traditional red and deep green geometric patterns.",
+    "tags": [
+      "featured",
+      "popular"
+    ]
   },
   {
-    "id": "court-classic-low",
-    "name": "Court Classic Low",
+    "id": "custom-pixel-cuff",
+    "name": "Custom Pixel-Pattern Cuff",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Lifestyle",
-    "price": 7200,
+    "type": "bracelets",
+    "category": "Beaded Bracelets",
+    "price": 950,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-2.jpg",
-      "/assets/images/sneaker-1.jpg",
-      "/assets/images/sneaker-4.jpg"
+      "/assets/images/bracelet3.webp",
+      "/assets/images/bracelet3-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.7,
-    "reviews": 210,
-    "description": "Clean tumbled leather, perforated toe box and a timeless low-cut silhouette.",
-    "tags": ["featured", "popular"]
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Bold contrast beaded wristband handcrafted with vibrant glass seed beads in sharp contemporary graphic lines.",
+    "tags": [
+      "new"
+    ]
   },
   {
-    "id": "night-high",
-    "name": "Night High",
+    "id": "pop-art-wristband",
+    "name": "Pop-Art Beaded Wristband",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Basketball",
-    "price": 9900,
+    "type": "bracelets",
+    "category": "Beaded Bracelets",
+    "price": 1100,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-3.jpg",
-      "/assets/images/sneaker-2.jpg",
-      "/assets/images/sneaker-1.jpg"
+      "/assets/images/bracelet4.webp",
+      "/assets/images/bracelet4-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.6,
-    "reviews": 88,
-    "description": "All-black high-top with padded collar support and a blaze-orange traction outsole.",
-    "tags": ["new", "featured"]
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Vibrant custom character-inspired woven bead band showcasing playful colors and precision beadwork.",
+    "tags": []
   },
   {
-    "id": "retro-wave",
-    "name": "Retro Wave",
+    "id": "artisan-accent-cuff",
+    "name": "Artisan Accent Beaded Cuff",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Lifestyle",
-    "price": 8900,
+    "type": "bracelets",
+    "category": "Beaded Bracelets",
+    "price": 850,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-4.jpg",
-      "/assets/images/sneaker-1.jpg",
-      "/assets/images/sneaker-2.jpg"
+      "/assets/images/bracelet5.webp",
+      "/assets/images/bracelet5-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.9,
-    "reviews": 156,
-    "description": "Chunky sculpted sole meets suede overlays in royal blue and burnt orange.",
-    "tags": ["new", "popular", "featured"]
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Sleek and versatile everyday seed bead cuff crafted with flexible wire threading for comfort and durability.",
+    "tags": []
   },
   {
-    "id": "volt-runner-pro",
-    "name": "Volt Runner Pro",
+    "id": "serengeti-cowrie-bracelet",
+    "name": "Serengeti Cowrie Shell Bracelet",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Running",
-    "price": 11500,
+    "type": "bracelets",
+    "category": "Cowrie Shell Bracelets",
+    "price": 750,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-1.jpg",
-      "/assets/images/sneaker-3.jpg",
-      "/assets/images/sneaker-4.jpg"
+      "/assets/images/placeholders/cowrie-shell-bracelets.webp",
+      "/assets/images/placeholders/cowrie-shell-bracelets-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.7,
-    "reviews": 64,
-    "description": "Our fastest runner with a carbon-infused plate and extra-bouncy foam.",
-    "tags": ["new"]
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Polished natural cowrie shells accented with gold glass spacer beads on an adjustable braided cord.",
+    "tags": [
+      "featured",
+      "new"
+    ],
+    "placeholder": true
   },
   {
-    "id": "street-court",
-    "name": "Street Court",
+    "id": "mara-sunburst-collar",
+    "name": "Mara Sunburst Multi-Strand Collar",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Basketball",
-    "price": 6800,
-    "oldPrice": 7900,
+    "type": "necklaces",
+    "category": "Beaded Necklaces",
+    "price": 1800,
+    "oldPrice": 2200,
     "images": [
-      "/assets/images/sneaker-2.jpg",
-      "/assets/images/sneaker-3.jpg",
-      "/assets/images/sneaker-1.jpg"
+      "/assets/images/placeholders/beaded-necklaces.webp",
+      "/assets/images/placeholders/beaded-necklaces-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.4,
-    "reviews": 97,
-    "description": "Everyday hoops style with durable rubber cupsole for the street.",
-    "tags": ["popular"]
+    "sizes": [
+      "16\"",
+      "18\"",
+      "20\""
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Magnificent multi-strand beaded necklace cascading in sunset gold, terracotta red, and deep green hues.",
+    "tags": [
+      "featured",
+      "popular"
+    ],
+    "placeholder": true
   },
   {
-    "id": "dune-trainer",
-    "name": "Dune Trainer",
+    "id": "diani-breeze-cowrie-choker",
+    "name": "Diani Breeze Cowrie Choker",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Training",
-    "price": 7600,
+    "type": "necklaces",
+    "category": "Cowrie Shell Necklaces",
+    "price": 1250,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-4.jpg",
-      "/assets/images/sneaker-2.jpg",
-      "/assets/images/sneaker-3.jpg"
+      "/assets/images/placeholders/cowrie-shell-necklaces.webp",
+      "/assets/images/placeholders/cowrie-shell-necklaces-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.5,
-    "reviews": 41,
-    "description": "Stable platform and grippy outsole for gym days and weekend walks.",
-    "tags": ["new"]
+    "sizes": [
+      "16\"",
+      "18\""
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Coastal-inspired cowrie choker woven with tiny brass beads and durable wax cord, perfect for layering.",
+    "tags": [
+      "new"
+    ],
+    "placeholder": true
   },
   {
-    "id": "blackout-mid",
-    "name": "Blackout Mid",
+    "id": "kilimanjaro-brass-pendant",
+    "name": "Kilimanjaro Beaded Pendant Necklace",
     "brand": "Amazing",
-    "type": "sneaker",
-    "category": "Training",
-    "price": 8200,
+    "type": "necklaces",
+    "category": "Pendant Necklaces",
+    "price": 1450,
+    "oldPrice": null,
     "images": [
-      "/assets/images/sneaker-3.jpg",
-      "/assets/images/sneaker-4.jpg",
-      "/assets/images/sneaker-2.jpg"
+      "/assets/images/placeholders/pendant-necklaces.webp",
+      "/assets/images/placeholders/pendant-necklaces-thumb.webp"
     ],
-    "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
-    "rating": 4.3,
-    "reviews": 52,
-    "description": "Mid-top stealth trainer with lockdown lacing and cushioned heel.",
-    "tags": ["popular"]
+    "sizes": [
+      "18\"",
+      "20\"",
+      "24\""
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Handcrafted circular beaded medallion pendant hung from a refined glass bead strand.",
+    "tags": [
+      "popular"
+    ],
+    "placeholder": true
   },
   {
-    "id": "harambee-home",
-    "name": "Harambee Stars Home 26",
+    "id": "trio-bead-stack-rings",
+    "name": "Vibrant Trio Beaded Stack Rings",
     "brand": "Amazing",
-    "type": "jersey",
-    "category": "National Teams",
-    "price": 3500,
+    "type": "rings",
+    "category": "Beaded Rings",
+    "price": 450,
+    "oldPrice": null,
     "images": [
-      "/assets/images/jersey-3.jpg",
-      "/assets/images/jersey-1.jpg",
-      "/assets/images/jersey-2.jpg"
+      "/assets/images/ring1.webp",
+      "/assets/images/ring1-thumb.webp"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "rating": 4.8,
-    "reviews": 73,
-    "description": "National-team inspired home kit with breathable knit and gold trims.",
-    "tags": ["featured", "new"]
+    "sizes": [
+      "US 5",
+      "US 6",
+      "US 7",
+      "US 8",
+      "US 9"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Set of three complementary beaded bands handwoven with delicate seed beads, designed to wear together or individually.",
+    "tags": [
+      "featured",
+      "popular"
+    ]
   },
   {
-    "id": "royal-blues-home",
-    "name": "Royal Blues Home",
+    "id": "monogram-initial-ring",
+    "name": "Custom Initial Monogram Beaded Ring",
     "brand": "Amazing",
-    "type": "jersey",
-    "category": "Clubs",
+    "type": "rings",
+    "category": "Beaded Rings",
+    "price": 350,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/ring2.webp",
+      "/assets/images/ring2-thumb.webp"
+    ],
+    "sizes": [
+      "US 5",
+      "US 6",
+      "US 7",
+      "US 8",
+      "US 9",
+      "US 10"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Personalized black seed bead ring with crisp white lettering. Made to order with your chosen initial.",
+    "tags": [
+      "new",
+      "popular"
+    ]
+  },
+  {
+    "id": "royal-pearl-handbag",
+    "name": "Royal Pearl Beaded Handbag",
+    "brand": "Amazing",
+    "type": "bags",
+    "category": "Beaded Bags",
+    "price": 4800,
+    "oldPrice": 5500,
+    "images": [
+      "/assets/images/bag1.webp",
+      "/assets/images/bag1-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Exquisite structured handbag handcrafted with lustrous cream beads and pearl-style woven handles.",
+    "tags": [
+      "featured",
+      "popular"
+    ]
+  },
+  {
+    "id": "noir-elegance-clutch",
+    "name": "Noir Elegance Beaded Clutch",
+    "brand": "Amazing",
+    "type": "bags",
+    "category": "Beaded Bags",
+    "price": 4200,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/bag2.webp",
+      "/assets/images/bag2-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Timeless jet-black glass bead evening bag with beaded loop handle and secure magnetic closure.",
+    "tags": [
+      "new"
+    ]
+  },
+  {
+    "id": "sunset-pattern-tote",
+    "name": "Sunset African Motif Beaded Bag",
+    "brand": "Amazing",
+    "type": "bags",
+    "category": "Beaded Bags",
+    "price": 5600,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/bag3.webp",
+      "/assets/images/bag3-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Striking structured tote featuring intricate Kenyan beadwork patterns in terracotta, gold, and turquoise.",
+    "tags": [
+      "featured"
+    ]
+  },
+  {
+    "id": "amber-crystal-purse",
+    "name": "Amber Crystal Handcrafted Bead Purse",
+    "brand": "Amazing",
+    "type": "bags",
+    "category": "Beaded Bags",
+    "price": 3900,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/bag4.webp",
+      "/assets/images/bag4-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Faceted amber crystal beads caught in an intricate lattice weave with a sturdy top handle.",
+    "tags": [
+      "popular"
+    ]
+  },
+  {
+    "id": "savannah-woven-beaded-tie",
+    "name": "Savannah Geometric Beaded Tie",
+    "brand": "Amazing",
+    "type": "fashion-accessories",
+    "category": "Beaded Ties",
+    "price": 2400,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/placeholders/beaded-ties.webp",
+      "/assets/images/placeholders/beaded-ties-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Statement formal tie intricately woven from thousands of glass seed beads in black, gold, and red chevrons.",
+    "tags": [
+      "featured"
+    ],
+    "placeholder": true
+  },
+  {
+    "id": "rift-valley-statement-belt",
+    "name": "Rift Valley Beaded Statement Belt",
+    "brand": "Amazing",
+    "type": "fashion-accessories",
+    "category": "Beaded Belts",
     "price": 3200,
+    "oldPrice": null,
     "images": [
-      "/assets/images/jersey-1.jpg",
-      "/assets/images/jersey-2.jpg",
-      "/assets/images/jersey-3.jpg"
+      "/assets/images/placeholders/beaded-belts.webp",
+      "/assets/images/placeholders/beaded-belts-thumb.webp"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "rating": 4.6,
-    "reviews": 58,
-    "description": "Club home kit in royal blue with contrast orange collar and cuffs.",
-    "tags": ["featured", "popular"]
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Wide handcrafted leather belt embellished with high-density African diamond beadwork.",
+    "tags": [
+      "popular"
+    ],
+    "placeholder": true
   },
   {
-    "id": "red-stripes-classic",
-    "name": "Red Stripes Classic",
+    "id": "zanzibar-beaded-hair-charms",
+    "name": "Zanzibar Braid Hair Charms (Set of 6)",
     "brand": "Amazing",
-    "type": "jersey",
-    "category": "Clubs",
-    "price": 3000,
+    "type": "fashion-accessories",
+    "category": "Hair Charms",
+    "price": 600,
+    "oldPrice": null,
     "images": [
-      "/assets/images/jersey-2.jpg",
-      "/assets/images/jersey-1.jpg",
-      "/assets/images/jersey-3.jpg"
+      "/assets/images/placeholders/hair-charms.webp",
+      "/assets/images/placeholders/hair-charms-thumb.webp"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "rating": 4.5,
-    "reviews": 44,
-    "description": "Iconic red-and-white vertical stripes with a classic crew neck.",
-    "tags": ["popular"]
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Delicate spiral bead cuffs and cowrie hair clips designed to adorn locs, twists, and braids.",
+    "tags": [
+      "new"
+    ],
+    "placeholder": true
   },
   {
-    "id": "lions-away",
-    "name": "Lions Away Kit",
+    "id": "nairobi-glow-waist-beads",
+    "name": "Nairobi Glow Traditional Waist Beads",
     "brand": "Amazing",
-    "type": "jersey",
-    "category": "National Teams",
-    "price": 3400,
+    "type": "fashion-accessories",
+    "category": "Waist Beads",
+    "price": 850,
+    "oldPrice": null,
     "images": [
-      "/assets/images/jersey-1.jpg",
-      "/assets/images/jersey-3.jpg",
-      "/assets/images/jersey-2.jpg"
+      "/assets/images/placeholders/waist-beads.webp",
+      "/assets/images/placeholders/waist-beads-thumb.webp"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "rating": 4.4,
-    "reviews": 29,
-    "description": "Lightweight away jersey with moisture-wicking fabric for match day.",
-    "tags": ["new"]
+    "sizes": [
+      "28\"",
+      "32\"",
+      "36\"",
+      "40\"",
+      "44\"",
+      "Adjustable"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Authentic African tie-on waist beads strung on cotton thread with iridescent glass seed beads and gold accents.",
+    "tags": [
+      "featured",
+      "popular"
+    ],
+    "placeholder": true
+  },
+  {
+    "id": "ankara-beaded-statement-wrap",
+    "name": "Ankara Heritage Beaded Headwrap & Scarf",
+    "brand": "Amazing",
+    "type": "fashion-accessories",
+    "category": "Beaded Ankaras",
+    "price": 1650,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/placeholders/beaded-ankaras.webp",
+      "/assets/images/placeholders/beaded-ankaras-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Rich 100% cotton wax Ankara print fabric bordered with delicate hand-stitched seed bead fringes.",
+    "tags": [
+      "new"
+    ],
+    "placeholder": true
+  },
+  {
+    "id": "custom-beaded-portrait-panel",
+    "name": "Custom Beaded Portrait Panel",
+    "brand": "Amazing",
+    "type": "art-decor",
+    "category": "Beaded Wall Portraits",
+    "price": 12500,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/3dpotrait.webp",
+      "/assets/images/3dpotrait-thumb.webp"
+    ],
+    "sizes": [
+      "30\u00d740 cm",
+      "40\u00d750 cm"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Intricate loom-woven beaded portrait tapestry mounted in a timber frame. Custom commissions available.",
+    "tags": [
+      "new"
+    ]
+  },
+  {
+    "id": "maasai-shield-wall-tapestry",
+    "name": "Maasai Shield Beaded Wall Tapestry",
+    "brand": "Amazing",
+    "type": "art-decor",
+    "category": "Beaded Wall Art",
+    "price": 9500,
+    "oldPrice": 11000,
+    "images": [
+      "/assets/images/placeholders/beaded-wall-art.webp",
+      "/assets/images/placeholders/beaded-wall-art-thumb.webp"
+    ],
+    "sizes": [
+      "30\u00d740 cm",
+      "40\u00d750 cm",
+      "50\u00d770 cm"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Stunning handcrafted wall hanging representing the iconic warrior shield with geometric red, black, and white beadwork.",
+    "tags": [
+      "featured"
+    ],
+    "placeholder": true
+  },
+  {
+    "id": "tribal-beaded-sculptural-vessel",
+    "name": "Handcrafted Beaded Calabash Vessel",
+    "brand": "Amazing",
+    "type": "art-decor",
+    "category": "Decorative Beadwork",
+    "price": 4500,
+    "oldPrice": null,
+    "images": [
+      "/assets/images/placeholders/decorative-beadwork.webp",
+      "/assets/images/placeholders/decorative-beadwork-thumb.webp"
+    ],
+    "sizes": [
+      "One size"
+    ],
+    "rating": 0,
+    "reviews": 0,
+    "description": "Decorative natural gourd adorned with high-precision tribal beadwork, ideal for tabletop display.",
+    "tags": [
+      "popular"
+    ],
+    "placeholder": true
   }
 ]

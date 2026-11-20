@@ -33,7 +33,7 @@ func EnsureSchema(db *sql.DB) error {
 		id VARCHAR(100) PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
 		brand VARCHAR(100) NOT NULL DEFAULT 'Amazing',
-		type VARCHAR(50) NOT NULL DEFAULT 'sneaker',
+		type VARCHAR(50) NOT NULL DEFAULT 'bracelets',
 		category VARCHAR(100) NOT NULL,
 		price NUMERIC(12, 2) NOT NULL,
 		old_price NUMERIC(12, 2),

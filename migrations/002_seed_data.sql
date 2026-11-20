@@ -1,92 +1,144 @@
 -- Migration: 002_seed_data.sql
--- Seed products and admin user
+-- Seed handmade beadwork & art catalogue and admin user
 
 -- Default admin user: admin@amazingoutfits.co.ke / admin123
--- bcrypt hash for 'admin123': $2a$10$wT8hTqLCEu2fC9k1Q6F5k.gU3QWvA3k5K1Q6F5k.gU3QWvA3k5K1Q
+-- Valid bcrypt hash for 'admin123': $2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e
 INSERT INTO users (email, password_hash, role)
-VALUES ('admin@amazingoutfits.co.ke', '$2a$10$3zO7Xyv6uQ/J/k9cZ3MvA.9Yt4hEw2iW9lH2v9Z0mE2dO3r4t5y6u', 'admin')
-ON CONFLICT (email) DO NOTHING;
+VALUES ('admin@amazingoutfits.co.ke', '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e', 'admin')
+ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash;
 
--- Seed Products
+-- Seed Beadwork & Art Products
 INSERT INTO products (id, name, brand, type, category, price, old_price, rating, reviews, description, tags)
 VALUES
-('volt-runner', 'Volt Runner', 'Amazing', 'sneaker', 'Running', 8500, 9800, 4.8, 124, 'Engineered mesh upper, gradient foam midsole and a responsive ride for long city miles.', '["featured", "popular"]'::jsonb),
-('court-classic-low', 'Court Classic Low', 'Amazing', 'sneaker', 'Lifestyle', 7200, NULL, 4.7, 210, 'Clean tumbled leather, perforated toe box and a timeless low-cut silhouette.', '["featured", "popular"]'::jsonb),
-('night-high', 'Night High', 'Amazing', 'sneaker', 'Basketball', 9900, NULL, 4.6, 88, 'All-black high-top with padded collar support and a blaze-orange traction outsole.', '["new", "featured"]'::jsonb),
-('retro-wave', 'Retro Wave', 'Amazing', 'sneaker', 'Lifestyle', 8900, NULL, 4.9, 156, 'Chunky sculpted sole meets suede overlays in royal blue and burnt orange.', '["new", "popular", "featured"]'::jsonb),
-('volt-runner-pro', 'Volt Runner Pro', 'Amazing', 'sneaker', 'Running', 11500, NULL, 4.7, 64, 'Our fastest runner with a carbon-infused plate and extra-bouncy foam.', '["new"]'::jsonb),
-('street-court', 'Street Court', 'Amazing', 'sneaker', 'Basketball', 6800, 7900, 4.4, 97, 'Everyday hoops style with durable rubber cupsole for the street.', '["popular"]'::jsonb),
-('dune-trainer', 'Dune Trainer', 'Amazing', 'sneaker', 'Training', 7600, NULL, 4.5, 41, 'Stable platform and grippy outsole for gym days and weekend walks.', '["new"]'::jsonb),
-('blackout-mid', 'Blackout Mid', 'Amazing', 'sneaker', 'Training', 8200, NULL, 4.3, 52, 'Mid-top stealth trainer with lockdown lacing and cushioned heel.', '["popular"]'::jsonb),
-('harambee-home', 'Harambee Stars Home 26', 'Amazing', 'jersey', 'National Teams', 3500, NULL, 4.8, 73, 'National-team inspired home kit with breathable knit and gold trims.', '["featured", "new"]'::jsonb),
-('royal-blues-home', 'Royal Blues Home', 'Amazing', 'jersey', 'Clubs', 3200, NULL, 4.6, 58, 'Club home kit in royal blue with contrast orange collar and cuffs.', '["featured", "popular"]'::jsonb),
-('red-stripes-classic', 'Red Stripes Classic', 'Amazing', 'jersey', 'Clubs', 3000, NULL, 4.5, 44, 'Iconic red-and-white vertical stripes with a classic crew neck.', '["popular"]'::jsonb),
-('lions-away', 'Lions Away Kit', 'Amazing', 'jersey', 'National Teams', 3400, NULL, 4.4, 29, 'Lightweight away jersey with moisture-wicking fabric for match day.', '["new"]'::jsonb)
-ON CONFLICT (id) DO NOTHING;
+('maasai-heritage-cuff', 'Maasai Heritage Beaded Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 1200, NULL, 0, 0, 'Authentic black cuff woven with premium glass seed beads in traditional red and deep green geometric patterns.', '["featured", "popular"]'::jsonb),
+('custom-pixel-cuff', 'Custom Pixel-Pattern Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 950, NULL, 0, 0, 'Bold contrast beaded wristband handcrafted with vibrant glass seed beads in sharp contemporary graphic lines.', '["new"]'::jsonb),
+('pop-art-wristband', 'Pop-Art Beaded Wristband', 'Amazing', 'bracelets', 'Beaded Bracelets', 1100, NULL, 0, 0, 'Vibrant custom character-inspired woven bead band showcasing playful colors and precision beadwork.', '[]'::jsonb),
+('artisan-accent-cuff', 'Artisan Accent Beaded Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 850, NULL, 0, 0, 'Sleek and versatile everyday seed bead cuff crafted with flexible wire threading for comfort and durability.', '[]'::jsonb),
+('serengeti-cowrie-bracelet', 'Serengeti Cowrie Shell Bracelet', 'Amazing', 'bracelets', 'Cowrie Shell Bracelets', 750, NULL, 0, 0, 'Polished natural cowrie shells accented with gold glass spacer beads on an adjustable braided cord.', '["featured", "new"]'::jsonb),
+('mara-sunburst-collar', 'Mara Sunburst Multi-Strand Collar', 'Amazing', 'necklaces', 'Beaded Necklaces', 1800, 2200, 0, 0, 'Magnificent multi-strand beaded necklace cascading in sunset gold, terracotta red, and deep green hues.', '["featured", "popular"]'::jsonb),
+('diani-breeze-cowrie-choker', 'Diani Breeze Cowrie Choker', 'Amazing', 'necklaces', 'Cowrie Shell Necklaces', 1250, NULL, 0, 0, 'Coastal-inspired cowrie choker woven with tiny brass beads and durable wax cord, perfect for layering.', '["new"]'::jsonb),
+('kilimanjaro-brass-pendant', 'Kilimanjaro Beaded Pendant Necklace', 'Amazing', 'necklaces', 'Pendant Necklaces', 1450, NULL, 0, 0, 'Handcrafted circular beaded medallion pendant hung from a refined glass bead strand.', '["popular"]'::jsonb),
+('trio-bead-stack-rings', 'Vibrant Trio Beaded Stack Rings', 'Amazing', 'rings', 'Beaded Rings', 450, NULL, 0, 0, 'Set of three complementary beaded bands handwoven with delicate seed beads, designed to wear together or individually.', '["featured", "popular"]'::jsonb),
+('monogram-initial-ring', 'Custom Initial Monogram Beaded Ring', 'Amazing', 'rings', 'Beaded Rings', 350, NULL, 0, 0, 'Personalized black seed bead ring with crisp white lettering. Made to order with your chosen initial.', '["new", "popular"]'::jsonb),
+('royal-pearl-handbag', 'Royal Pearl Beaded Handbag', 'Amazing', 'bags', 'Beaded Bags', 4800, 5500, 0, 0, 'Exquisite structured handbag handcrafted with lustrous cream beads and pearl-style woven handles.', '["featured", "popular"]'::jsonb),
+('noir-elegance-clutch', 'Noir Elegance Beaded Clutch', 'Amazing', 'bags', 'Beaded Bags', 4200, NULL, 0, 0, 'Timeless jet-black glass bead evening bag with beaded loop handle and secure magnetic closure.', '["new"]'::jsonb),
+('sunset-pattern-tote', 'Sunset African Motif Beaded Bag', 'Amazing', 'bags', 'Beaded Bags', 5600, NULL, 0, 0, 'Striking structured tote featuring intricate Kenyan beadwork patterns in terracotta, gold, and turquoise.', '["featured"]'::jsonb),
+('amber-crystal-purse', 'Amber Crystal Handcrafted Bead Purse', 'Amazing', 'bags', 'Beaded Bags', 3900, NULL, 0, 0, 'Faceted amber crystal beads caught in an intricate lattice weave with a sturdy top handle.', '["popular"]'::jsonb),
+('savannah-woven-beaded-tie', 'Savannah Geometric Beaded Tie', 'Amazing', 'fashion-accessories', 'Beaded Ties', 2400, NULL, 0, 0, 'Statement formal tie intricately woven from thousands of glass seed beads in black, gold, and red chevrons.', '["featured"]'::jsonb),
+('rift-valley-statement-belt', 'Rift Valley Beaded Statement Belt', 'Amazing', 'fashion-accessories', 'Beaded Belts', 3200, NULL, 0, 0, 'Wide handcrafted leather belt embellished with high-density African diamond beadwork.', '["popular"]'::jsonb),
+('zanzibar-beaded-hair-charms', 'Zanzibar Braid Hair Charms (Set of 6)', 'Amazing', 'fashion-accessories', 'Hair Charms', 600, NULL, 0, 0, 'Delicate spiral bead cuffs and cowrie hair clips designed to adorn locs, twists, and braids.', '["new"]'::jsonb),
+('nairobi-glow-waist-beads', 'Nairobi Glow Traditional Waist Beads', 'Amazing', 'fashion-accessories', 'Waist Beads', 850, NULL, 0, 0, 'Authentic African tie-on waist beads strung on cotton thread with iridescent glass seed beads and gold accents.', '["featured", "popular"]'::jsonb),
+('ankara-beaded-statement-wrap', 'Ankara Heritage Beaded Headwrap & Scarf', 'Amazing', 'fashion-accessories', 'Beaded Ankaras', 1650, NULL, 0, 0, 'Rich 100% cotton wax Ankara print fabric bordered with delicate hand-stitched seed bead fringes.', '["new"]'::jsonb),
+('custom-beaded-portrait-panel', 'Custom Beaded Portrait Panel', 'Amazing', 'art-decor', 'Beaded Wall Portraits', 12500, NULL, 0, 0, 'Intricate loom-woven beaded portrait tapestry mounted in a timber frame. Custom commissions available.', '["new"]'::jsonb),
+('maasai-shield-wall-tapestry', 'Maasai Shield Beaded Wall Tapestry', 'Amazing', 'art-decor', 'Beaded Wall Art', 9500, 11000, 0, 0, 'Stunning handcrafted wall hanging representing the iconic warrior shield with geometric red, black, and white beadwork.', '["featured"]'::jsonb),
+('tribal-beaded-sculptural-vessel', 'Handcrafted Beaded Calabash Vessel', 'Amazing', 'art-decor', 'Decorative Beadwork', 4500, NULL, 0, 0, 'Decorative natural gourd adorned with high-precision tribal beadwork, ideal for tabletop display.', '["popular"]'::jsonb)
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name, brand = EXCLUDED.brand, type = EXCLUDED.type, category = EXCLUDED.category,
+  price = EXCLUDED.price, old_price = EXCLUDED.old_price, rating = EXCLUDED.rating, reviews = EXCLUDED.reviews,
+  description = EXCLUDED.description, tags = EXCLUDED.tags;
 
--- Seed Images
+-- Seed Product Images
 INSERT INTO product_images (product_id, url, display_order) VALUES
-('volt-runner', '/assets/images/sneaker-1.jpg', 0),
-('volt-runner', '/assets/images/sneaker-4.jpg', 1),
-('volt-runner', '/assets/images/sneaker-3.jpg', 2),
-
-('court-classic-low', '/assets/images/sneaker-2.jpg', 0),
-('court-classic-low', '/assets/images/sneaker-1.jpg', 1),
-('court-classic-low', '/assets/images/sneaker-4.jpg', 2),
-
-('night-high', '/assets/images/sneaker-3.jpg', 0),
-('night-high', '/assets/images/sneaker-2.jpg', 1),
-('night-high', '/assets/images/sneaker-1.jpg', 2),
-
-('retro-wave', '/assets/images/sneaker-4.jpg', 0),
-('retro-wave', '/assets/images/sneaker-1.jpg', 1),
-('retro-wave', '/assets/images/sneaker-2.jpg', 2),
-
-('volt-runner-pro', '/assets/images/sneaker-1.jpg', 0),
-('volt-runner-pro', '/assets/images/sneaker-3.jpg', 1),
-('volt-runner-pro', '/assets/images/sneaker-4.jpg', 2),
-
-('street-court', '/assets/images/sneaker-2.jpg', 0),
-('street-court', '/assets/images/sneaker-3.jpg', 1),
-('street-court', '/assets/images/sneaker-1.jpg', 2),
-
-('dune-trainer', '/assets/images/sneaker-4.jpg', 0),
-('dune-trainer', '/assets/images/sneaker-2.jpg', 1),
-('dune-trainer', '/assets/images/sneaker-3.jpg', 2),
-
-('blackout-mid', '/assets/images/sneaker-3.jpg', 0),
-('blackout-mid', '/assets/images/sneaker-4.jpg', 1),
-('blackout-mid', '/assets/images/sneaker-2.jpg', 2),
-
-('harambee-home', '/assets/images/jersey-3.jpg', 0),
-('harambee-home', '/assets/images/jersey-1.jpg', 1),
-('harambee-home', '/assets/images/jersey-2.jpg', 2),
-
-('royal-blues-home', '/assets/images/jersey-1.jpg', 0),
-('royal-blues-home', '/assets/images/jersey-2.jpg', 1),
-('royal-blues-home', '/assets/images/jersey-3.jpg', 2),
-
-('red-stripes-classic', '/assets/images/jersey-2.jpg', 0),
-('red-stripes-classic', '/assets/images/jersey-1.jpg', 1),
-('red-stripes-classic', '/assets/images/jersey-3.jpg', 2),
-
-('lions-away', '/assets/images/jersey-1.jpg', 0),
-('lions-away', '/assets/images/jersey-3.jpg', 1),
-('lions-away', '/assets/images/jersey-2.jpg', 2)
+('maasai-heritage-cuff', '/assets/images/bracelet1.webp', 0),
+('maasai-heritage-cuff', '/assets/images/bracelet1-thumb.webp', 1),
+('custom-pixel-cuff', '/assets/images/bracelet3.webp', 0),
+('custom-pixel-cuff', '/assets/images/bracelet3-thumb.webp', 1),
+('pop-art-wristband', '/assets/images/bracelet4.webp', 0),
+('pop-art-wristband', '/assets/images/bracelet4-thumb.webp', 1),
+('artisan-accent-cuff', '/assets/images/bracelet5.webp', 0),
+('artisan-accent-cuff', '/assets/images/bracelet5-thumb.webp', 1),
+('serengeti-cowrie-bracelet', '/assets/images/placeholders/cowrie-shell-bracelets.webp', 0),
+('serengeti-cowrie-bracelet', '/assets/images/placeholders/cowrie-shell-bracelets-thumb.webp', 1),
+('mara-sunburst-collar', '/assets/images/placeholders/beaded-necklaces.webp', 0),
+('mara-sunburst-collar', '/assets/images/placeholders/beaded-necklaces-thumb.webp', 1),
+('diani-breeze-cowrie-choker', '/assets/images/placeholders/cowrie-shell-necklaces.webp', 0),
+('diani-breeze-cowrie-choker', '/assets/images/placeholders/cowrie-shell-necklaces-thumb.webp', 1),
+('kilimanjaro-brass-pendant', '/assets/images/placeholders/pendant-necklaces.webp', 0),
+('kilimanjaro-brass-pendant', '/assets/images/placeholders/pendant-necklaces-thumb.webp', 1),
+('trio-bead-stack-rings', '/assets/images/ring1.webp', 0),
+('trio-bead-stack-rings', '/assets/images/ring1-thumb.webp', 1),
+('monogram-initial-ring', '/assets/images/ring2.webp', 0),
+('monogram-initial-ring', '/assets/images/ring2-thumb.webp', 1),
+('royal-pearl-handbag', '/assets/images/bag1.webp', 0),
+('royal-pearl-handbag', '/assets/images/bag1-thumb.webp', 1),
+('noir-elegance-clutch', '/assets/images/bag2.webp', 0),
+('noir-elegance-clutch', '/assets/images/bag2-thumb.webp', 1),
+('sunset-pattern-tote', '/assets/images/bag3.webp', 0),
+('sunset-pattern-tote', '/assets/images/bag3-thumb.webp', 1),
+('amber-crystal-purse', '/assets/images/bag4.webp', 0),
+('amber-crystal-purse', '/assets/images/bag4-thumb.webp', 1),
+('savannah-woven-beaded-tie', '/assets/images/placeholders/beaded-ties.webp', 0),
+('savannah-woven-beaded-tie', '/assets/images/placeholders/beaded-ties-thumb.webp', 1),
+('rift-valley-statement-belt', '/assets/images/placeholders/beaded-belts.webp', 0),
+('rift-valley-statement-belt', '/assets/images/placeholders/beaded-belts-thumb.webp', 1),
+('zanzibar-beaded-hair-charms', '/assets/images/placeholders/hair-charms.webp', 0),
+('zanzibar-beaded-hair-charms', '/assets/images/placeholders/hair-charms-thumb.webp', 1),
+('nairobi-glow-waist-beads', '/assets/images/placeholders/waist-beads.webp', 0),
+('nairobi-glow-waist-beads', '/assets/images/placeholders/waist-beads-thumb.webp', 1),
+('ankara-beaded-statement-wrap', '/assets/images/placeholders/beaded-ankaras.webp', 0),
+('ankara-beaded-statement-wrap', '/assets/images/placeholders/beaded-ankaras-thumb.webp', 1),
+('custom-beaded-portrait-panel', '/assets/images/3dpotrait.webp', 0),
+('custom-beaded-portrait-panel', '/assets/images/3dpotrait-thumb.webp', 1),
+('maasai-shield-wall-tapestry', '/assets/images/placeholders/beaded-wall-art.webp', 0),
+('maasai-shield-wall-tapestry', '/assets/images/placeholders/beaded-wall-art-thumb.webp', 1),
+('tribal-beaded-sculptural-vessel', '/assets/images/placeholders/decorative-beadwork.webp', 0),
+('tribal-beaded-sculptural-vessel', '/assets/images/placeholders/decorative-beadwork-thumb.webp', 1)
 ON CONFLICT DO NOTHING;
 
--- Seed Sizes for Sneakers
-INSERT INTO product_sizes (product_id, size, stock)
-SELECT p.id, s.size, 10
-FROM products p
-CROSS JOIN (VALUES ('38'), ('39'), ('40'), ('41'), ('42'), ('43'), ('44'), ('45')) AS s(size)
-WHERE p.type = 'sneaker'
-ON CONFLICT DO NOTHING;
-
--- Seed Sizes for Jerseys
-INSERT INTO product_sizes (product_id, size, stock)
-SELECT p.id, s.size, 10
-FROM products p
-CROSS JOIN (VALUES ('S'), ('M'), ('L'), ('XL'), ('XXL')) AS s(size)
-WHERE p.type = 'jersey'
-ON CONFLICT DO NOTHING;
+-- Seed Product Sizes / Options
+INSERT INTO product_sizes (product_id, size, stock) VALUES
+('maasai-heritage-cuff', 'S', 10),
+('maasai-heritage-cuff', 'M', 10),
+('maasai-heritage-cuff', 'L', 10),
+('custom-pixel-cuff', 'S', 10),
+('custom-pixel-cuff', 'M', 10),
+('custom-pixel-cuff', 'L', 10),
+('pop-art-wristband', 'S', 10),
+('pop-art-wristband', 'M', 10),
+('pop-art-wristband', 'L', 10),
+('artisan-accent-cuff', 'S', 10),
+('artisan-accent-cuff', 'M', 10),
+('artisan-accent-cuff', 'L', 10),
+('serengeti-cowrie-bracelet', 'S', 10),
+('serengeti-cowrie-bracelet', 'M', 10),
+('serengeti-cowrie-bracelet', 'L', 10),
+('mara-sunburst-collar', '16"', 10),
+('mara-sunburst-collar', '18"', 10),
+('mara-sunburst-collar', '20"', 10),
+('diani-breeze-cowrie-choker', '16"', 10),
+('diani-breeze-cowrie-choker', '18"', 10),
+('kilimanjaro-brass-pendant', '18"', 10),
+('kilimanjaro-brass-pendant', '20"', 10),
+('kilimanjaro-brass-pendant', '24"', 10),
+('trio-bead-stack-rings', 'US 5', 10),
+('trio-bead-stack-rings', 'US 6', 10),
+('trio-bead-stack-rings', 'US 7', 10),
+('trio-bead-stack-rings', 'US 8', 10),
+('trio-bead-stack-rings', 'US 9', 10),
+('monogram-initial-ring', 'US 5', 10),
+('monogram-initial-ring', 'US 6', 10),
+('monogram-initial-ring', 'US 7', 10),
+('monogram-initial-ring', 'US 8', 10),
+('monogram-initial-ring', 'US 9', 10),
+('monogram-initial-ring', 'US 10', 10),
+('royal-pearl-handbag', 'One size', 10),
+('noir-elegance-clutch', 'One size', 10),
+('sunset-pattern-tote', 'One size', 10),
+('amber-crystal-purse', 'One size', 10),
+('savannah-woven-beaded-tie', 'One size', 10),
+('rift-valley-statement-belt', 'One size', 10),
+('zanzibar-beaded-hair-charms', 'One size', 10),
+('nairobi-glow-waist-beads', '28"', 10),
+('nairobi-glow-waist-beads', '32"', 10),
+('nairobi-glow-waist-beads', '36"', 10),
+('nairobi-glow-waist-beads', '40"', 10),
+('nairobi-glow-waist-beads', '44"', 10),
+('nairobi-glow-waist-beads', 'Adjustable', 10),
+('ankara-beaded-statement-wrap', 'One size', 10),
+('custom-beaded-portrait-panel', '30×40 cm', 10),
+('custom-beaded-portrait-panel', '40×50 cm', 10),
+('maasai-shield-wall-tapestry', '30×40 cm', 10),
+('maasai-shield-wall-tapestry', '40×50 cm', 10),
+('maasai-shield-wall-tapestry', '50×70 cm', 10),
+('tribal-beaded-sculptural-vessel', 'One size', 10)
+ON CONFLICT (product_id, size) DO NOTHING;

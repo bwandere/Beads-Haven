@@ -209,6 +209,19 @@ func (h *ProductHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(p)
 }
 
+var allowedTypes = map[string]bool{
+	"bracelets":           true,
+	"necklaces":           true,
+	"rings":               true,
+	"bags":                true,
+	"fashion-accessories": true,
+	"art-decor":           true,
+}
+
+func isValidType(t string) bool {
+	return allowedTypes[t]
+}
+
 func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var p models.Product
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
@@ -223,7 +236,11 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		p.Brand = "Amazing"
 	}
 	if p.Type == "" {
-		p.Type = "sneaker"
+		p.Type = "bracelets"
+	}
+	if !isValidType(p.Type) {
+		http.Error(w, `{"error":"Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor"}`, http.StatusBadRequest)
+		return
 	}
 
 	tagsJSON, _ := json.Marshal(p.Tags)
@@ -258,6 +275,11 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	var p models.Product
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
 		http.Error(w, `{"error":"Invalid payload"}`, http.StatusBadRequest)
+		return
+	}
+
+	if p.Type != "" && !isValidType(p.Type) {
+		http.Error(w, `{"error":"Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor"}`, http.StatusBadRequest)
 		return
 	}
 
