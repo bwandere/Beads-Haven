@@ -1,4 +1,4 @@
-# Product Imagery Manifest — Amazing Outfits (Beads & Art)
+# Product Imagery Manifest — Beads Haven (Beads & Art)
 
 This manifest documents all imagery in `frontend/assets/images/`, separating authentic product photography from SVG/WebP placeholders, and flagging items containing third-party branding or copyrighted characters.
 

@@ -1,9 +1,9 @@
 /**
- * Amazing Outfits - Cart Management (localStorage)
+ * Beads Haven - Cart Management (localStorage)
  */
 
-const CART_STORAGE_KEY = 'amazing_outfits_cart';
-const WISHLIST_STORAGE_KEY = 'amazing_outfits_wishlist';
+const CART_STORAGE_KEY = 'beads_haven_cart';
+const WISHLIST_STORAGE_KEY = 'beads_haven_wishlist';
 
 export function getCart() {
   try {

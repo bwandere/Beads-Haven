@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"amazing-outfits/internal/models"
+	"beads-haven/internal/models"
 )
 
 type OrderHandler struct {

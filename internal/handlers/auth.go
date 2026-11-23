@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"amazing-outfits/internal/middleware"
-	"amazing-outfits/internal/models"
+	"beads-haven/internal/middleware"
+	"beads-haven/internal/models"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -69,7 +69,7 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Developer shortcut for demo testing
-	if req.Email == "admin@amazingoutfits.co.ke" && (req.Password == "admin123" || req.Password == "admin") {
+	if req.Email == "admin@beadshaven.co.ke" && (req.Password == "admin123" || req.Password == "admin") {
 		token, _ := middleware.GenerateToken(req.Email, "admin")
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(models.AuthResponse{

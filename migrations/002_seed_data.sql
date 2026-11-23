@@ -1,37 +1,37 @@
 -- Migration: 002_seed_data.sql
 -- Seed handmade beadwork & art catalogue and admin user
 
--- Default admin user: admin@amazingoutfits.co.ke / admin123
+-- Default admin user: admin@beadshaven.co.ke / admin123
 -- Valid bcrypt hash for 'admin123': $2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e
 INSERT INTO users (email, password_hash, role)
-VALUES ('admin@amazingoutfits.co.ke', '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e', 'admin')
+VALUES ('admin@beadshaven.co.ke', '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e', 'admin')
 ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash;
 
 -- Seed Beadwork & Art Products
 INSERT INTO products (id, name, brand, type, category, price, old_price, rating, reviews, description, tags)
 VALUES
-('maasai-heritage-cuff', 'Maasai Heritage Beaded Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 1200, NULL, 0, 0, 'Authentic black cuff woven with premium glass seed beads in traditional red and deep green geometric patterns.', '["featured", "popular"]'::jsonb),
-('custom-pixel-cuff', 'Custom Pixel-Pattern Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 950, NULL, 0, 0, 'Bold contrast beaded wristband handcrafted with vibrant glass seed beads in sharp contemporary graphic lines.', '["new"]'::jsonb),
-('pop-art-wristband', 'Pop-Art Beaded Wristband', 'Amazing', 'bracelets', 'Beaded Bracelets', 1100, NULL, 0, 0, 'Vibrant custom character-inspired woven bead band showcasing playful colors and precision beadwork.', '[]'::jsonb),
-('artisan-accent-cuff', 'Artisan Accent Beaded Cuff', 'Amazing', 'bracelets', 'Beaded Bracelets', 850, NULL, 0, 0, 'Sleek and versatile everyday seed bead cuff crafted with flexible wire threading for comfort and durability.', '[]'::jsonb),
-('serengeti-cowrie-bracelet', 'Serengeti Cowrie Shell Bracelet', 'Amazing', 'bracelets', 'Cowrie Shell Bracelets', 750, NULL, 0, 0, 'Polished natural cowrie shells accented with gold glass spacer beads on an adjustable braided cord.', '["featured", "new"]'::jsonb),
-('mara-sunburst-collar', 'Mara Sunburst Multi-Strand Collar', 'Amazing', 'necklaces', 'Beaded Necklaces', 1800, 2200, 0, 0, 'Magnificent multi-strand beaded necklace cascading in sunset gold, terracotta red, and deep green hues.', '["featured", "popular"]'::jsonb),
-('diani-breeze-cowrie-choker', 'Diani Breeze Cowrie Choker', 'Amazing', 'necklaces', 'Cowrie Shell Necklaces', 1250, NULL, 0, 0, 'Coastal-inspired cowrie choker woven with tiny brass beads and durable wax cord, perfect for layering.', '["new"]'::jsonb),
-('kilimanjaro-brass-pendant', 'Kilimanjaro Beaded Pendant Necklace', 'Amazing', 'necklaces', 'Pendant Necklaces', 1450, NULL, 0, 0, 'Handcrafted circular beaded medallion pendant hung from a refined glass bead strand.', '["popular"]'::jsonb),
-('trio-bead-stack-rings', 'Vibrant Trio Beaded Stack Rings', 'Amazing', 'rings', 'Beaded Rings', 450, NULL, 0, 0, 'Set of three complementary beaded bands handwoven with delicate seed beads, designed to wear together or individually.', '["featured", "popular"]'::jsonb),
-('monogram-initial-ring', 'Custom Initial Monogram Beaded Ring', 'Amazing', 'rings', 'Beaded Rings', 350, NULL, 0, 0, 'Personalized black seed bead ring with crisp white lettering. Made to order with your chosen initial.', '["new", "popular"]'::jsonb),
-('royal-pearl-handbag', 'Royal Pearl Beaded Handbag', 'Amazing', 'bags', 'Beaded Bags', 4800, 5500, 0, 0, 'Exquisite structured handbag handcrafted with lustrous cream beads and pearl-style woven handles.', '["featured", "popular"]'::jsonb),
-('noir-elegance-clutch', 'Noir Elegance Beaded Clutch', 'Amazing', 'bags', 'Beaded Bags', 4200, NULL, 0, 0, 'Timeless jet-black glass bead evening bag with beaded loop handle and secure magnetic closure.', '["new"]'::jsonb),
-('sunset-pattern-tote', 'Sunset African Motif Beaded Bag', 'Amazing', 'bags', 'Beaded Bags', 5600, NULL, 0, 0, 'Striking structured tote featuring intricate Kenyan beadwork patterns in terracotta, gold, and turquoise.', '["featured"]'::jsonb),
-('amber-crystal-purse', 'Amber Crystal Handcrafted Bead Purse', 'Amazing', 'bags', 'Beaded Bags', 3900, NULL, 0, 0, 'Faceted amber crystal beads caught in an intricate lattice weave with a sturdy top handle.', '["popular"]'::jsonb),
-('savannah-woven-beaded-tie', 'Savannah Geometric Beaded Tie', 'Amazing', 'fashion-accessories', 'Beaded Ties', 2400, NULL, 0, 0, 'Statement formal tie intricately woven from thousands of glass seed beads in black, gold, and red chevrons.', '["featured"]'::jsonb),
-('rift-valley-statement-belt', 'Rift Valley Beaded Statement Belt', 'Amazing', 'fashion-accessories', 'Beaded Belts', 3200, NULL, 0, 0, 'Wide handcrafted leather belt embellished with high-density African diamond beadwork.', '["popular"]'::jsonb),
-('zanzibar-beaded-hair-charms', 'Zanzibar Braid Hair Charms (Set of 6)', 'Amazing', 'fashion-accessories', 'Hair Charms', 600, NULL, 0, 0, 'Delicate spiral bead cuffs and cowrie hair clips designed to adorn locs, twists, and braids.', '["new"]'::jsonb),
-('nairobi-glow-waist-beads', 'Nairobi Glow Traditional Waist Beads', 'Amazing', 'fashion-accessories', 'Waist Beads', 850, NULL, 0, 0, 'Authentic African tie-on waist beads strung on cotton thread with iridescent glass seed beads and gold accents.', '["featured", "popular"]'::jsonb),
-('ankara-beaded-statement-wrap', 'Ankara Heritage Beaded Headwrap & Scarf', 'Amazing', 'fashion-accessories', 'Beaded Ankaras', 1650, NULL, 0, 0, 'Rich 100% cotton wax Ankara print fabric bordered with delicate hand-stitched seed bead fringes.', '["new"]'::jsonb),
-('custom-beaded-portrait-panel', 'Custom Beaded Portrait Panel', 'Amazing', 'art-decor', 'Beaded Wall Portraits', 12500, NULL, 0, 0, 'Intricate loom-woven beaded portrait tapestry mounted in a timber frame. Custom commissions available.', '["new"]'::jsonb),
-('maasai-shield-wall-tapestry', 'Maasai Shield Beaded Wall Tapestry', 'Amazing', 'art-decor', 'Beaded Wall Art', 9500, 11000, 0, 0, 'Stunning handcrafted wall hanging representing the iconic warrior shield with geometric red, black, and white beadwork.', '["featured"]'::jsonb),
-('tribal-beaded-sculptural-vessel', 'Handcrafted Beaded Calabash Vessel', 'Amazing', 'art-decor', 'Decorative Beadwork', 4500, NULL, 0, 0, 'Decorative natural gourd adorned with high-precision tribal beadwork, ideal for tabletop display.', '["popular"]'::jsonb)
+('maasai-heritage-cuff', 'Maasai Heritage Beaded Cuff', 'Beads Haven', 'bracelets', 'Beaded Bracelets', 1200, NULL, 0, 0, 'Authentic black cuff woven with premium glass seed beads in traditional red and deep green geometric patterns.', '["featured", "popular"]'::jsonb),
+('custom-pixel-cuff', 'Custom Pixel-Pattern Cuff', 'Beads Haven', 'bracelets', 'Beaded Bracelets', 950, NULL, 0, 0, 'Bold contrast beaded wristband handcrafted with vibrant glass seed beads in sharp contemporary graphic lines.', '["new"]'::jsonb),
+('pop-art-wristband', 'Pop-Art Beaded Wristband', 'Beads Haven', 'bracelets', 'Beaded Bracelets', 1100, NULL, 0, 0, 'Vibrant custom character-inspired woven bead band showcasing playful colors and precision beadwork.', '[]'::jsonb),
+('artisan-accent-cuff', 'Artisan Accent Beaded Cuff', 'Beads Haven', 'bracelets', 'Beaded Bracelets', 850, NULL, 0, 0, 'Sleek and versatile everyday seed bead cuff crafted with flexible wire threading for comfort and durability.', '[]'::jsonb),
+('serengeti-cowrie-bracelet', 'Serengeti Cowrie Shell Bracelet', 'Beads Haven', 'bracelets', 'Cowrie Shell Bracelets', 750, NULL, 0, 0, 'Polished natural cowrie shells accented with gold glass spacer beads on an adjustable braided cord.', '["featured", "new"]'::jsonb),
+('mara-sunburst-collar', 'Mara Sunburst Multi-Strand Collar', 'Beads Haven', 'necklaces', 'Beaded Necklaces', 1800, 2200, 0, 0, 'Magnificent multi-strand beaded necklace cascading in sunset gold, terracotta red, and deep green hues.', '["featured", "popular"]'::jsonb),
+('diani-breeze-cowrie-choker', 'Diani Breeze Cowrie Choker', 'Beads Haven', 'necklaces', 'Cowrie Shell Necklaces', 1250, NULL, 0, 0, 'Coastal-inspired cowrie choker woven with tiny brass beads and durable wax cord, perfect for layering.', '["new"]'::jsonb),
+('kilimanjaro-brass-pendant', 'Kilimanjaro Beaded Pendant Necklace', 'Beads Haven', 'necklaces', 'Pendant Necklaces', 1450, NULL, 0, 0, 'Handcrafted circular beaded medallion pendant hung from a refined glass bead strand.', '["popular"]'::jsonb),
+('trio-bead-stack-rings', 'Vibrant Trio Beaded Stack Rings', 'Beads Haven', 'rings', 'Beaded Rings', 450, NULL, 0, 0, 'Set of three complementary beaded bands handwoven with delicate seed beads, designed to wear together or individually.', '["featured", "popular"]'::jsonb),
+('monogram-initial-ring', 'Custom Initial Monogram Beaded Ring', 'Beads Haven', 'rings', 'Beaded Rings', 350, NULL, 0, 0, 'Personalized black seed bead ring with crisp white lettering. Made to order with your chosen initial.', '["new", "popular"]'::jsonb),
+('royal-pearl-handbag', 'Royal Pearl Beaded Handbag', 'Beads Haven', 'bags', 'Beaded Bags', 4800, 5500, 0, 0, 'Exquisite structured handbag handcrafted with lustrous cream beads and pearl-style woven handles.', '["featured", "popular"]'::jsonb),
+('noir-elegance-clutch', 'Noir Elegance Beaded Clutch', 'Beads Haven', 'bags', 'Beaded Bags', 4200, NULL, 0, 0, 'Timeless jet-black glass bead evening bag with beaded loop handle and secure magnetic closure.', '["new"]'::jsonb),
+('sunset-pattern-tote', 'Sunset African Motif Beaded Bag', 'Beads Haven', 'bags', 'Beaded Bags', 5600, NULL, 0, 0, 'Striking structured tote featuring intricate Kenyan beadwork patterns in terracotta, gold, and turquoise.', '["featured"]'::jsonb),
+('amber-crystal-purse', 'Amber Crystal Handcrafted Bead Purse', 'Beads Haven', 'bags', 'Beaded Bags', 3900, NULL, 0, 0, 'Faceted amber crystal beads caught in an intricate lattice weave with a sturdy top handle.', '["popular"]'::jsonb),
+('savannah-woven-beaded-tie', 'Savannah Geometric Beaded Tie', 'Beads Haven', 'fashion-accessories', 'Beaded Ties', 2400, NULL, 0, 0, 'Statement formal tie intricately woven from thousands of glass seed beads in black, gold, and red chevrons.', '["featured"]'::jsonb),
+('rift-valley-statement-belt', 'Rift Valley Beaded Statement Belt', 'Beads Haven', 'fashion-accessories', 'Beaded Belts', 3200, NULL, 0, 0, 'Wide handcrafted leather belt embellished with high-density African diamond beadwork.', '["popular"]'::jsonb),
+('zanzibar-beaded-hair-charms', 'Zanzibar Braid Hair Charms (Set of 6)', 'Beads Haven', 'fashion-accessories', 'Hair Charms', 600, NULL, 0, 0, 'Delicate spiral bead cuffs and cowrie hair clips designed to adorn locs, twists, and braids.', '["new"]'::jsonb),
+('nairobi-glow-waist-beads', 'Nairobi Glow Traditional Waist Beads', 'Beads Haven', 'fashion-accessories', 'Waist Beads', 850, NULL, 0, 0, 'Authentic African tie-on waist beads strung on cotton thread with iridescent glass seed beads and gold accents.', '["featured", "popular"]'::jsonb),
+('ankara-beaded-statement-wrap', 'Ankara Heritage Beaded Headwrap & Scarf', 'Beads Haven', 'fashion-accessories', 'Beaded Ankaras', 1650, NULL, 0, 0, 'Rich 100% cotton wax Ankara print fabric bordered with delicate hand-stitched seed bead fringes.', '["new"]'::jsonb),
+('custom-beaded-portrait-panel', 'Custom Beaded Portrait Panel', 'Beads Haven', 'art-decor', 'Beaded Wall Portraits', 12500, NULL, 0, 0, 'Intricate loom-woven beaded portrait tapestry mounted in a timber frame. Custom commissions available.', '["new"]'::jsonb),
+('maasai-shield-wall-tapestry', 'Maasai Shield Beaded Wall Tapestry', 'Beads Haven', 'art-decor', 'Beaded Wall Art', 9500, 11000, 0, 0, 'Stunning handcrafted wall hanging representing the iconic warrior shield with geometric red, black, and white beadwork.', '["featured"]'::jsonb),
+('tribal-beaded-sculptural-vessel', 'Handcrafted Beaded Calabash Vessel', 'Beads Haven', 'art-decor', 'Decorative Beadwork', 4500, NULL, 0, 0, 'Decorative natural gourd adorned with high-precision tribal beadwork, ideal for tabletop display.', '["popular"]'::jsonb)
 ON CONFLICT (id) DO UPDATE SET
   name = EXCLUDED.name, brand = EXCLUDED.brand, type = EXCLUDED.type, category = EXCLUDED.category,
   price = EXCLUDED.price, old_price = EXCLUDED.old_price, rating = EXCLUDED.rating, reviews = EXCLUDED.reviews,

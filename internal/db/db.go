@@ -32,7 +32,7 @@ func EnsureSchema(db *sql.DB) error {
 	CREATE TABLE IF NOT EXISTS products (
 		id VARCHAR(100) PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
-		brand VARCHAR(100) NOT NULL DEFAULT 'Amazing',
+		brand VARCHAR(100) NOT NULL DEFAULT 'Beads Haven',
 		type VARCHAR(50) NOT NULL DEFAULT 'bracelets',
 		category VARCHAR(100) NOT NULL,
 		price NUMERIC(12, 2) NOT NULL,

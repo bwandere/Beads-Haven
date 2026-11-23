@@ -1,19 +1,19 @@
 /**
- * Amazing Outfits - Beads & Art Single Source of Truth
+ * Beads Haven - Beads & Art Single Source of Truth
  * Collections, subcategories, brand copy, option presets, and cards.
  */
 
 export const BRAND = {
-  name: "Amazing Outfits",
+  name: "Beads Haven",
   tagline: "Beads & Art",
   currency: "KSh",
   city: "Nairobi",
   country: "Kenya",
   origin: "Nairobi, Kenya",
   description: "Handmade beaded jewellery, bags and art, delivered across Kenya.",
-  contactEmail: "hello@amazingoutfits.co.ke",
+  contactEmail: "hello@beadshaven.co.ke",
   contactPhone: "+254 700 000 000",
-  socialInstagram: "@amazingoutfits.ke"
+  socialInstagram: "@beadshaven.ke"
 };
 
 export const COLLECTIONS = [

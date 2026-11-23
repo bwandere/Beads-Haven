@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"amazing-outfits/internal/models"
+	"beads-haven/internal/models"
 )
 
 type ProductHandler struct {
@@ -233,7 +233,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		p.ID = strings.ToLower(strings.ReplaceAll(p.Name, " ", "-"))
 	}
 	if p.Brand == "" {
-		p.Brand = "Amazing"
+		p.Brand = "Beads Haven"
 	}
 	if p.Type == "" {
 		p.Type = "bracelets"

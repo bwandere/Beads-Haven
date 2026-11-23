@@ -1,10 +1,10 @@
 -- Migration: 001_initial_schema.sql
--- Amazing Outfits E-Commerce Schema
+-- Beads Haven E-Commerce Schema
 
 CREATE TABLE IF NOT EXISTS products (
     id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    brand VARCHAR(100) NOT NULL DEFAULT 'Amazing',
+    brand VARCHAR(100) NOT NULL DEFAULT 'Beads Haven',
     type VARCHAR(50) NOT NULL DEFAULT 'bracelets', -- bracelets, necklaces, rings, bags, fashion-accessories, art-decor
     category VARCHAR(100) NOT NULL,
     price NUMERIC(12, 2) NOT NULL,

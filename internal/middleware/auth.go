@@ -24,7 +24,7 @@ type Claims struct {
 func getJWTSecret() []byte {
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
-		secret = "amazing-outfits-super-secret-key-2026"
+		secret = "beads-haven-super-secret-key-2026"
 	}
 	return []byte(secret)
 }

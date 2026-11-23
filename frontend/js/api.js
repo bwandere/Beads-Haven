@@ -1,5 +1,5 @@
 /**
- * Amazing Outfits - API Layer
+ * Beads Haven - API Layer
  * Connects to Go backend with seamless fallback to /products.json
  */
 

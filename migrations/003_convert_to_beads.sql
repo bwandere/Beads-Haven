@@ -34,7 +34,10 @@ DELETE FROM products WHERE id IN (
     'lions-away'
 );
 
--- 3. Ensure valid bcrypt hash for admin: admin@amazingoutfits.co.ke / admin123
-UPDATE users
-SET password_hash = '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e'
-WHERE email = 'admin@amazingoutfits.co.ke';
+-- 3. Ensure valid admin user and bcrypt hash: admin@beadshaven.co.ke / admin123
+INSERT INTO users (email, password_hash, role)
+VALUES ('admin@beadshaven.co.ke', '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e', 'admin')
+ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash;
+
+-- 4. Update brand name from Amazing to Beads Haven
+UPDATE products SET brand = 'Beads Haven' WHERE brand = 'Amazing';

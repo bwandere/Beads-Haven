@@ -1,5 +1,5 @@
 /**
- * Amazing Outfits - UI Utilities & Shared Component Logic
+ * Beads Haven - UI Utilities & Shared Component Logic
  */
 
 import { getCartCount, addToCart, getWishlist, toggleWishlist } from './cart.js';

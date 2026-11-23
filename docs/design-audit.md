@@ -1,4 +1,4 @@
-# Amazing Outfits — Design Audit & Prototype Analysis
+# Beads Haven (formerly Amazing Outfits) — Design Audit & Prototype Analysis
 
 **Reference URL:** `https://pixel-perfect-capture-7092.lovable.app/`  
 **Breakpoints Audited:** 1440px (Desktop), 768px (Tablet), 390px (Mobile)  
@@ -8,7 +8,7 @@
 
 ## 1. Brand Identity & Visual Language
 
-- **Store Name:** Amazing Outfits
+- **Store Name:** Beads Haven (formerly Amazing Outfits)
 - **Tagline:** Premium Sneakers & Football Jerseys in Kenya / "Step into your style"
 - **Currency & Market:** Kenyan Shilling (`KSh`, format: `KSh 8,500`), localized for Nairobi & Kenya.
 - **Brand Personality:** Bold, energetic, modern urban street culture and athletic footwear.

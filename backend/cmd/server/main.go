@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"amazing-outfits/internal/db"
-	"amazing-outfits/internal/handlers"
-	"amazing-outfits/internal/middleware"
+	"beads-haven/internal/db"
+	"beads-haven/internal/handlers"
+	"beads-haven/internal/middleware"
 )
 
 func loadEnvFile(path string) {
@@ -47,7 +47,7 @@ func main() {
 
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
-		dbURL = "postgres://postgres:postgres@localhost:5432/amazing_outfits?sslmode=disable"
+		dbURL = "postgres://postgres:postgres@localhost:5432/beads_haven?sslmode=disable"
 	}
 
 	var database *sql.DB
@@ -163,7 +163,7 @@ func main() {
 	handlerWithCORS := middleware.EnableCORS(mux)
 
 	addr := fmt.Sprintf(":%s", port)
-	log.Printf("Amazing Outfits server listening on http://localhost%s", addr)
+	log.Printf("Beads Haven server listening on http://localhost%s", addr)
 	if err := http.ListenAndServe(addr, handlerWithCORS); err != nil {
 		log.Fatalf("Server error: %v", err)
 	}
