@@ -25,7 +25,7 @@ type Product struct {
 	Description string         `json:"description"`
 	Tags        []string       `json:"tags"`
 	Images      []string       `json:"images"`
-	ImageItems  []ProductImage `json:"image_items,omitempty"`
+	ImageItems  []ProductImage `json:"image_items"`
 	Sizes       []string       `json:"sizes"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`

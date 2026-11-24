@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"beads-haven/internal/httpjson"
 	"beads-haven/internal/middleware"
 	"beads-haven/internal/models"
 
@@ -17,24 +18,24 @@ type AuthHandler struct {
 
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	var req models.AuthRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		writeJSONError(w, http.StatusBadRequest, "Invalid request payload")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
 	if req.Email == "" || req.Password == "" {
-		writeJSONError(w, http.StatusBadRequest, "Email and password are required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Email and password are required")
 		return
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Error hashing password")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Error hashing password")
 		return
 	}
 
@@ -47,13 +48,13 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	`, req.Email, string(hash), role).Scan(&id)
 
 	if err != nil {
-		writeJSONError(w, http.StatusConflict, "Email already registered")
+		httpjson.WriteError(w, http.StatusConflict, "Email already registered")
 		return
 	}
 
 	token, err := middleware.GenerateToken(req.Email, role)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to generate token")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
 
@@ -68,13 +69,13 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	var req models.AuthRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		writeJSONError(w, http.StatusBadRequest, "Invalid request payload")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
@@ -86,18 +87,18 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	`, req.Email).Scan(&user.ID, &user.Email, &user.PasswordHash, &user.Role, &user.CreatedAt)
 
 	if err != nil {
-		writeJSONError(w, http.StatusUnauthorized, "Invalid email or password")
+		httpjson.WriteError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
-		writeJSONError(w, http.StatusUnauthorized, "Invalid email or password")
+		httpjson.WriteError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
 
 	token, err := middleware.GenerateToken(user.Email, user.Role)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to generate token")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
 

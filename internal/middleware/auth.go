@@ -2,12 +2,13 @@ package middleware
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"beads-haven/internal/httpjson"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -20,14 +21,6 @@ type Claims struct {
 	Email string `json:"email"`
 	Role  string `json:"role"`
 	jwt.RegisteredClaims
-}
-
-func writeJSONError(w http.ResponseWriter, status int, message string) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(map[string]string{
-		"error": message,
-	})
 }
 
 // GetJWTSecret returns the secret key from the environment.
@@ -56,13 +49,13 @@ func RequireAdmin(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
-			writeJSONError(w, http.StatusUnauthorized, "Authorization header required")
+			httpjson.WriteError(w, http.StatusUnauthorized, "Authorization header required")
 			return
 		}
 
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
-			writeJSONError(w, http.StatusUnauthorized, "Invalid authorization header format")
+			httpjson.WriteError(w, http.StatusUnauthorized, "Invalid authorization header format")
 			return
 		}
 
@@ -76,13 +69,13 @@ func RequireAdmin(next http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			writeJSONError(w, http.StatusUnauthorized, "Invalid or expired token")
+			httpjson.WriteError(w, http.StatusUnauthorized, "Invalid or expired token")
 			return
 		}
 
 		claims, ok := token.Claims.(*Claims)
 		if !ok || claims.Role != "admin" {
-			writeJSONError(w, http.StatusForbidden, "Forbidden: admin role required")
+			httpjson.WriteError(w, http.StatusForbidden, "Forbidden: admin role required")
 			return
 		}
 

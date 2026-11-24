@@ -8,14 +8,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
 
+	"beads-haven/internal/httpjson"
 	"beads-haven/internal/models"
 )
 
@@ -33,13 +36,13 @@ type CloudinaryResponse struct {
 
 func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	productID := r.PathValue("id")
 	if productID == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product ID required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product ID required")
 		return
 	}
 
@@ -47,7 +50,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	var exists bool
 	err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", productID).Scan(&exists)
 	if err != nil || !exists {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
@@ -55,7 +58,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	maxMultipart := int64(32 * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxMultipart)
 	if err := r.ParseMultipartForm(maxMultipart); err != nil {
-		writeJSONError(w, http.StatusBadRequest, "Request size exceeds limit or malformed form")
+		httpjson.WriteError(w, http.StatusBadRequest, "Request size exceeds limit or malformed form")
 		return
 	}
 
@@ -69,26 +72,26 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(fileHeaders) == 0 {
-		writeJSONError(w, http.StatusBadRequest, "Image file is required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Image file is required")
 		return
 	}
 
 	// Validate all files before saving
 	for _, fh := range fileHeaders {
 		if fh.Size > 5*1024*1024 {
-			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' exceeds 5 MB limit", fh.Filename))
+			httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' exceeds 5 MB limit", fh.Filename))
 			return
 		}
 
 		ext := strings.ToLower(filepath.Ext(fh.Filename))
 		if ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".webp" {
-			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Invalid file format for '%s'. Only JPG, PNG, and WebP are allowed", fh.Filename))
+			httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("Invalid file format for '%s'. Only JPG, PNG, and WebP are allowed", fh.Filename))
 			return
 		}
 
 		f, err := fh.Open()
 		if err != nil {
-			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Failed to read file '%s'", fh.Filename))
+			httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("Failed to read file '%s'", fh.Filename))
 			return
 		}
 		buf := make([]byte, 512)
@@ -97,7 +100,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 
 		sniffType := http.DetectContentType(buf[:n])
 		if sniffType != "image/jpeg" && sniffType != "image/png" && sniffType != "image/webp" {
-			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' failed content verification (detected: %s)", fh.Filename, sniffType))
+			httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' failed content verification (detected: %s)", fh.Filename, sniffType))
 			return
 		}
 	}
@@ -111,10 +114,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 	var maxOrder int
 	h.DB.QueryRow("SELECT COALESCE(MAX(display_order), -1) FROM product_images WHERE product_id = $1", productID).Scan(&maxOrder)
 
-	cloudName := os.Getenv("CLOUDINARY_CLOUD_NAME")
-	apiKey := os.Getenv("CLOUDINARY_API_KEY")
-	apiSecret := os.Getenv("CLOUDINARY_API_SECRET")
-	useCloudinary := cloudName != "" && apiKey != "" && apiSecret != ""
+	cloudName, apiKey, apiSecret, useCloudinary := cloudinaryCredentials()
 
 	var createdImages []models.ProductImage
 
@@ -122,7 +122,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 		ext := strings.ToLower(filepath.Ext(fh.Filename))
 		f, err := fh.Open()
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, "Failed to process image file")
+			httpjson.WriteError(w, http.StatusInternalServerError, "Failed to process image file")
 			return
 		}
 
@@ -131,7 +131,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 			cloudURL, err := uploadToCloudinary(f, fh.Filename, cloudName, apiKey, apiSecret)
 			f.Close()
 			if err != nil {
-				writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Cloudinary upload failed: %s", err.Error()))
+				httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Cloudinary upload failed: %s", err.Error()))
 				return
 			}
 			imageURL = cloudURL
@@ -140,21 +140,21 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 			destPath := filepath.Join("frontend", "assets", "uploads", filename)
 			if err := os.MkdirAll(filepath.Dir(destPath), 0755); err != nil {
 				f.Close()
-				writeJSONError(w, http.StatusInternalServerError, "Failed to create uploads directory")
+				httpjson.WriteError(w, http.StatusInternalServerError, "Failed to create uploads directory")
 				return
 			}
 
 			out, err := os.Create(destPath)
 			if err != nil {
 				f.Close()
-				writeJSONError(w, http.StatusInternalServerError, "Failed to save image locally")
+				httpjson.WriteError(w, http.StatusInternalServerError, "Failed to save image locally")
 				return
 			}
 
 			if _, err := io.Copy(out, f); err != nil {
 				out.Close()
 				f.Close()
-				writeJSONError(w, http.StatusInternalServerError, "Failed to write image data")
+				httpjson.WriteError(w, http.StatusInternalServerError, "Failed to write image data")
 				return
 			}
 			out.Close()
@@ -172,7 +172,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 		`, productID, imageURL, currentOrder).Scan(&imgID)
 
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to record image in database: %s", err.Error()))
+			httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to record image in database: %s", err.Error()))
 			return
 		}
 
@@ -191,7 +191,7 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 
 func (h *UploadHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
@@ -199,23 +199,23 @@ func (h *UploadHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
 	imageIdStr := r.PathValue("imageId")
 	imageId, err := strconv.Atoi(imageIdStr)
 	if err != nil || imageId <= 0 {
-		writeJSONError(w, http.StatusBadRequest, "Invalid image ID")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid image ID")
 		return
 	}
 
 	var imageURL string
 	err = h.DB.QueryRow("SELECT url FROM product_images WHERE id = $1 AND product_id = $2", imageId, productID).Scan(&imageURL)
 	if err == sql.ErrNoRows {
-		writeJSONError(w, http.StatusNotFound, "Image not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Image not found")
 		return
 	} else if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Database error")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Database error")
 		return
 	}
 
 	_, err = h.DB.Exec("DELETE FROM product_images WHERE id = $1 AND product_id = $2", imageId, productID)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to delete image record")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to delete image record")
 		return
 	}
 
@@ -226,6 +226,12 @@ func (h *UploadHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
 		_ = os.Remove(dest)
 	}
 
+	if cloudName, apiKey, apiSecret, ok := cloudinaryCredentials(); ok {
+		if err := destroyCloudinaryImage(imageURL, cloudName, apiKey, apiSecret); err != nil {
+			log.Printf("warning: could not destroy Cloudinary image %s: %v", imageURL, err)
+		}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Image deleted successfully",
@@ -234,7 +240,7 @@ func (h *UploadHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
 
 func (h *UploadHandler) ReorderImages(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
@@ -243,20 +249,20 @@ func (h *UploadHandler) ReorderImages(w http.ResponseWriter, r *http.Request) {
 		Order []int `json:"order"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || len(req.Order) == 0 {
-		writeJSONError(w, http.StatusBadRequest, "Valid image order array is required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Valid image order array is required")
 		return
 	}
 
 	var exists bool
 	err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", productID).Scan(&exists)
 	if err != nil || !exists {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
 	tx, err := h.DB.Begin()
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to begin transaction")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to begin transaction")
 		return
 	}
 	defer tx.Rollback()
@@ -264,13 +270,13 @@ func (h *UploadHandler) ReorderImages(w http.ResponseWriter, r *http.Request) {
 	for idx, imgID := range req.Order {
 		_, err = tx.Exec("UPDATE product_images SET display_order = $1 WHERE id = $2 AND product_id = $3", idx, imgID, productID)
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to update image order for id %d: %s", imgID, err.Error()))
+			httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to update image order for id %d: %s", imgID, err.Error()))
 			return
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to commit image order")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to commit image order")
 		return
 	}
 
@@ -288,6 +294,93 @@ func (h *UploadHandler) ReorderImages(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(updated)
+}
+
+func cloudinaryCredentials() (string, string, string, bool) {
+	cloudName := os.Getenv("CLOUDINARY_CLOUD_NAME")
+	apiKey := os.Getenv("CLOUDINARY_API_KEY")
+	apiSecret := os.Getenv("CLOUDINARY_API_SECRET")
+	return cloudName, apiKey, apiSecret, cloudName != "" && apiKey != "" && apiSecret != ""
+}
+
+func cloudinaryPublicID(imageURL string) (string, bool) {
+	const marker = "/upload/"
+	idx := strings.Index(imageURL, marker)
+	if idx < 0 {
+		return "", false
+	}
+
+	parts := strings.Split(imageURL[idx+len(marker):], "/")
+	if len(parts) > 0 && len(parts[0]) > 1 && parts[0][0] == 'v' {
+		digitsOnly := true
+		for _, r := range parts[0][1:] {
+			if r < '0' || r > '9' {
+				digitsOnly = false
+				break
+			}
+		}
+		if digitsOnly {
+			parts = parts[1:]
+		}
+	}
+	if len(parts) == 0 {
+		return "", false
+	}
+
+	publicID := strings.Trim(strings.Join(parts, "/"), "/")
+	if dot := strings.LastIndex(publicID, "."); dot >= 0 {
+		publicID = publicID[:dot]
+	}
+	return publicID, publicID != ""
+}
+
+func destroyCloudinaryImage(imageURL, cloudName, apiKey, apiSecret string) error {
+	publicID, ok := cloudinaryPublicID(imageURL)
+	if !ok {
+		return fmt.Errorf("could not derive Cloudinary public_id from image URL")
+	}
+
+	timestamp := fmt.Sprintf("%d", time.Now().Unix())
+	h := sha1.New()
+	h.Write([]byte(fmt.Sprintf("public_id=%s&timestamp=%s%s", publicID, timestamp, apiSecret)))
+	signature := hex.EncodeToString(h.Sum(nil))
+
+	form := url.Values{}
+	form.Set("public_id", publicID)
+	form.Set("timestamp", timestamp)
+	form.Set("api_key", apiKey)
+	form.Set("signature", signature)
+
+	endpoint := fmt.Sprintf("https://api.cloudinary.com/v1_1/%s/image/destroy", cloudName)
+	req, err := http.NewRequest("POST", endpoint, strings.NewReader(form.Encode()))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Result string `json:"result"`
+		Error  *struct {
+			Message string `json:"message"`
+		} `json:"error,omitempty"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return err
+	}
+	if result.Error != nil {
+		return fmt.Errorf("%s", result.Error.Message)
+	}
+	if result.Result != "ok" && result.Result != "not found" {
+		return fmt.Errorf("unexpected Cloudinary result: %s", result.Result)
+	}
+	return nil
 }
 
 func uploadToCloudinary(file multipart.File, filename, cloudName, apiKey, apiSecret string) (string, error) {

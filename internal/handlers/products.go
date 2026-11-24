@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 
+	"beads-haven/internal/httpjson"
 	"beads-haven/internal/models"
 )
 
@@ -120,7 +122,7 @@ func (h *ProductHandler) fetchFullProduct(id string) (*models.Product, error) {
 
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
@@ -193,7 +195,7 @@ func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := h.DB.Query(query, args...)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Query error: %s", err.Error()))
+		httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Query error: %s", err.Error()))
 		return
 	}
 	defer rows.Close()
@@ -210,7 +212,7 @@ func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 			&p.Rating, &p.Reviews, &p.Description, &tagsJSON, &p.CreatedAt, &p.UpdatedAt,
 		)
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, "Error scanning product")
+			httpjson.WriteError(w, http.StatusInternalServerError, "Error scanning product")
 			return
 		}
 		p.Tags = []string{}
@@ -279,22 +281,22 @@ func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	id := r.PathValue("id")
 	if id == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product ID required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product ID required")
 		return
 	}
 
 	p, err := h.fetchFullProduct(id)
 	if err == sql.ErrNoRows {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	} else if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Database error")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Database error")
 		return
 	}
 
@@ -304,24 +306,24 @@ func (h *ProductHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	var p models.Product
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
-		writeJSONError(w, http.StatusBadRequest, "Invalid payload")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid payload")
 		return
 	}
 
 	p.Name = strings.TrimSpace(p.Name)
 	if p.Name == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product name is required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product name is required")
 		return
 	}
 
 	if p.Price <= 0 {
-		writeJSONError(w, http.StatusBadRequest, "Price must be greater than 0")
+		httpjson.WriteError(w, http.StatusBadRequest, "Price must be greater than 0")
 		return
 	}
 
@@ -332,13 +334,13 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		p.Type = "bracelets"
 	}
 	if !isValidType(p.Type) {
-		writeJSONError(w, http.StatusBadRequest, "Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor")
 		return
 	}
 
 	p.Category = strings.TrimSpace(p.Category)
 	if p.Category == "" || !validateCategoryForType(p.Type, p.Category) {
-		writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Category '%s' is not valid for collection '%s'", p.Category, p.Type))
+		httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("Category '%s' is not valid for collection '%s'", p.Category, p.Type))
 		return
 	}
 
@@ -352,7 +354,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 			var exists bool
 			err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", slug).Scan(&exists)
 			if err != nil {
-				writeJSONError(w, http.StatusInternalServerError, "Database error checking slug")
+				httpjson.WriteError(w, http.StatusInternalServerError, "Database error checking slug")
 				return
 			}
 			if !exists {
@@ -367,11 +369,11 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		var exists bool
 		err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", p.ID).Scan(&exists)
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, "Database error checking ID")
+			httpjson.WriteError(w, http.StatusInternalServerError, "Database error checking ID")
 			return
 		}
 		if exists {
-			writeJSONError(w, http.StatusConflict, fmt.Sprintf("Product with ID '%s' already exists", p.ID))
+			httpjson.WriteError(w, http.StatusConflict, fmt.Sprintf("Product with ID '%s' already exists", p.ID))
 			return
 		}
 	}
@@ -384,7 +386,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	// Transaction: Product + Sizes + Images
 	tx, err := h.DB.Begin()
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to begin transaction")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to begin transaction")
 		return
 	}
 	defer tx.Rollback()
@@ -394,7 +396,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	`, p.ID, p.Name, p.Brand, p.Type, p.Category, p.Price, p.OldPrice, p.Rating, p.Reviews, p.Description, tagsJSON)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to create product: %s", err.Error()))
+		httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to create product: %s", err.Error()))
 		return
 	}
 
@@ -407,7 +409,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		if s != "" {
 			_, err = tx.Exec("INSERT INTO product_sizes (product_id, size, stock) VALUES ($1, $2, 10) ON CONFLICT (product_id, size) DO NOTHING", p.ID, s)
 			if err != nil {
-				writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to create size: %s", err.Error()))
+				httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to create size: %s", err.Error()))
 				return
 			}
 		}
@@ -419,20 +421,20 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		if u != "" {
 			_, err = tx.Exec("INSERT INTO product_images (product_id, url, display_order) VALUES ($1, $2, $3)", p.ID, u, idx)
 			if err != nil {
-				writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to insert image: %s", err.Error()))
+				httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to insert image: %s", err.Error()))
 				return
 			}
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to commit transaction")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to commit transaction")
 		return
 	}
 
 	created, err := h.fetchFullProduct(p.ID)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Product created but failed to load response")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Product created but failed to load response")
 		return
 	}
 
@@ -443,13 +445,13 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	id := r.PathValue("id")
 	if id == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product ID required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product ID required")
 		return
 	}
 
@@ -464,27 +466,27 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		&existing.Price, &existing.OldPrice, &existing.Rating, &existing.Reviews, &existing.Description, &exTags,
 	)
 	if err == sql.ErrNoRows {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	} else if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Database error")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Database error")
 		return
 	}
 
 	var p models.Product
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
-		writeJSONError(w, http.StatusBadRequest, "Invalid payload")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid payload")
 		return
 	}
 
 	p.Name = strings.TrimSpace(p.Name)
 	if p.Name == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product name is required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product name is required")
 		return
 	}
 
 	if p.Price <= 0 {
-		writeJSONError(w, http.StatusBadRequest, "Price must be greater than 0")
+		httpjson.WriteError(w, http.StatusBadRequest, "Price must be greater than 0")
 		return
 	}
 
@@ -495,7 +497,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		p.Type = existing.Type
 	}
 	if !isValidType(p.Type) {
-		writeJSONError(w, http.StatusBadRequest, "Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor")
+		httpjson.WriteError(w, http.StatusBadRequest, "Invalid collection type. Must be one of: bracelets, necklaces, rings, bags, fashion-accessories, art-decor")
 		return
 	}
 
@@ -504,7 +506,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		p.Category = existing.Category
 	}
 	if !validateCategoryForType(p.Type, p.Category) {
-		writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Category '%s' is not valid for collection '%s'", p.Category, p.Type))
+		httpjson.WriteError(w, http.StatusBadRequest, fmt.Sprintf("Category '%s' is not valid for collection '%s'", p.Category, p.Type))
 		return
 	}
 
@@ -519,7 +521,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	// Transaction to update product and sync sizes preserving stock
 	tx, err := h.DB.Begin()
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to begin transaction")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to begin transaction")
 		return
 	}
 	defer tx.Rollback()
@@ -531,7 +533,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		WHERE id = $11
 	`, p.Name, p.Brand, p.Type, p.Category, p.Price, p.OldPrice, p.Rating, p.Reviews, p.Description, tagsJSON, id)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to update product: %s", err.Error()))
+		httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to update product: %s", err.Error()))
 		return
 	}
 
@@ -540,7 +542,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		existingSizes := make(map[string]int)
 		rows, err := tx.Query("SELECT size, stock FROM product_sizes WHERE product_id = $1", id)
 		if err != nil {
-			writeJSONError(w, http.StatusInternalServerError, "Failed to read existing sizes")
+			httpjson.WriteError(w, http.StatusInternalServerError, "Failed to read existing sizes")
 			return
 		}
 		for rows.Next() {
@@ -563,7 +565,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 				// New size - default stock 10
 				_, err = tx.Exec("INSERT INTO product_sizes (product_id, size, stock) VALUES ($1, $2, 10)", id, sz)
 				if err != nil {
-					writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to insert size: %s", err.Error()))
+					httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to insert size: %s", err.Error()))
 					return
 				}
 			}
@@ -574,7 +576,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 			if !newSizesMap[oldSz] {
 				_, err = tx.Exec("DELETE FROM product_sizes WHERE product_id = $1 AND size = $2", id, oldSz)
 				if err != nil {
-					writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to delete removed size: %s", err.Error()))
+					httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to delete removed size: %s", err.Error()))
 					return
 				}
 			}
@@ -582,13 +584,13 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tx.Commit(); err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Failed to commit transaction")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to commit transaction")
 		return
 	}
 
 	updated, err := h.fetchFullProduct(id)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, "Product updated but failed to reload")
+		httpjson.WriteError(w, http.StatusInternalServerError, "Product updated but failed to reload")
 		return
 	}
 
@@ -598,13 +600,13 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	if h.DB == nil {
-		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
 	id := r.PathValue("id")
 	if id == "" {
-		writeJSONError(w, http.StatusBadRequest, "Product ID required")
+		httpjson.WriteError(w, http.StatusBadRequest, "Product ID required")
 		return
 	}
 
@@ -612,7 +614,7 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	var exists bool
 	err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", id).Scan(&exists)
 	if err != nil || !exists {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
@@ -630,13 +632,13 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	res, err := h.DB.Exec("DELETE FROM products WHERE id = $1", id)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to delete product: %s", err.Error()))
+		httpjson.WriteError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to delete product: %s", err.Error()))
 		return
 	}
 
 	rowsAffected, _ := res.RowsAffected()
 	if rowsAffected == 0 {
-		writeJSONError(w, http.StatusNotFound, "Product not found")
+		httpjson.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
@@ -646,6 +648,14 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 			fn := filepath.Base(u)
 			dest := filepath.Join("frontend", "assets", "uploads", fn)
 			_ = os.Remove(dest)
+		}
+	}
+
+	if cloudName, apiKey, apiSecret, ok := cloudinaryCredentials(); ok {
+		for _, u := range imageURLs {
+			if err := destroyCloudinaryImage(u, cloudName, apiKey, apiSecret); err != nil {
+				log.Printf("warning: could not destroy Cloudinary image %s: %v", u, err)
+			}
 		}
 	}
 

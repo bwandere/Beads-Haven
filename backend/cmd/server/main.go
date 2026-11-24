@@ -11,6 +11,7 @@ import (
 
 	"beads-haven/internal/db"
 	"beads-haven/internal/handlers"
+	"beads-haven/internal/httpjson"
 	"beads-haven/internal/middleware"
 )
 
@@ -40,9 +41,7 @@ func loadEnvFile(path string) {
 func requireDB(database *sql.DB, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if database == nil {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte(`{"error":"Database unavailable"}`))
+			httpjson.WriteError(w, http.StatusServiceUnavailable, "Database unavailable")
 			return
 		}
 		next(w, r)
