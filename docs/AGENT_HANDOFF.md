@@ -43,6 +43,7 @@ Repo branch: `feat/beads-and-art`. Current goal: complete verification/fixes for
 - curl lifecycle: login 200; no token 401; create 201; duplicate id 409; upload 2 images 201; reorder 200; update 200 (price/rating/reviews/description/sizes changed, existing stock preserved); delete image 200; delete product 200; GET/update/delete missing product 404.
 - Error paths: demo token 401 JSON; invalid category/price 400 JSON; fake PNG rejected 400 by content sniffing; placeholder row removed when first real image uploaded; DB-down server returns 503 JSON for public and admin APIs with loud startup warning; missing `JWT_SECRET` outside `DEV=true` exits 1.
 - Browser admin flow: login, create with image, edit prefill, add/reorder/remove/replace image, delete, reload; no `products.json` requests from admin.
+- Browser modal: `max-height: 100dvh`, scrollable body and stacked fields at 360/390/430/768px; desktop keeps 90vh. Simulated image-upload failure keeps the modal in edit mode with "Update Piece" enabled and the real server error in a toast.
 - Hero geometry: at 360/390/430/768 CSS px the three tiles cover the hero with zero gaps, `hero-grid` static, text z-index 3, scrim z-index 1, `object-fit: cover`, subtle scale animation; 1280px keeps floating desktop layout with no scrim/scale. Screenshots written outside the repo at `/home/bwandere/hero-*.png`.
 
 ## Notes for the next agent

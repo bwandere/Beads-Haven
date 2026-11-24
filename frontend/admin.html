@@ -723,7 +723,7 @@
         showToast(err.message || 'Operation failed', 'error');
       } finally {
         btnSavePiece.disabled = false;
-        btnSavePiece.textContent = isEdit ? 'Update Piece' : 'Save Piece';
+        btnSavePiece.textContent = currentEditingProductId ? 'Update Piece' : 'Save Piece';
       }
     });
 
