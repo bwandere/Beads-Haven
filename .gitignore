@@ -3,3 +3,5 @@ bin/
 node_modules/
 **/node_modules/
 scratch/scratch/screenshots/
+frontend/assets/uploads/*
+!frontend/assets/uploads/.gitkeep

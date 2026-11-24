@@ -3,8 +3,13 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"io/fs"
 	"log"
+	"sort"
+	"strings"
 	"time"
+
+	"beads-haven/migrations"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
@@ -27,73 +32,71 @@ func Connect(connStr string) (*sql.DB, error) {
 	return db, nil
 }
 
+// RunMigrations applies any pending embedded SQL migrations in order within transactions.
+func RunMigrations(db *sql.DB) error {
+	createTableSQL := `
+	CREATE TABLE IF NOT EXISTS schema_migrations (
+		version VARCHAR(255) PRIMARY KEY,
+		applied_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+	);`
+	if _, err := db.Exec(createTableSQL); err != nil {
+		return fmt.Errorf("failed to create schema_migrations table: %w", err)
+	}
+
+	entries, err := fs.ReadDir(migrations.FS, ".")
+	if err != nil {
+		return fmt.Errorf("failed to read migrations directory: %w", err)
+	}
+
+	var files []string
+	for _, entry := range entries {
+		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".sql") {
+			files = append(files, entry.Name())
+		}
+	}
+	sort.Strings(files)
+
+	for _, filename := range files {
+		var applied bool
+		err := db.QueryRow("SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE version = $1)", filename).Scan(&applied)
+		if err != nil {
+			return fmt.Errorf("failed checking status of migration %s: %w", filename, err)
+		}
+		if applied {
+			continue
+		}
+
+		content, err := fs.ReadFile(migrations.FS, filename)
+		if err != nil {
+			return fmt.Errorf("failed reading migration %s: %w", filename, err)
+		}
+
+		log.Printf("Applying migration: %s", filename)
+		tx, err := db.Begin()
+		if err != nil {
+			return fmt.Errorf("failed to begin transaction for %s: %w", filename, err)
+		}
+
+		if _, err := tx.Exec(string(content)); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("migration %s failed: %w", filename, err)
+		}
+
+		if _, err := tx.Exec("INSERT INTO schema_migrations (version) VALUES ($1)", filename); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to record migration %s: %w", filename, err)
+		}
+
+		if err := tx.Commit(); err != nil {
+			return fmt.Errorf("failed to commit transaction for migration %s: %w", filename, err)
+		}
+		log.Printf("Applied migration %s successfully", filename)
+	}
+
+	return nil
+}
+
+// EnsureSchema is retained for compatibility and delegates directly to RunMigrations.
 func EnsureSchema(db *sql.DB) error {
-	schema := `
-	CREATE TABLE IF NOT EXISTS products (
-		id VARCHAR(100) PRIMARY KEY,
-		name VARCHAR(255) NOT NULL,
-		brand VARCHAR(100) NOT NULL DEFAULT 'Beads Haven',
-		type VARCHAR(50) NOT NULL DEFAULT 'bracelets',
-		category VARCHAR(100) NOT NULL,
-		price NUMERIC(12, 2) NOT NULL,
-		old_price NUMERIC(12, 2),
-		rating NUMERIC(3, 1) DEFAULT 4.5,
-		reviews INT DEFAULT 0,
-		description TEXT,
-		tags JSONB DEFAULT '[]'::jsonb,
-		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-		updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE TABLE IF NOT EXISTS product_images (
-		id SERIAL PRIMARY KEY,
-		product_id VARCHAR(100) NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-		url TEXT NOT NULL,
-		display_order INT DEFAULT 0,
-		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE TABLE IF NOT EXISTS product_sizes (
-		id SERIAL PRIMARY KEY,
-		product_id VARCHAR(100) NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-		size VARCHAR(20) NOT NULL,
-		stock INT DEFAULT 10,
-		UNIQUE(product_id, size)
-	);
-
-	CREATE TABLE IF NOT EXISTS users (
-		id SERIAL PRIMARY KEY,
-		email VARCHAR(255) UNIQUE NOT NULL,
-		password_hash TEXT NOT NULL,
-		role VARCHAR(50) DEFAULT 'user',
-		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE TABLE IF NOT EXISTS orders (
-		id VARCHAR(100) PRIMARY KEY,
-		customer_name VARCHAR(255) NOT NULL,
-		customer_phone VARCHAR(50) NOT NULL,
-		customer_email VARCHAR(255) NOT NULL,
-		delivery_location TEXT NOT NULL,
-		payment_method VARCHAR(50) NOT NULL,
-		mpesa_phone VARCHAR(50),
-		subtotal NUMERIC(12, 2) NOT NULL,
-		delivery_fee NUMERIC(12, 2) NOT NULL,
-		total_amount NUMERIC(12, 2) NOT NULL,
-		status VARCHAR(50) DEFAULT 'pending',
-		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-	);
-
-	CREATE TABLE IF NOT EXISTS order_items (
-		id SERIAL PRIMARY KEY,
-		order_id VARCHAR(100) NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-		product_id VARCHAR(100) NOT NULL,
-		size VARCHAR(20) NOT NULL,
-		quantity INT NOT NULL,
-		price NUMERIC(12, 2) NOT NULL
-	);
-	`
-
-	_, err := db.Exec(schema)
-	return err
+	return RunMigrations(db)
 }
