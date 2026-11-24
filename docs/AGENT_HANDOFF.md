@@ -34,7 +34,7 @@ Repo branch: `feat/beads-and-art`. Current goal: complete verification/fixes for
 
 ### Documentation
 
-- [ ] Update `README.md` for admin endpoints, migrations behaviour, upload storage, and `JWT_SECRET` requirement.
+- [x] Update `README.md` for admin endpoints, migrations behaviour, upload storage, and `JWT_SECRET` requirement.
 
 ## Verification log
 
