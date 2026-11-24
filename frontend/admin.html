@@ -257,6 +257,7 @@
     import { formatCurrency, showToast } from '/js/ui.js';
     import { 
       loginUser, 
+      verifyAdminSession, 
       adminFetchProducts, 
       createAdminProduct, 
       updateAdminProduct, 
@@ -312,6 +313,7 @@
     const newFilesPreview = document.getElementById('new-files-preview');
 
     let adminToken = localStorage.getItem('beads_haven_admin_token') || '';
+    let authGeneration = 0;
     let currentEditingProductId = null;
     let currentEditingProduct = null;
     let selectedFiles = [];
@@ -319,6 +321,7 @@
     // Session expiration event listener
     window.addEventListener('auth:expired', () => {
       adminToken = '';
+      localStorage.removeItem('beads_haven_admin_token');
       showToast('Session expired, please sign in again', 'error');
       checkAuth();
     });
@@ -353,16 +356,48 @@
 
     typeSelect.addEventListener('change', () => updateCategoryDropdown());
 
-    function checkAuth() {
-      if (adminToken) {
+    function showLoginView() {
+      loginView.style.display = 'block';
+      dashboardView.style.display = 'none';
+      btnLogout.style.display = 'none';
+    }
+
+    async function checkAuth({ notify = false } = {}) {
+      const generation = ++authGeneration;
+
+      if (!adminToken) {
+        showLoginView();
+        return false;
+      }
+
+      try {
+        const session = await verifyAdminSession(adminToken);
+        if (generation !== authGeneration || !adminToken) return false;
+        if (session.role !== 'admin') {
+          throw new Error('Administrator access required');
+        }
+
         loginView.style.display = 'none';
         dashboardView.style.display = 'block';
         btnLogout.style.display = 'inline-flex';
         loadAdminProducts();
-      } else {
-        loginView.style.display = 'block';
-        dashboardView.style.display = 'none';
-        btnLogout.style.display = 'none';
+        return true;
+      } catch (err) {
+        if (generation !== authGeneration) return false;
+        console.warn('Admin session invalid:', err.message);
+        if (err.status === 401 || err.status === 403 || err.message === 'Administrator access required') {
+          adminToken = '';
+          localStorage.removeItem('beads_haven_admin_token');
+          showLoginView();
+          if (notify) {
+            showToast(err.message || 'Session expired, please sign in again', 'error');
+          }
+          return false;
+        }
+        if (notify) {
+          showToast(err.message || 'Session validation failed', 'error');
+        }
+        return false;
       }
     }
 
@@ -380,10 +415,15 @@
         if (!res.token) {
           throw new Error('Authentication succeeded but no token received');
         }
+        if (res.role !== 'admin') {
+          throw new Error('Administrator access required');
+        }
         adminToken = res.token;
         localStorage.setItem('beads_haven_admin_token', adminToken);
-        showToast('Logged in successfully');
-        checkAuth();
+        const authenticated = await checkAuth({ notify: true });
+        if (authenticated) {
+          showToast('Logged in successfully');
+        }
       } catch (err) {
         showToast(err.message || 'Login failed', 'error');
       } finally {
