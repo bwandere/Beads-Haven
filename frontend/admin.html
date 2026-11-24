@@ -608,8 +608,10 @@
           return;
         }
 
-        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!validTypes.includes(file.type)) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        const validExts = ['jpg', 'jpeg', 'png', 'webp'];
+        const validMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', ''];
+        if (!validExts.includes(ext) || (file.type && !validMimes.includes(file.type))) {
           showToast(`File "${file.name}" is not a valid JPG, PNG, or WebP`, 'error');
           filesInput.value = '';
           selectedFiles = [];
@@ -648,6 +650,7 @@
       }
 
       const isEdit = !!currentEditingProductId;
+      const filesToUpload = selectedFiles.length > 0 ? selectedFiles : Array.from(filesInput.files || []);
       const payload = {
         name: nameInput.value.trim(),
         brand: 'Beads Haven',
@@ -676,9 +679,9 @@
           const updated = await updateAdminProduct(currentEditingProductId, payload, adminToken);
           
           // Upload any newly selected files
-          if (selectedFiles.length > 0) {
+          if (filesToUpload.length > 0) {
             try {
-              await uploadProductImage(currentEditingProductId, selectedFiles, adminToken);
+              await uploadProductImage(currentEditingProductId, filesToUpload, adminToken);
             } catch (imgErr) {
               showToast(`Piece updated, but new images failed to upload: ${imgErr.message}`, 'error');
               btnSavePiece.disabled = false;
@@ -698,9 +701,9 @@
           // Create Flow
           const created = await createAdminProduct(payload, adminToken);
 
-          if (selectedFiles.length > 0) {
+          if (filesToUpload.length > 0) {
             try {
-              await uploadProductImage(created.id, selectedFiles, adminToken);
+              await uploadProductImage(created.id, filesToUpload, adminToken);
               showToast('Piece created and image uploaded successfully!');
               productModal.style.display = 'none';
               await loadAdminProducts();

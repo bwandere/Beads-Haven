@@ -61,10 +61,9 @@ func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
 
 	var fileHeaders []*multipart.FileHeader
 	if r.MultipartForm != nil && r.MultipartForm.File != nil {
-		if fhs, ok := r.MultipartForm.File["images"]; ok {
+		if fhs, ok := r.MultipartForm.File["images"]; ok && len(fhs) > 0 {
 			fileHeaders = append(fileHeaders, fhs...)
-		}
-		if fhs, ok := r.MultipartForm.File["image"]; ok {
+		} else if fhs, ok := r.MultipartForm.File["image"]; ok && len(fhs) > 0 {
 			fileHeaders = append(fileHeaders, fhs...)
 		}
 	}

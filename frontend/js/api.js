@@ -192,19 +192,13 @@ export async function deleteProduct(productId, token) {
 }
 
 export async function uploadProductImage(productId, files, token) {
+  if (!files) return [];
+  const fileArray = files instanceof File ? [files] : Array.from(files);
+  if (fileArray.length === 0) return [];
+
   const formData = new FormData();
-  if (files instanceof File) {
-    formData.append('images', files);
-    formData.append('image', files);
-  } else if (files instanceof FileList || Array.isArray(files)) {
-    for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
-    }
-    if (files.length > 0) {
-      formData.append('image', files[0]);
-    }
-  } else {
-    throw new Error('Invalid file input for upload');
+  for (let i = 0; i < fileArray.length; i++) {
+    formData.append('images', fileArray[i]);
   }
 
   const headers = {};
