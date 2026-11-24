@@ -1,9 +1,17 @@
 /**
  * Beads Haven - API Layer
- * Connects to Go backend with seamless fallback to /products.json
+ * Connects to Go backend with storefront fallback to /products.json.
+ * Admin methods connect strictly to Go backend API (never fallback).
  */
 
 const API_BASE = '/api';
+
+function handleAuthFailure(status) {
+  if (status === 401 || status === 403) {
+    localStorage.removeItem('beads_haven_admin_token');
+    window.dispatchEvent(new CustomEvent('auth:expired'));
+  }
+}
 
 export async function fetchProducts(filters = {}) {
   try {
@@ -22,7 +30,7 @@ export async function fetchProducts(filters = {}) {
     }
     throw new Error(`API error: ${res.status}`);
   } catch (err) {
-    // Fallback to local mock data
+    // Storefront fallback to local mock data
     console.info('Using local products.json mock fallback:', err.message);
     const mockRes = await fetch('/products.json');
     let products = await mockRes.json();
@@ -38,7 +46,7 @@ export async function fetchProducts(filters = {}) {
       products = products.filter(p => p.brand.toLowerCase() === filters.brand.toLowerCase());
     }
     if (filters.size) {
-      products = products.filter(p => p.sizes.includes(filters.size));
+      products = products.filter(p => p.sizes && p.sizes.includes(filters.size));
     }
     if (filters.price) {
       const maxP = parseFloat(filters.price);
@@ -46,7 +54,7 @@ export async function fetchProducts(filters = {}) {
     }
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      products = products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+      products = products.filter(p => (p.name && p.name.toLowerCase().includes(q)) || (p.description && p.description.toLowerCase().includes(q)));
     }
 
     if (filters.sort === 'price-asc') {
@@ -88,7 +96,6 @@ export async function createOrder(orderPayload) {
     const errData = await res.json().catch(() => ({}));
     throw new Error(errData.error || `Failed to create order: ${res.status}`);
   } catch (err) {
-    // For demo/offline mode, return simulated order response
     console.info('Simulated order fallback:', err.message);
     return {
       success: true,
@@ -111,8 +118,25 @@ export async function loginUser(email, password) {
     body: JSON.stringify({ email, password })
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || 'Login failed');
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || 'Login failed');
+  }
+  return await res.json();
+}
+
+/* ==========================================================================
+   Admin API (Strict - No products.json fallback)
+   ========================================================================== */
+
+export async function adminFetchProducts(token) {
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE}/products`, { headers });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || `Failed to fetch products: ${res.status}`);
   }
   return await res.json();
 }
@@ -120,18 +144,68 @@ export async function loginUser(email, password) {
 export async function createAdminProduct(productData, token) {
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
+
   const res = await fetch(`${API_BASE}/admin/products`, {
     method: 'POST',
     headers,
     body: JSON.stringify(productData)
   });
-  if (!res.ok) throw new Error('Failed to create product');
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Failed to create product');
+  }
   return await res.json();
 }
 
-export async function uploadProductImage(productId, file, token) {
+export async function updateAdminProduct(productId, productData, token) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE}/admin/products/${productId}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(productData)
+  });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Failed to update product');
+  }
+  return await res.json();
+}
+
+export async function deleteProduct(productId, token) {
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE}/admin/products/${productId}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Failed to delete product');
+  }
+  return await res.json();
+}
+
+export async function uploadProductImage(productId, files, token) {
   const formData = new FormData();
-  formData.append('image', file);
+  if (files instanceof File) {
+    formData.append('images', files);
+    formData.append('image', files);
+  } else if (files instanceof FileList || Array.isArray(files)) {
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
+    if (files.length > 0) {
+      formData.append('image', files[0]);
+    }
+  } else {
+    throw new Error('Invalid file input for upload');
+  }
 
   const headers = {};
   if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -142,19 +216,42 @@ export async function uploadProductImage(productId, file, token) {
     body: formData
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || 'Image upload failed');
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Image upload failed');
   }
   return await res.json();
 }
 
-export async function deleteProduct(productId, token) {
+export async function deleteProductImage(productId, imageId, token) {
   const headers = {};
   if (token) headers['Authorization'] = `Bearer ${token}`;
-  const res = await fetch(`${API_BASE}/admin/products/${productId}`, {
+
+  const res = await fetch(`${API_BASE}/admin/products/${productId}/images/${imageId}`, {
     method: 'DELETE',
     headers
   });
-  if (!res.ok) throw new Error('Failed to delete product');
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Failed to delete image');
+  }
+  return await res.json();
+}
+
+export async function reorderProductImages(productId, orderArray, token) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE}/admin/products/${productId}/images/order`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ order: orderArray })
+  });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    handleAuthFailure(res.status);
+    throw new Error(errData.error || 'Failed to reorder images');
+  }
   return await res.json();
 }

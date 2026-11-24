@@ -9,6 +9,82 @@
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/pages.css">
+  <style>
+    .image-manager-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .image-manager-card {
+      position: relative;
+      background: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .image-manager-card img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      display: block;
+    }
+    .image-card-actions {
+      padding: 0.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: var(--card);
+    }
+    .image-badge-primary {
+      position: absolute;
+      top: 0.25rem;
+      left: 0.25rem;
+      background: var(--accent);
+      color: #faf5ec;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.15rem 0.4rem;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .new-preview-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .new-preview-item {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .new-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @media (max-width: 640px) {
+      .modal-backdrop {
+        padding: 0;
+      }
+      .modal-content {
+        max-height: 100dvh;
+        height: 100%;
+        border-radius: 0;
+        padding: 1.25rem;
+      }
+      .checkout-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -25,29 +101,34 @@
     </div>
   </header>
 
-  <main class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Login View -->
-    <div id="login-view" style="max-width: 26rem; margin: 4rem auto 0 auto;">
+    <div id="login-view" style="max-width: 26rem; margin: 3rem auto 0 auto;">
       <div class="checkout-card">
         <h1 class="section-title" style="font-size: 2.25rem;">Admin Login</h1>
         <p style="color: var(--muted-foreground); font-size: 0.875rem;">Manage handcrafted beadwork inventory and artisan imagery.</p>
 
-        <form id="login-form" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+        <form id="login-form" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.25rem;">
           <div class="form-group">
             <label for="admin-email" class="form-label">Email / Username</label>
-            <input type="text" id="admin-email" class="form-input" placeholder="admin@beadshaven.co.ke" required>
+            <input type="email" id="admin-email" class="form-input" placeholder="admin@beadshaven.co.ke" required autocomplete="username">
           </div>
           <div class="form-group">
             <label for="admin-password" class="form-label">Password</label>
-            <input type="password" id="admin-password" class="form-input" placeholder="••••••••" required>
+            <input type="password" id="admin-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
           </div>
-          <button type="submit" class="btn btn-accent btn-xl" style="width: 100%;">Sign in</button>
+          <button type="submit" id="btn-login-submit" class="btn btn-accent btn-xl" style="width: 100%;">Sign in</button>
         </form>
       </div>
     </div>
 
     <!-- Dashboard View -->
     <div id="dashboard-view" style="display: none;">
+      <!-- DB Unavailable Banner -->
+      <div id="db-unavailable-banner" style="display: none; background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 1rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-weight: 600;">
+        Database unavailable: changes can't be saved
+      </div>
+
       <div class="admin-header">
         <div>
           <p class="eyebrow">Catalogue Management</p>
@@ -75,33 +156,34 @@
     </div>
   </main>
 
-  <!-- Create Product Modal -->
-  <div id="create-modal" class="modal-backdrop" style="display: none;">
+  <!-- Create / Edit Product Modal -->
+  <div id="product-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="section-title" style="font-size: 2rem;">Add Beadwork Piece</h2>
-        <button id="btn-close-modal" class="header-btn" aria-label="Close">
+        <h2 id="modal-title" class="section-title" style="font-size: 1.75rem;">Add Beadwork Piece</h2>
+        <button id="btn-close-modal" type="button" class="header-btn" aria-label="Close">
           <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
           </svg>
         </button>
       </div>
 
-      <form id="create-product-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+      <form id="product-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
         <div class="checkout-grid-2">
           <div class="form-group">
-            <label class="form-label">Product ID (Slug)</label>
-            <input type="text" name="id" class="form-input" placeholder="e.g. mara-beaded-cuff" required>
+            <label class="form-label" for="prod-id-input">Product ID (Slug)</label>
+            <input type="text" id="prod-id-input" name="id" class="form-input" placeholder="e.g. mara-beaded-cuff">
+            <small id="prod-id-hint" style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Leave blank on create to auto-generate from name.</small>
           </div>
           <div class="form-group">
-            <label class="form-label">Product Name</label>
-            <input type="text" name="name" class="form-input" placeholder="e.g. Mara Beaded Cuff" required>
+            <label class="form-label" for="prod-name-input">Product Name</label>
+            <input type="text" id="prod-name-input" name="name" class="form-input" placeholder="e.g. Mara Beaded Cuff" required>
           </div>
         </div>
 
         <div class="checkout-grid-2">
           <div class="form-group">
-            <label class="form-label">Collection</label>
+            <label class="form-label" for="prod-type-select">Collection</label>
             <select id="prod-type-select" name="type" class="form-select">
               <option value="bracelets">Bracelets</option>
               <option value="necklaces">Necklaces</option>
@@ -112,75 +194,136 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Category (Subcategory)</label>
+            <label class="form-label" for="prod-category-select">Category (Subcategory)</label>
             <select id="prod-category-select" name="category" class="form-select" required></select>
           </div>
         </div>
 
         <div class="checkout-grid-2">
           <div class="form-group">
-            <label class="form-label">Price (KSh)</label>
-            <input type="number" name="price" class="form-input" placeholder="1200" required>
+            <label class="form-label" for="prod-price-input">Price (KSh)</label>
+            <input type="number" id="prod-price-input" name="price" class="form-input" placeholder="1200" min="1" step="any" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Old Price (KSh, optional)</label>
-            <input type="number" name="old_price" class="form-input" placeholder="1500">
+            <label class="form-label" for="prod-old-price-input">Old Price (KSh, optional)</label>
+            <input type="number" id="prod-old-price-input" name="old_price" class="form-input" placeholder="1500" step="any">
+          </div>
+        </div>
+
+        <div class="checkout-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="prod-rating-input">Rating (0 - 5.0)</label>
+            <input type="number" id="prod-rating-input" name="rating" class="form-input" placeholder="4.5" min="0" max="5" step="0.1" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-reviews-input">Reviews Count</label>
+            <input type="number" id="prod-reviews-input" name="reviews" class="form-input" placeholder="0" min="0" step="1" value="0">
           </div>
         </div>
 
         <div class="form-group">
-          <label id="sizes-label" class="form-label">Sizes / Length / Options (comma-separated)</label>
+          <label id="sizes-label" class="form-label" for="prod-sizes-input">Sizes / Length / Options (comma-separated)</label>
           <input type="text" id="prod-sizes-input" name="sizes" class="form-input" placeholder="S, M, L">
           <small id="sizes-hint" style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Leave blank for default option preset.</small>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Description</label>
-          <textarea name="description" class="form-textarea" placeholder="Handmade beadwork craftsmanship, colors, materials, and care notes..." rows="3" required></textarea>
+          <label class="form-label" for="prod-description-input">Description</label>
+          <textarea id="prod-description-input" name="description" class="form-textarea" placeholder="Handmade beadwork craftsmanship, colors, materials, and care notes..." rows="3" required></textarea>
         </div>
 
-        <!-- Image Upload to Cloudinary / Local -->
+        <!-- Existing Images Manager (Edit Mode) -->
+        <div id="existing-images-section" class="form-group" style="display: none;">
+          <label class="form-label">Current Product Images</label>
+          <div id="existing-images-list" class="image-manager-list"></div>
+        </div>
+
+        <!-- Add Real Image Files -->
         <div class="form-group">
-          <label class="form-label">Upload Product Image (Cloudinary / Local: JPG/PNG/WebP, max 5 MB)</label>
-          <input type="file" id="product-file-input" class="form-input" accept="image/jpeg,image/png,image/webp">
-          <div id="image-preview-wrap" style="margin-top: 0.75rem; display: none;">
-            <img id="image-preview" src="" alt="Preview" style="width: 6rem; height: 6rem; object-fit: cover; border-radius: var(--radius-md);">
+          <label class="form-label" for="product-files-input">Upload Images (JPG, PNG, WebP — Max 5 MB each)</label>
+          <input type="file" id="product-files-input" class="form-input" accept="image/jpeg,image/png,image/webp" multiple>
+          <div id="new-files-preview-container" style="display: none; margin-top: 0.5rem;">
+            <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-bottom: 0.25rem;">Images to upload on save:</p>
+            <div id="new-files-preview" class="new-preview-list"></div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-accent btn-xl" style="margin-top: 1rem;">Save Piece</button>
+        <button type="submit" id="btn-save-piece" class="btn btn-accent btn-xl" style="margin-top: 1rem; width: 100%;">Save Piece</button>
       </form>
     </div>
   </div>
 
   <script type="module">
     import { formatCurrency, showToast } from '/js/ui.js';
-    import { fetchProducts, loginUser, createAdminProduct, uploadProductImage, deleteProduct } from '/js/api.js';
+    import { 
+      loginUser, 
+      adminFetchProducts, 
+      createAdminProduct, 
+      updateAdminProduct, 
+      deleteProduct, 
+      uploadProductImage, 
+      deleteProductImage, 
+      reorderProductImages 
+    } from '/js/api.js';
     import { COLLECTIONS, getCollection } from '/js/collections.js';
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
     const loginView = document.getElementById('login-view');
     const dashboardView = document.getElementById('dashboard-view');
     const loginForm = document.getElementById('login-form');
     const btnLogout = document.getElementById('btn-logout');
     const tbody = document.getElementById('admin-products-tbody');
-    const createModal = document.getElementById('create-modal');
+    const dbBanner = document.getElementById('db-unavailable-banner');
+
+    const productModal = document.getElementById('product-modal');
+    const modalTitle = document.getElementById('modal-title');
     const btnOpenCreate = document.getElementById('btn-open-create');
     const btnCloseModal = document.getElementById('btn-close-modal');
-    const createForm = document.getElementById('create-product-form');
-    const fileInput = document.getElementById('product-file-input');
-    const previewWrap = document.getElementById('image-preview-wrap');
-    const previewImg = document.getElementById('image-preview');
+    const productForm = document.getElementById('product-form');
+    const btnSavePiece = document.getElementById('btn-save-piece');
 
+    const idInput = document.getElementById('prod-id-input');
+    const idHint = document.getElementById('prod-id-hint');
+    const nameInput = document.getElementById('prod-name-input');
     const typeSelect = document.getElementById('prod-type-select');
     const categorySelect = document.getElementById('prod-category-select');
+    const priceInput = document.getElementById('prod-price-input');
+    const oldPriceInput = document.getElementById('prod-old-price-input');
+    const ratingInput = document.getElementById('prod-rating-input');
+    const reviewsInput = document.getElementById('prod-reviews-input');
     const sizesInput = document.getElementById('prod-sizes-input');
     const sizesLabel = document.getElementById('sizes-label');
     const sizesHint = document.getElementById('sizes-hint');
+    const descriptionInput = document.getElementById('prod-description-input');
+
+    const existingImagesSection = document.getElementById('existing-images-section');
+    const existingImagesList = document.getElementById('existing-images-list');
+    const filesInput = document.getElementById('product-files-input');
+    const previewContainer = document.getElementById('new-files-preview-container');
+    const newFilesPreview = document.getElementById('new-files-preview');
 
     let adminToken = localStorage.getItem('beads_haven_admin_token') || '';
+    let currentEditingProductId = null;
+    let currentEditingProduct = null;
+    let selectedFiles = [];
 
-    // Update categories and sizes placeholder when collection type changes
-    function updateCategoryDropdown() {
+    // Session expiration event listener
+    window.addEventListener('auth:expired', () => {
+      adminToken = '';
+      showToast('Session expired, please sign in again', 'error');
+      checkAuth();
+    });
+
+    function updateCategoryDropdown(selectedCategory = '') {
       const selectedType = typeSelect.value;
       const col = getCollection(selectedType);
       categorySelect.innerHTML = '';
@@ -190,17 +333,17 @@
           const opt = document.createElement('option');
           opt.value = sub;
           opt.textContent = sub;
+          if (sub === selectedCategory) {
+            opt.selected = true;
+          }
           categorySelect.appendChild(opt);
         });
 
-        // Update sizes placeholder & requirement
         if (col.singleOption) {
-          sizesInput.required = false;
-          sizesInput.placeholder = 'One size (optional)';
+          sizesInput.placeholder = 'One size';
           sizesLabel.textContent = 'Option / Dimensions (leave blank for One size)';
-          sizesHint.textContent = 'Single-option piece. Leave blank to default to "One size".';
+          sizesHint.textContent = 'Single-option piece. Defaults to "One size".';
         } else {
-          sizesInput.required = false;
           sizesInput.placeholder = col.sizePresets ? col.sizePresets.join(', ') : 'S, M, L';
           sizesLabel.textContent = `${col.sizeLabel || 'Size / Option'} (comma-separated)`;
           sizesHint.textContent = `Default preset: ${col.sizePresets ? col.sizePresets.join(', ') : 'One size'}`;
@@ -208,8 +351,7 @@
       }
     }
 
-    typeSelect.addEventListener('change', updateCategoryDropdown);
-    updateCategoryDropdown();
+    typeSelect.addEventListener('change', () => updateCategoryDropdown());
 
     function checkAuth() {
       if (adminToken) {
@@ -226,23 +368,27 @@
 
     loginForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const email = document.getElementById('admin-email').value;
+      const email = document.getElementById('admin-email').value.trim();
       const pass = document.getElementById('admin-password').value;
+      const submitBtn = document.getElementById('btn-login-submit');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in…';
+
       try {
         const res = await loginUser(email, pass);
-        adminToken = res.token || 'demo-admin-token';
+        if (!res.token) {
+          throw new Error('Authentication succeeded but no token received');
+        }
+        adminToken = res.token;
         localStorage.setItem('beads_haven_admin_token', adminToken);
         showToast('Logged in successfully');
         checkAuth();
       } catch (err) {
-        if (email === 'admin@beadshaven.co.ke' && (pass === 'admin123' || pass === 'admin')) {
-          adminToken = 'demo-admin-token';
-          localStorage.setItem('beads_haven_admin_token', adminToken);
-          showToast('Logged in successfully');
-          checkAuth();
-        } else {
-          showToast(err.message, 'error');
-        }
+        showToast(err.message || 'Login failed', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
       }
     });
 
@@ -254,125 +400,327 @@
     });
 
     async function loadAdminProducts() {
-      const products = await fetchProducts();
-      tbody.innerHTML = '';
-      products.forEach(p => {
-        const tr = document.createElement('tr');
-        const imgUrl = (p.images && p.images[0]) || '/assets/images/placeholders/default.svg';
-        const sizes = p.sizes ? p.sizes.join(', ') : 'One size';
+      try {
+        const products = await adminFetchProducts(adminToken);
+        dbBanner.style.display = 'none';
+        tbody.innerHTML = '';
 
-        tr.innerHTML = `
-          <td>
-            <img src="${imgUrl}" alt="${p.name}" style="width: 3.5rem; height: 3.5rem; object-fit: cover; border-radius: var(--radius-md);">
-          </td>
-          <td>
-            <strong>${p.name}</strong><br>
-            <small style="color: var(--muted-foreground);">${p.id}</small>
-          </td>
-          <td>
-            <span style="display: block; font-weight: 600;">${p.category}</span>
-            <small style="color: var(--muted-foreground);">${p.type}</small>
-          </td>
-          <td><strong>${formatCurrency(p.price)}</strong></td>
-          <td><small>${sizes}</small></td>
-          <td style="text-align: right;">
-            <button class="btn btn-outline btn-sm delete-btn" data-id="${p.id}" style="color: var(--destructive);">Delete</button>
-          </td>
+        if (!products || products.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--muted-foreground); padding: 2rem;">No beadwork pieces found in catalogue.</td></tr>';
+          return;
+        }
+
+        products.forEach(p => {
+          const tr = document.createElement('tr');
+          const imgUrl = (p.images && p.images[0]) || (p.image_items && p.image_items[0] && p.image_items[0].url) || '/assets/images/placeholders/default.svg';
+          const sizes = p.sizes && p.sizes.length ? p.sizes.join(', ') : 'One size';
+
+          tr.innerHTML = `
+            <td>
+              <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(p.name)}" style="width: 3.5rem; height: 3.5rem; object-fit: cover; border-radius: var(--radius-md);">
+            </td>
+            <td>
+              <strong>${escapeHtml(p.name)}</strong><br>
+              <small style="color: var(--muted-foreground);">${escapeHtml(p.id)}</small>
+            </td>
+            <td>
+              <span style="display: block; font-weight: 600;">${escapeHtml(p.category)}</span>
+              <small style="color: var(--muted-foreground);">${escapeHtml(p.type)}</small>
+            </td>
+            <td><strong>${formatCurrency(p.price)}</strong></td>
+            <td><small>${escapeHtml(sizes)}</small></td>
+            <td style="text-align: right;">
+              <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                <button class="btn btn-outline btn-sm edit-btn" data-id="${escapeHtml(p.id)}">Edit</button>
+                <button class="btn btn-outline btn-sm delete-btn" data-id="${escapeHtml(p.id)}" style="color: var(--destructive); border-color: rgba(220, 38, 38, 0.4);">Delete</button>
+              </div>
+            </td>
+          `;
+
+          tr.querySelector('.edit-btn').addEventListener('click', () => {
+            openEditModal(p);
+          });
+
+          tr.querySelector('.delete-btn').addEventListener('click', async () => {
+            if (confirm(`Are you sure you want to delete piece "${p.name}" (${p.id})?`)) {
+              try {
+                await deleteProduct(p.id, adminToken);
+                showToast(`Deleted piece "${p.name}"`);
+                await loadAdminProducts();
+              } catch (err) {
+                showToast(err.message || 'Failed to delete piece', 'error');
+              }
+            }
+          });
+
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        dbBanner.style.display = 'block';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--destructive); padding: 2rem;">Database unavailable: changes can\'t be saved.</td></tr>';
+        showToast(err.message || 'Database unavailable', 'error');
+      }
+    }
+
+    function renderExistingImages(product) {
+      existingImagesList.innerHTML = '';
+      const items = (product.image_items && product.image_items.length) ? product.image_items : [];
+
+      if (items.length === 0) {
+        existingImagesSection.style.display = 'none';
+        return;
+      }
+
+      existingImagesSection.style.display = 'block';
+      items.forEach((img, idx) => {
+        const card = document.createElement('div');
+        card.className = 'image-manager-card';
+
+        const isPrimary = (idx === 0);
+        let badgeHtml = isPrimary ? '<span class="image-badge-primary">Primary</span>' : '';
+        let primaryBtnHtml = isPrimary 
+          ? '' 
+          : `<button type="button" class="btn btn-outline btn-sm make-primary-btn" style="font-size: 0.7rem; padding: 0.2rem 0.4rem;">Make primary</button>`;
+
+        card.innerHTML = `
+          ${badgeHtml}
+          <img src="${escapeHtml(img.url)}" alt="Piece image">
+          <div class="image-card-actions">
+            ${primaryBtnHtml}
+            <button type="button" class="btn btn-outline btn-sm remove-img-btn" style="color: var(--destructive); font-size: 0.7rem; padding: 0.2rem 0.4rem; border-color: rgba(220, 38, 38, 0.3);">Remove</button>
+          </div>
         `;
 
-        tr.querySelector('.delete-btn').addEventListener('click', async () => {
-          if (confirm(`Delete piece ${p.name}?`)) {
+        if (!isPrimary) {
+          card.querySelector('.make-primary-btn').addEventListener('click', async () => {
+            const newOrder = [img.id, ...items.filter(it => it.id !== img.id).map(it => it.id)];
             try {
-              await deleteProduct(p.id, adminToken);
-              showToast(`Deleted ${p.name}`);
+              const updatedImgs = await reorderProductImages(product.id, newOrder, adminToken);
+              product.image_items = updatedImgs;
+              product.images = updatedImgs.map(it => it.url);
+              renderExistingImages(product);
+              showToast('Primary image updated');
               loadAdminProducts();
             } catch (err) {
-              showToast(err.message || 'Deleted locally', 'default');
-              tr.remove();
+              showToast(err.message || 'Failed to reorder images', 'error');
+            }
+          });
+        }
+
+        card.querySelector('.remove-img-btn').addEventListener('click', async () => {
+          if (confirm('Remove this image?')) {
+            try {
+              await deleteProductImage(product.id, img.id, adminToken);
+              product.image_items = items.filter(it => it.id !== img.id);
+              product.images = product.image_items.map(it => it.url);
+              renderExistingImages(product);
+              showToast('Image removed');
+              loadAdminProducts();
+            } catch (err) {
+              showToast(err.message || 'Failed to remove image', 'error');
             }
           }
         });
 
-        tbody.appendChild(tr);
+        existingImagesList.appendChild(card);
       });
     }
 
-    // Modal controls
-    btnOpenCreate.addEventListener('click', () => {
-      createForm.reset();
+    function resetModal() {
+      productForm.reset();
+      currentEditingProductId = null;
+      currentEditingProduct = null;
+      selectedFiles = [];
+      filesInput.value = '';
+      newFilesPreview.innerHTML = '';
+      previewContainer.style.display = 'none';
+      existingImagesSection.style.display = 'none';
+      existingImagesList.innerHTML = '';
+
+      idInput.readOnly = false;
+      idInput.style.backgroundColor = '';
+      idInput.style.cursor = '';
+      idHint.textContent = 'Leave blank on create to auto-generate from name.';
+
+      modalTitle.textContent = 'Add Beadwork Piece';
+      btnSavePiece.textContent = 'Save Piece';
+    }
+
+    function openCreateModal() {
+      resetModal();
+      typeSelect.value = 'bracelets';
       updateCategoryDropdown();
-      previewWrap.style.display = 'none';
-      createModal.style.display = 'flex';
-    });
+      productModal.style.display = 'flex';
+    }
 
+    function openEditModal(product) {
+      resetModal();
+      currentEditingProductId = product.id;
+      currentEditingProduct = product;
+
+      modalTitle.textContent = 'Edit Beadwork Piece';
+      btnSavePiece.textContent = 'Update Piece';
+
+      idInput.value = product.id || '';
+      idInput.readOnly = true;
+      idInput.style.backgroundColor = 'var(--muted)';
+      idInput.style.cursor = 'not-allowed';
+      idHint.textContent = 'Product ID (slug) cannot be changed.';
+
+      nameInput.value = product.name || '';
+      typeSelect.value = product.type || 'bracelets';
+      updateCategoryDropdown(product.category);
+
+      priceInput.value = product.price || '';
+      oldPriceInput.value = product.oldPrice || product.old_price || '';
+      ratingInput.value = product.rating !== undefined ? product.rating : 4.5;
+      reviewsInput.value = product.reviews !== undefined ? product.reviews : 0;
+      sizesInput.value = product.sizes ? product.sizes.join(', ') : '';
+      descriptionInput.value = product.description || '';
+
+      renderExistingImages(product);
+      productModal.style.display = 'flex';
+    }
+
+    btnOpenCreate.addEventListener('click', openCreateModal);
     btnCloseModal.addEventListener('click', () => {
-      createModal.style.display = 'none';
+      productModal.style.display = 'none';
     });
 
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (file) {
+    // Handle file selection with client-side checks and previews
+    filesInput.addEventListener('change', () => {
+      const files = Array.from(filesInput.files);
+      selectedFiles = [];
+      newFilesPreview.innerHTML = '';
+
+      if (files.length === 0) {
+        previewContainer.style.display = 'none';
+        return;
+      }
+
+      for (const file of files) {
         if (file.size > 5 * 1024 * 1024) {
-          showToast('Image size exceeds 5 MB limit', 'error');
-          fileInput.value = '';
-          previewWrap.style.display = 'none';
+          showToast(`File "${file.name}" exceeds 5 MB limit`, 'error');
+          filesInput.value = '';
+          selectedFiles = [];
+          newFilesPreview.innerHTML = '';
+          previewContainer.style.display = 'none';
           return;
         }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+          showToast(`File "${file.name}" is not a valid JPG, PNG, or WebP`, 'error');
+          filesInput.value = '';
+          selectedFiles = [];
+          newFilesPreview.innerHTML = '';
+          previewContainer.style.display = 'none';
+          return;
+        }
+
+        selectedFiles.push(file);
+
         const reader = new FileReader();
-        reader.onload = e => {
-          previewImg.src = e.target.result;
-          previewWrap.style.display = 'block';
+        reader.onload = ev => {
+          const div = document.createElement('div');
+          div.className = 'new-preview-item';
+          div.title = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+          div.innerHTML = `<img src="${ev.target.result}" alt="Preview">`;
+          newFilesPreview.appendChild(div);
         };
         reader.readAsDataURL(file);
       }
+
+      previewContainer.style.display = 'block';
     });
 
-    createForm.addEventListener('submit', async e => {
+    // Handle Form Submit (Create or Edit)
+    productForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const fd = new FormData(createForm);
-      const chosenType = fd.get('type');
-      const chosenCat = fd.get('category');
+
+      const chosenType = typeSelect.value;
+      const chosenCat = categorySelect.value;
       const col = getCollection(chosenType);
 
-      let rawSizes = fd.get('sizes').toString().split(',').map(s => s.trim()).filter(Boolean);
+      let rawSizes = sizesInput.value.split(',').map(s => s.trim()).filter(Boolean);
       if (rawSizes.length === 0) {
         rawSizes = col?.sizePresets ? [...col.sizePresets] : ['One size'];
       }
 
-      const defaultPlaceholder = col?.cardImage || '/assets/images/placeholders/default.svg';
-
-      const productPayload = {
-        id: fd.get('id') || fd.get('name').toLowerCase().replace(/\s+/g, '-'),
-        name: fd.get('name'),
+      const isEdit = !!currentEditingProductId;
+      const payload = {
+        name: nameInput.value.trim(),
         brand: 'Beads Haven',
         type: chosenType,
         category: chosenCat,
-        price: parseFloat(fd.get('price')),
-        old_price: fd.get('old_price') ? parseFloat(fd.get('old_price')) : null,
+        price: parseFloat(priceInput.value),
+        old_price: oldPriceInput.value ? parseFloat(oldPriceInput.value) : null,
+        rating: ratingInput.value !== '' ? parseFloat(ratingInput.value) : 4.5,
+        reviews: reviewsInput.value !== '' ? parseInt(reviewsInput.value, 10) : 0,
         sizes: rawSizes,
-        description: fd.get('description'),
-        rating: 0,
-        reviews: 0,
-        images: [defaultPlaceholder],
-        tags: ['new']
+        description: descriptionInput.value.trim(),
+        tags: currentEditingProduct?.tags || ['new'],
+        images: []
       };
 
+      if (!isEdit && idInput.value.trim()) {
+        payload.id = idInput.value.trim();
+      }
+
+      btnSavePiece.disabled = true;
+      btnSavePiece.textContent = 'Saving…';
+
       try {
-        await createAdminProduct(productPayload, adminToken);
+        if (isEdit) {
+          // Edit Flow
+          const updated = await updateAdminProduct(currentEditingProductId, payload, adminToken);
+          
+          // Upload any newly selected files
+          if (selectedFiles.length > 0) {
+            try {
+              await uploadProductImage(currentEditingProductId, selectedFiles, adminToken);
+            } catch (imgErr) {
+              showToast(`Piece updated, but new images failed to upload: ${imgErr.message}`, 'error');
+              btnSavePiece.disabled = false;
+              btnSavePiece.textContent = 'Update Piece';
+              // Reload product data into edit modal
+              const refreshed = await adminFetchProducts(adminToken);
+              const matched = refreshed.find(p => p.id === currentEditingProductId);
+              if (matched) openEditModal(matched);
+              return;
+            }
+          }
 
-        // Upload file if selected
-        const file = fileInput.files[0];
-        if (file) {
-          await uploadProductImage(productPayload.id, file, adminToken);
+          showToast('Piece updated successfully!');
+          productModal.style.display = 'none';
+          await loadAdminProducts();
+        } else {
+          // Create Flow
+          const created = await createAdminProduct(payload, adminToken);
+
+          if (selectedFiles.length > 0) {
+            try {
+              await uploadProductImage(created.id, selectedFiles, adminToken);
+              showToast('Piece created and image uploaded successfully!');
+              productModal.style.display = 'none';
+              await loadAdminProducts();
+            } catch (uploadErr) {
+              showToast(`Piece created, but image upload failed: ${uploadErr.message}`, 'error');
+              // Switch modal to edit mode for the newly created piece so user can retry image upload
+              openEditModal(created);
+              await loadAdminProducts();
+            }
+          } else {
+            showToast('Piece created successfully!');
+            productModal.style.display = 'none';
+            await loadAdminProducts();
+          }
         }
-
-        showToast('Piece added successfully!');
-        createModal.style.display = 'none';
-        loadAdminProducts();
       } catch (err) {
-        showToast(err.message || 'Saved successfully', 'default');
-        createModal.style.display = 'none';
-        loadAdminProducts();
+        showToast(err.message || 'Operation failed', 'error');
+      } finally {
+        btnSavePiece.disabled = false;
+        btnSavePiece.textContent = isEdit ? 'Update Piece' : 'Save Piece';
       }
     });
 
