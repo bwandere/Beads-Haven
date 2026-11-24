@@ -37,12 +37,33 @@ func loadEnvFile(path string) {
 	}
 }
 
+func requireDB(database *sql.DB, next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if database == nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusServiceUnavailable)
+			w.Write([]byte(`{"error":"Database unavailable"}`))
+			return
+		}
+		next(w, r)
+	}
+}
+
 func main() {
 	loadEnvFile(".env")
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
+	}
+
+	jwtSecret := os.Getenv("JWT_SECRET")
+	isDev := strings.ToLower(os.Getenv("DEV")) == "true"
+	if jwtSecret == "" {
+		if !isDev {
+			log.Fatalf("FATAL: JWT_SECRET environment variable is required (or set DEV=true for development)")
+		}
+		log.Println("WARNING: JWT_SECRET is unset; using insecure fallback because DEV=true.")
 	}
 
 	dbURL := os.Getenv("DATABASE_URL")
@@ -54,11 +75,16 @@ func main() {
 	var err error
 	database, err = db.Connect(dbURL)
 	if err != nil {
-		log.Printf("Warning: Failed to connect to PostgreSQL (%v). Operating in offline/mock mode.", err)
+		log.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		log.Printf("LOUD STARTUP WARNING: Database connection failed: %v", err)
+		log.Println("Database is unavailable. All /api/* endpoints will return 503.")
+		log.Println("Storefront will fall back to products.json; Admin operations will be disabled.")
+		log.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		database = nil
 	} else {
 		defer database.Close()
-		if err := db.EnsureSchema(database); err != nil {
-			log.Printf("Warning: Schema check returned: %v", err)
+		if err := db.RunMigrations(database); err != nil {
+			log.Fatalf("FATAL: Database migration failed: %v", err)
 		}
 	}
 
@@ -71,19 +97,22 @@ func main() {
 	uploadHandler := &handlers.UploadHandler{DB: database}
 
 	// API Routes (Go 1.22+ routing)
-	mux.HandleFunc("GET /api/products", prodHandler.List)
-	mux.HandleFunc("GET /api/products/{id}", prodHandler.GetByID)
+	mux.HandleFunc("GET /api/products", requireDB(database, prodHandler.List))
+	mux.HandleFunc("GET /api/products/{id}", requireDB(database, prodHandler.GetByID))
 
-	mux.HandleFunc("POST /api/admin/products", middleware.RequireAdmin(prodHandler.Create))
-	mux.HandleFunc("PUT /api/admin/products/{id}", middleware.RequireAdmin(prodHandler.Update))
-	mux.HandleFunc("DELETE /api/admin/products/{id}", middleware.RequireAdmin(prodHandler.Delete))
-	mux.HandleFunc("POST /api/admin/products/{id}/images", middleware.RequireAdmin(uploadHandler.UploadImage))
+	mux.HandleFunc("POST /api/admin/products", requireDB(database, middleware.RequireAdmin(prodHandler.Create)))
+	mux.HandleFunc("PUT /api/admin/products/{id}", requireDB(database, middleware.RequireAdmin(prodHandler.Update)))
+	mux.HandleFunc("DELETE /api/admin/products/{id}", requireDB(database, middleware.RequireAdmin(prodHandler.Delete)))
 
-	mux.HandleFunc("POST /api/orders", orderHandler.Create)
-	mux.HandleFunc("GET /api/orders/{id}", orderHandler.GetByID)
+	mux.HandleFunc("POST /api/admin/products/{id}/images", requireDB(database, middleware.RequireAdmin(uploadHandler.UploadImage)))
+	mux.HandleFunc("DELETE /api/admin/products/{id}/images/{imageId}", requireDB(database, middleware.RequireAdmin(uploadHandler.DeleteImage)))
+	mux.HandleFunc("PUT /api/admin/products/{id}/images/order", requireDB(database, middleware.RequireAdmin(uploadHandler.ReorderImages)))
 
-	mux.HandleFunc("POST /api/auth/register", authHandler.Register)
-	mux.HandleFunc("POST /api/auth/login", authHandler.Login)
+	mux.HandleFunc("POST /api/orders", requireDB(database, orderHandler.Create))
+	mux.HandleFunc("GET /api/orders/{id}", requireDB(database, orderHandler.GetByID))
+
+	mux.HandleFunc("POST /api/auth/register", requireDB(database, authHandler.Register))
+	mux.HandleFunc("POST /api/auth/login", requireDB(database, authHandler.Login))
 
 	// Static Assets & Clean Page Routing
 	frontendDir := "frontend"

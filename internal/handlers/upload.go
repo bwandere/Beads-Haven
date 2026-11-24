@@ -12,8 +12,11 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
+
+	"beads-haven/internal/models"
 )
 
 type UploadHandler struct {
@@ -29,103 +32,268 @@ type CloudinaryResponse struct {
 }
 
 func (h *UploadHandler) UploadImage(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
 	productID := r.PathValue("id")
 	if productID == "" {
-		http.Error(w, `{"error":"Product ID required"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Product ID required")
 		return
 	}
 
-	// 5 MB max upload
-	maxSize := int64(5 * 1024 * 1024)
-	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
-	if err := r.ParseMultipartForm(maxSize); err != nil {
-		http.Error(w, `{"error":"File size exceeds 5 MB limit"}`, http.StatusBadRequest)
+	// Verify product exists
+	var exists bool
+	err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", productID).Scan(&exists)
+	if err != nil || !exists {
+		writeJSONError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
-	file, header, err := r.FormFile("image")
-	if err != nil {
-		http.Error(w, `{"error":"Image file is required"}`, http.StatusBadRequest)
+	// Allow up to 32 MB multipart payload for multi-file upload
+	maxMultipart := int64(32 * 1024 * 1024)
+	r.Body = http.MaxBytesReader(w, r.Body, maxMultipart)
+	if err := r.ParseMultipartForm(maxMultipart); err != nil {
+		writeJSONError(w, http.StatusBadRequest, "Request size exceeds limit or malformed form")
 		return
 	}
-	defer file.Close()
 
-	ext := strings.ToLower(filepath.Ext(header.Filename))
-	if ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".webp" {
-		http.Error(w, `{"error":"Invalid file format. Only JPG, PNG, and WebP are allowed"}`, http.StatusBadRequest)
+	var fileHeaders []*multipart.FileHeader
+	if r.MultipartForm != nil && r.MultipartForm.File != nil {
+		if fhs, ok := r.MultipartForm.File["images"]; ok {
+			fileHeaders = append(fileHeaders, fhs...)
+		}
+		if fhs, ok := r.MultipartForm.File["image"]; ok {
+			fileHeaders = append(fileHeaders, fhs...)
+		}
+	}
+
+	if len(fileHeaders) == 0 {
+		writeJSONError(w, http.StatusBadRequest, "Image file is required")
 		return
 	}
+
+	// Validate all files before saving
+	for _, fh := range fileHeaders {
+		if fh.Size > 5*1024*1024 {
+			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' exceeds 5 MB limit", fh.Filename))
+			return
+		}
+
+		ext := strings.ToLower(filepath.Ext(fh.Filename))
+		if ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".webp" {
+			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Invalid file format for '%s'. Only JPG, PNG, and WebP are allowed", fh.Filename))
+			return
+		}
+
+		f, err := fh.Open()
+		if err != nil {
+			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("Failed to read file '%s'", fh.Filename))
+			return
+		}
+		buf := make([]byte, 512)
+		n, _ := f.Read(buf)
+		f.Close()
+
+		sniffType := http.DetectContentType(buf[:n])
+		if sniffType != "image/jpeg" && sniffType != "image/png" && sniffType != "image/webp" {
+			writeJSONError(w, http.StatusBadRequest, fmt.Sprintf("File '%s' failed content verification (detected: %s)", fh.Filename, sniffType))
+			return
+		}
+	}
+
+	// Remove placeholder images for this product automatically when real image is added
+	_, _ = h.DB.Exec(`
+		DELETE FROM product_images 
+		WHERE product_id = $1 AND (url LIKE '%/placeholders/%' OR url LIKE '%default.svg')
+	`, productID)
+
+	var maxOrder int
+	h.DB.QueryRow("SELECT COALESCE(MAX(display_order), -1) FROM product_images WHERE product_id = $1", productID).Scan(&maxOrder)
 
 	cloudName := os.Getenv("CLOUDINARY_CLOUD_NAME")
 	apiKey := os.Getenv("CLOUDINARY_API_KEY")
 	apiSecret := os.Getenv("CLOUDINARY_API_SECRET")
+	useCloudinary := cloudName != "" && apiKey != "" && apiSecret != ""
 
-	var imageURL string
+	var createdImages []models.ProductImage
 
-	if cloudName != "" && apiKey != "" && apiSecret != "" {
-		// Upload to Cloudinary
-		cloudURL, err := uploadToCloudinary(file, header.Filename, cloudName, apiKey, apiSecret)
+	for i, fh := range fileHeaders {
+		ext := strings.ToLower(filepath.Ext(fh.Filename))
+		f, err := fh.Open()
 		if err != nil {
-			http.Error(w, fmt.Sprintf(`{"error":"Cloudinary upload failed: %s"}`, err.Error()), http.StatusInternalServerError)
+			writeJSONError(w, http.StatusInternalServerError, "Failed to process image file")
 			return
 		}
-		imageURL = cloudURL
-	} else {
-		// Local storage fallback for development
-		filename := fmt.Sprintf("%s-%d%s", productID, time.Now().UnixNano(), ext)
-		destPath := filepath.Join("frontend", "assets", "images", filename)
-		os.MkdirAll(filepath.Dir(destPath), 0755)
 
-		out, err := os.Create(destPath)
+		var imageURL string
+		if useCloudinary {
+			cloudURL, err := uploadToCloudinary(f, fh.Filename, cloudName, apiKey, apiSecret)
+			f.Close()
+			if err != nil {
+				writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Cloudinary upload failed: %s", err.Error()))
+				return
+			}
+			imageURL = cloudURL
+		} else {
+			filename := fmt.Sprintf("%s-%d-%d%s", productID, time.Now().UnixNano(), i, ext)
+			destPath := filepath.Join("frontend", "assets", "uploads", filename)
+			if err := os.MkdirAll(filepath.Dir(destPath), 0755); err != nil {
+				f.Close()
+				writeJSONError(w, http.StatusInternalServerError, "Failed to create uploads directory")
+				return
+			}
+
+			out, err := os.Create(destPath)
+			if err != nil {
+				f.Close()
+				writeJSONError(w, http.StatusInternalServerError, "Failed to save image locally")
+				return
+			}
+
+			if _, err := io.Copy(out, f); err != nil {
+				out.Close()
+				f.Close()
+				writeJSONError(w, http.StatusInternalServerError, "Failed to write image data")
+				return
+			}
+			out.Close()
+			f.Close()
+
+			imageURL = "/assets/uploads/" + filename
+		}
+
+		currentOrder := maxOrder + 1 + i
+		var imgID int
+		err = h.DB.QueryRow(`
+			INSERT INTO product_images (product_id, url, display_order)
+			VALUES ($1, $2, $3)
+			RETURNING id
+		`, productID, imageURL, currentOrder).Scan(&imgID)
+
 		if err != nil {
-			http.Error(w, `{"error":"Failed to save image locally"}`, http.StatusInternalServerError)
-			return
-		}
-		defer out.Close()
-
-		if _, err := io.Copy(out, file); err != nil {
-			http.Error(w, `{"error":"Failed to write image data"}`, http.StatusInternalServerError)
+			writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to record image in database: %s", err.Error()))
 			return
 		}
 
-		// Also copy to root assets/images if present
-		rootPath := filepath.Join("assets", "images", filename)
-		os.MkdirAll(filepath.Dir(rootPath), 0755)
-		if rf, err := os.Create(rootPath); err == nil {
-			file.Seek(0, io.SeekStart)
-			io.Copy(rf, file)
-			rf.Close()
-		}
-
-		imageURL = "/assets/images/" + filename
-	}
-
-	// Store ONLY the URL in product_images
-	var maxOrder int
-	h.DB.QueryRow("SELECT COALESCE(MAX(display_order), -1) FROM product_images WHERE product_id = $1", productID).Scan(&maxOrder)
-
-	_, err = h.DB.Exec(`
-		INSERT INTO product_images (product_id, url, display_order)
-		VALUES ($1, $2, $3)
-	`, productID, imageURL, maxOrder+1)
-
-	if err != nil {
-		http.Error(w, fmt.Sprintf(`{"error":"Failed to record image in database: %s"}`, err.Error()), http.StatusInternalServerError)
-		return
+		createdImages = append(createdImages, models.ProductImage{
+			ID:           imgID,
+			ProductID:    productID,
+			URL:          imageURL,
+			DisplayOrder: currentOrder,
+		})
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"success": true,
-		"url":     imageURL,
+	json.NewEncoder(w).Encode(createdImages)
+}
+
+func (h *UploadHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
+	productID := r.PathValue("id")
+	imageIdStr := r.PathValue("imageId")
+	imageId, err := strconv.Atoi(imageIdStr)
+	if err != nil || imageId <= 0 {
+		writeJSONError(w, http.StatusBadRequest, "Invalid image ID")
+		return
+	}
+
+	var imageURL string
+	err = h.DB.QueryRow("SELECT url FROM product_images WHERE id = $1 AND product_id = $2", imageId, productID).Scan(&imageURL)
+	if err == sql.ErrNoRows {
+		writeJSONError(w, http.StatusNotFound, "Image not found")
+		return
+	} else if err != nil {
+		writeJSONError(w, http.StatusInternalServerError, "Database error")
+		return
+	}
+
+	_, err = h.DB.Exec("DELETE FROM product_images WHERE id = $1 AND product_id = $2", imageId, productID)
+	if err != nil {
+		writeJSONError(w, http.StatusInternalServerError, "Failed to delete image record")
+		return
+	}
+
+	// Delete local file if applicable
+	if strings.HasPrefix(imageURL, "/assets/uploads/") {
+		fn := filepath.Base(imageURL)
+		dest := filepath.Join("frontend", "assets", "uploads", fn)
+		_ = os.Remove(dest)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Image deleted successfully",
 	})
+}
+
+func (h *UploadHandler) ReorderImages(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
+	productID := r.PathValue("id")
+	var req struct {
+		Order []int `json:"order"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || len(req.Order) == 0 {
+		writeJSONError(w, http.StatusBadRequest, "Valid image order array is required")
+		return
+	}
+
+	var exists bool
+	err := h.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", productID).Scan(&exists)
+	if err != nil || !exists {
+		writeJSONError(w, http.StatusNotFound, "Product not found")
+		return
+	}
+
+	tx, err := h.DB.Begin()
+	if err != nil {
+		writeJSONError(w, http.StatusInternalServerError, "Failed to begin transaction")
+		return
+	}
+	defer tx.Rollback()
+
+	for idx, imgID := range req.Order {
+		_, err = tx.Exec("UPDATE product_images SET display_order = $1 WHERE id = $2 AND product_id = $3", idx, imgID, productID)
+		if err != nil {
+			writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to update image order for id %d: %s", imgID, err.Error()))
+			return
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		writeJSONError(w, http.StatusInternalServerError, "Failed to commit image order")
+		return
+	}
+
+	var updated []models.ProductImage
+	rows, err := h.DB.Query("SELECT id, product_id, url, display_order FROM product_images WHERE product_id = $1 ORDER BY display_order ASC, id ASC", productID)
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var img models.ProductImage
+			if err := rows.Scan(&img.ID, &img.ProductID, &img.URL, &img.DisplayOrder); err == nil {
+				updated = append(updated, img)
+			}
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(updated)
 }
 
 func uploadToCloudinary(file multipart.File, filename, cloudName, apiKey, apiSecret string) (string, error) {
 	timestamp := fmt.Sprintf("%d", time.Now().Unix())
 
-	// Generate SHA1 signature: "timestamp=...<api_secret>"
 	sigStr := fmt.Sprintf("timestamp=%s%s", timestamp, apiSecret)
 	h := sha1.New()
 	h.Write([]byte(sigStr))

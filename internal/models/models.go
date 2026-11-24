@@ -1,25 +1,51 @@
 package models
 
 import (
+	"encoding/json"
 	"time"
 )
 
+type ProductImage struct {
+	ID           int    `json:"id"`
+	ProductID    string `json:"product_id,omitempty"`
+	URL          string `json:"url"`
+	DisplayOrder int    `json:"display_order"`
+}
+
 type Product struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Brand       string    `json:"brand"`
-	Type        string    `json:"type"` // bracelets, necklaces, rings, bags, fashion-accessories, art-decor
-	Category    string    `json:"category"`
-	Price       float64   `json:"price"`
-	OldPrice    *float64  `json:"oldPrice,omitempty"`
-	Rating      float64   `json:"rating"`
-	Reviews     int       `json:"reviews"`
-	Description string    `json:"description"`
-	Tags        []string  `json:"tags"`
-	Images      []string  `json:"images"`
-	Sizes       []string  `json:"sizes"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string         `json:"id"`
+	Name        string         `json:"name"`
+	Brand       string         `json:"brand"`
+	Type        string         `json:"type"` // bracelets, necklaces, rings, bags, fashion-accessories, art-decor
+	Category    string         `json:"category"`
+	Price       float64        `json:"price"`
+	OldPrice    *float64       `json:"oldPrice,omitempty"`
+	Rating      float64        `json:"rating"`
+	Reviews     int            `json:"reviews"`
+	Description string         `json:"description"`
+	Tags        []string       `json:"tags"`
+	Images      []string       `json:"images"`
+	ImageItems  []ProductImage `json:"image_items,omitempty"`
+	Sizes       []string       `json:"sizes"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+}
+
+func (p *Product) UnmarshalJSON(data []byte) error {
+	type Alias Product
+	aux := &struct {
+		OldPriceSnake *float64 `json:"old_price"`
+		*Alias
+	}{
+		Alias: (*Alias)(p),
+	}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	if aux.OldPriceSnake != nil && p.OldPrice == nil {
+		p.OldPrice = aux.OldPriceSnake
+	}
+	return nil
 }
 
 type OrderItem struct {

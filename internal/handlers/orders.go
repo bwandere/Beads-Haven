@@ -16,19 +16,24 @@ type OrderHandler struct {
 }
 
 func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
 	var req models.Order
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, `{"error":"Invalid order payload"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Invalid order payload")
 		return
 	}
 
 	if req.CustomerName == "" || req.CustomerPhone == "" || req.DeliveryLocation == "" {
-		http.Error(w, `{"error":"Name, phone, and delivery location are required"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Name, phone, and delivery location are required")
 		return
 	}
 
 	if len(req.Items) == 0 {
-		http.Error(w, `{"error":"Order must contain at least one item"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Order must contain at least one item")
 		return
 	}
 
@@ -38,7 +43,7 @@ func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	tx, err := h.DB.Begin()
 	if err != nil {
-		http.Error(w, `{"error":"Transaction error"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Transaction error")
 		return
 	}
 	defer tx.Rollback()
@@ -49,7 +54,7 @@ func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 	`, req.ID, req.CustomerName, req.CustomerPhone, req.CustomerEmail, req.DeliveryLocation, req.PaymentMethod, req.MpesaPhone, req.Subtotal, req.DeliveryFee, req.TotalAmount, req.Status)
 
 	if err != nil {
-		http.Error(w, fmt.Sprintf(`{"error":"Failed to create order: %s"}`, err.Error()), http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to create order: %s", err.Error()))
 		return
 	}
 
@@ -59,13 +64,13 @@ func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 			VALUES ($1, $2, $3, $4, $5)
 		`, req.ID, item.ProductID, item.Size, item.Quantity, item.Price)
 		if err != nil {
-			http.Error(w, fmt.Sprintf(`{"error":"Failed to insert order item: %s"}`, err.Error()), http.StatusInternalServerError)
+			writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to insert order item: %s", err.Error()))
 			return
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
-		http.Error(w, `{"error":"Failed to commit transaction"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Failed to commit transaction")
 		return
 	}
 
@@ -79,9 +84,14 @@ func (h *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *OrderHandler) GetByID(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
 	id := r.PathValue("id")
 	if id == "" {
-		http.Error(w, `{"error":"Order ID required"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Order ID required")
 		return
 	}
 
@@ -97,10 +107,10 @@ func (h *OrderHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err == sql.ErrNoRows {
-		http.Error(w, `{"error":"Order not found"}`, http.StatusNotFound)
+		writeJSONError(w, http.StatusNotFound, "Order not found")
 		return
 	} else if err != nil {
-		http.Error(w, `{"error":"Database error"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Database error")
 		return
 	}
 

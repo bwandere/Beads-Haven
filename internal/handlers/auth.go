@@ -16,20 +16,25 @@ type AuthHandler struct {
 }
 
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
+		return
+	}
+
 	var req models.AuthRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, `{"error":"Invalid request payload"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
 	if req.Email == "" || req.Password == "" {
-		http.Error(w, `{"error":"Email and password are required"}`, http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "Email and password are required")
 		return
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		http.Error(w, `{"error":"Error hashing password"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Error hashing password")
 		return
 	}
 
@@ -42,13 +47,13 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	`, req.Email, string(hash), role).Scan(&id)
 
 	if err != nil {
-		http.Error(w, `{"error":"Email already registered"}`, http.StatusConflict)
+		writeJSONError(w, http.StatusConflict, "Email already registered")
 		return
 	}
 
 	token, err := middleware.GenerateToken(req.Email, role)
 	if err != nil {
-		http.Error(w, `{"error":"Failed to generate token"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
 
@@ -62,21 +67,14 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
-	var req models.AuthRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, `{"error":"Invalid request payload"}`, http.StatusBadRequest)
+	if h.DB == nil {
+		writeJSONError(w, http.StatusServiceUnavailable, "Database unavailable")
 		return
 	}
 
-	// Developer shortcut for demo testing
-	if req.Email == "admin@beadshaven.co.ke" && (req.Password == "admin123" || req.Password == "admin") {
-		token, _ := middleware.GenerateToken(req.Email, "admin")
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(models.AuthResponse{
-			Token: token,
-			Role:  "admin",
-			Email: req.Email,
-		})
+	var req models.AuthRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeJSONError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
@@ -88,18 +86,18 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	`, req.Email).Scan(&user.ID, &user.Email, &user.PasswordHash, &user.Role, &user.CreatedAt)
 
 	if err != nil {
-		http.Error(w, `{"error":"Invalid email or password"}`, http.StatusUnauthorized)
+		writeJSONError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
-		http.Error(w, `{"error":"Invalid email or password"}`, http.StatusUnauthorized)
+		writeJSONError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
 
 	token, err := middleware.GenerateToken(user.Email, user.Role)
 	if err != nil {
-		http.Error(w, `{"error":"Failed to generate token"}`, http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
 
