@@ -5,7 +5,7 @@
 -- Valid bcrypt hash for 'admin123': $2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e
 INSERT INTO users (email, password_hash, role)
 VALUES ('admin@beadshaven.co.ke', '$2a$10$wGPIp73PHOF3f9kVc2BrDuSlFZkNSbCw9yr1sO8AJf2wwNrUtZo8e', 'admin')
-ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash;
+ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = EXCLUDED.role;
 
 -- Seed Beadwork & Art Products
 INSERT INTO products (id, name, brand, type, category, price, old_price, rating, reviews, description, tags)

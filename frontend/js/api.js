@@ -128,6 +128,19 @@ export async function loginUser(email, password) {
    Admin API (Strict - No products.json fallback)
    ========================================================================== */
 
+export async function verifyAdminSession(token) {
+  const res = await fetch(`${API_BASE}/admin/session`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    const error = new Error(errData.error || `Session validation failed: ${res.status}`);
+    error.status = res.status;
+    throw error;
+  }
+  return await res.json();
+}
+
 export async function adminFetchProducts(token) {
   const headers = {};
   if (token) headers['Authorization'] = `Bearer ${token}`;

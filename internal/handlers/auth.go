@@ -96,6 +96,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if user.Role != "admin" {
+		httpjson.WriteError(w, http.StatusForbidden, "Administrator access required")
+		return
+	}
+
 	token, err := middleware.GenerateToken(user.Email, user.Role)
 	if err != nil {
 		httpjson.WriteError(w, http.StatusInternalServerError, "Failed to generate token")
@@ -107,5 +112,22 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Token: token,
 		Role:  user.Role,
 		Email: user.Email,
+	})
+}
+
+func (h *AuthHandler) Session(w http.ResponseWriter, r *http.Request) {
+	claims, ok := r.Context().Value(middleware.UserContextKey).(*middleware.Claims)
+	if !ok {
+		httpjson.WriteError(w, http.StatusUnauthorized, "Invalid session")
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(struct {
+		Email string `json:"email"`
+		Role  string `json:"role"`
+	}{
+		Email: claims.Email,
+		Role:  claims.Role,
 	})
 }

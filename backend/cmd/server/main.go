@@ -112,6 +112,7 @@ func main() {
 
 	mux.HandleFunc("POST /api/auth/register", requireDB(database, authHandler.Register))
 	mux.HandleFunc("POST /api/auth/login", requireDB(database, authHandler.Login))
+	mux.HandleFunc("GET /api/admin/session", middleware.RequireAdmin(authHandler.Session))
 
 	// Static Assets & Clean Page Routing
 	frontendDir := "frontend"

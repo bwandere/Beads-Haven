@@ -31,7 +31,7 @@ An e-commerce website for authentic handmade African beadwork and art, crafted b
 ## Project Structure
 
 ```
-Amazing-outfits/
+Beads-haven/
 ├── backend/cmd/server/main.go    # Go HTTP server, routing, static file server
 ├── internal/
 │   ├── db/db.go                  # PostgreSQL connection pool & migration runner
@@ -43,7 +43,8 @@ Amazing-outfits/
 │   ├── embed.go                  # go:embed for all *.sql files
 │   ├── 001_initial_schema.sql    # Tables and indexing
 │   ├── 002_seed_data.sql         # Seed catalogue (22 beadwork & art pieces) + admin user
-│   └── 003_convert_to_beads.sql  # Idempotent conversion, image uniqueness constraint
+│   ├── 003_convert_to_beads.sql  # Idempotent conversion, image uniqueness constraint
+│   └── 004_ensure_admin_role.sql # Repair seeded admin role on existing databases
 ├── frontend/
 │   ├── index.html                # Homepage with responsive collage hero & collection showcases
 │   ├── shop.html                 # Dynamic shop with search, pills, price slider, and sort
